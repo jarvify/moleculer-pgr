@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  backend:
+    restart: 'no'
+    init: true
+    container_name: pgr-basic-backend
+    build:
+      context: ../
+      dockerfile: $PWD/docker/Dockerfile
+    image: pgr-basic-dev
+    ports:
+      - '9229:9229'
+      - '4000:4000'
+      - '4001:4001'
+    env_file: .env
+    environment:
+      NODE_ENV: dev
+    volumes:
+      - ../src:/usr/app/src
+      - ../dist:/usr/app/dist
+    tty: yes
+    depends_on:
+      - db
+    networks:
+      - pgr-basic-network
+
+  db:
+    container_name: pgr-basic-db
+    restart: always
+    image: postgres:9.6
+    volumes:
+      - ./db/pgr-basic/:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - pgr-basic-network
+
+networks:
+  pgr-basic-network:
+    name: pgr-basic-network

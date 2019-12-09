@@ -1,0 +1,15 @@
+diff --git a/node_modules/reflect-metadata/Reflect.js b/node_modules/reflect-metadata/Reflect.js
+index 4afbb52..a917ac7 100644
+--- a/node_modules/reflect-metadata/Reflect.js
++++ b/node_modules/reflect-metadata/Reflect.js
+@@ -812,8 +812,9 @@ var Reflect;
+         // 7.2.4 IsConstructor(argument)
+         // https://tc39.github.io/ecma262/#sec-isconstructor
+         function IsConstructor(argument) {
++            // console.log(argument.constructor)
+             // NOTE: This is an approximation as we cannot check for [[Construct]] internal method.
+-            return typeof argument === "function";
++            return typeof argument === "function" || argument.constructor
+         }
+         // 7.2.7 IsPropertyKey(argument)
+         // https://tc39.github.io/ecma262/#sec-ispropertykey

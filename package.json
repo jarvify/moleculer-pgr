@@ -1,0 +1,29 @@
+{
+  "name": "moleculer-pgr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "directories": {
+    "lib": "dist"
+  },
+  "scripts": {
+    "build": "tsc && tsc --project tsconfig.transformer.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql-binding": "^2.5.2"
+  },
+  "peerDependencies": {
+    "prettier": "1.x",
+    "graphql": "14.x"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.14",
+    "@types/prettier": "^1.19.0",
+    "graphql": "^14.5.8",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.2"
+  }
+}
