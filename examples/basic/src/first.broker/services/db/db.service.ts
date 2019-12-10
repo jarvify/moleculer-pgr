@@ -20,6 +20,7 @@ import ConnectionFilterPlugin from 'postgraphile-plugin-connection-filter';
 import PostGraphileNestedMutations from 'postgraphile-plugin-nested-mutations';
 // @ts-ignore
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
+const PgNonNullPlugin = require('@graphile-contrib/pg-non-null');
 
 import { Server } from 'http';
 
@@ -46,13 +47,20 @@ const MySmartTagsPlugin = makeJSONPgSmartTagsPlugin({
 
 function MyBuilderPlugin(builder: SchemaBuilder) {
   // @TODO Hide tables ? migration migrationSeed -> by output type Query Migration MigrationSeed !!!
-
+  // @custom mutation, keep input as it is!
+  // node changed?
   // @TODO unknown mutation output?!
 
-  // @TODO nodeChanged ?!!!
+  // NodeChanged array types!! fire !
+
+  // @TODO nodeChanged - mutation ?!!!
 
   const capitalize = (s: string) => {
     return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
+  const lowerlize = (s: string) => {
+    return s.charAt(0).toLowerCase() + s.slice(1);
   };
 
   function getOpOutputType(op: any) {
@@ -64,6 +72,7 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
       | 'create'
       | 'update'
       | 'delete'
+      | 'customMutation'
       | null = null;
 
     if (op.isRootQuery) {
@@ -72,6 +81,10 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
         opReturnTypeName = getConnectionOutputTypeName(
           opReturnObjectType.scope,
         );
+        if (opReturnTypeName && objectTypes[opReturnTypeName]) {
+          // for upsert mutation !
+          objectTypes[opReturnTypeName].connectionOpName = op.name;
+        }
       }
 
       if (opReturnObjectType.scope.isPgRowType) {
@@ -79,6 +92,8 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
         opReturnTypeName = op.returnTypeName;
       }
     }
+
+    const mutationTypeNames: string[] = [];
 
     if (op.isRootMutation) {
       if (op.returnTypeName.match(/^Create/)) {
@@ -94,8 +109,16 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
       // check if we have match type with this name!
       if (opReturnTypeName && !objectTypes[opReturnTypeName]) {
         opReturnTypeName = null;
+        opReturnType = 'customMutation';
+      }
+
+      if (opReturnTypeName) {
+        mutationTypeNames.push(opReturnTypeName);
       }
     }
+
+    // node changed type ?!
+    // @TODO custom fce edit types ! ( custom mutations? allow add mutationTypeNames )
 
     if (opReturnTypeName === null || opReturnType === null) {
       return null;
@@ -104,6 +127,7 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
     return {
       name: opReturnTypeName,
       type: opReturnType,
+      mutationTypeNames,
     };
   }
 
@@ -206,7 +230,13 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
     import * as moleculerPgr from 'moleculer-pgr';
     import * as pgr from './binding';
     import * as customPgr from '../mixin';
-       
+    
+    function getPartialObject(obj: any, keys: string[] ) {
+      return Object.keys(obj)
+      .filter(key => keys.indexOf(key) >= 0)
+      .reduce((obj2, key) => Object.assign(obj2, { [key]: obj[key] }), {});
+    }
+
     export type PgrConnection<Node> = {
       nodes: Node[];
       edges: { node: Node; cursor: string }[];
@@ -221,10 +251,14 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
     
     export type PgrNodeArray<Node> = Node[];
     export type PgrNodeOptional<Node> = Node | null;
-    export type PgrNode<Node> = Node | null;
+    export type PgrNode<Node> = Node;
     export type PgrCount = number;
 
     `;
+
+    const query = 'customPgr.pgrQuery';
+    const client = 'const client = this.settings.pgr.client as pgr.Binding';
+
     let mixinGql = ``;
     let mixinPgrExtend = ``;
     let mixinMixinActions = ``;
@@ -247,33 +281,93 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
       outputTypes[opReturn.name] = true;
 
       if (op.isRootQuery) {
-        // add extra connection operations - count, first, find
         if (opReturn.type === 'connection') {
+          let opOutputType = `customPgr.PgrConnection<customPgr.${opReturn.name}>`;
+
+          mixinGql += `
+            '${operationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<${opOutputType}>>()),
+          `;
+
+          mixinInputTypes += `
+          export type ${operationName}Input = Parameters<pgr.Query['${operationName}']>[0];`;
+
+          mixinActions += `
+            moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, ${opOutputType}>,
+          `;
+
+          mixinMixinActions += `
+          async ${operationName}(this: any, ctx: any) {
+            const params = ctx.params;
+            ${client}
+            const query = ${query}['${operationName}'];
+            const data = params;
+            const result = await client.query.${op.name}(data, query); 
+            return result;
+          },`;
+
+          // add extra connection operations - count, first, find
           const countOperationName = `count${capitalize(operationName)}`;
+          opOutputType = `customPgr.PgrCount`;
+
+          mixinGql += `
+            '${countOperationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<{ totalCount: ${opOutputType} }>>()),
+          `;
+
           mixinInputTypes += `
             export type ${countOperationName}Input = Parameters<pgr.Query['${operationName}']>[0];`;
 
           mixinActions += `
-            moleculerTs.Action<'${countOperationName}', customPgr.${countOperationName}Input, customPgr.PgrCount>,
+            moleculerTs.Action<'${countOperationName}', customPgr.${countOperationName}Input, ${opOutputType}>,
           `;
 
           mixinMixinActions += `
-            async ${countOperationName}(ctx: any) {},`;
-
+            async ${countOperationName}(this: any, ctx: any) {
+              const params = ctx.params;
+              ${client}
+              const query = ${query}['${countOperationName}'];
+              const data = params;
+              const result = await client.query.${op.name}(data, query); 
+              return result!['totalCount']
+            },`;
+          // @TODO !
           const firstOperationName = `first${capitalize(operationName)}`;
+
           mixinInputTypes += `
             export type ${firstOperationName}Input = Parameters<pgr.Query['${operationName}']>[0];`;
 
           mixinActions += `
-            moleculerTs.Action<'${firstOperationName}', customPgr.${firstOperationName}Input, customPgr.PgrNodeOptional<customPgr.${opReturn.name}>>,
+            moleculerTs.Action<'${firstOperationName}', customPgr.${operationName}Input, customPgr.PgrNodeOptional<customPgr.${opReturn.name}>>,
           `;
 
           mixinMixinActions += `
-            async ${firstOperationName}(ctx: any) {},`;
+            async ${firstOperationName}(this: any, ctx: any) {
+              let { first, last, ...params } = ctx.params;
+              
+              if (first) {
+                first = 1;
+              }
+
+              if (last) {
+                last = 1;
+              }
+
+              if (!first && !last) {
+                first = 1;
+              }
+
+              const result = await ctx.call(\`\${this.name}.find${capitalize(
+                operationName,
+              )}\`, {first, last, ...params});
+              if (result.length === 0) {
+                return null
+              } 
+              return result[0]
+            },`;
 
           // op first single relation fields !
           getSingleRelationFields(opReturn.name).map(fieldName => {
             const singleRelationOperationName = `${firstOperationName}.${fieldName}`;
+
             let curType =
               objectTypes[opReturn.name].fields[fieldName].field.type;
 
@@ -281,6 +375,11 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
               curType = curType.ofType;
             }
             const singleRelationOutputTypeName = curType.name;
+
+            mixinGql += `
+              '${singleRelationOperationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<{ nodes: { ${fieldName}: customPgr.${singleRelationOutputTypeName} } }>>()),
+            `;
+
             mixinInputTypes += `
               export type ${singleRelationOperationName.replace(
                 '.',
@@ -295,22 +394,82 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
             `;
 
             mixinMixinActions += `
-              async '${singleRelationOperationName}'(ctx: any) {},`;
+              async '${singleRelationOperationName}'(this:any, ctx: any) {
+                let { first, last, ...params } = ctx.params;
+              
+                if (first) {
+                  first = 1;
+                }
+
+                if (last) {
+                  last = 1;
+                }
+
+                if (!first && !last) {
+                  first = 1;
+                }
+
+                ${client}
+                const query = ${query}['${singleRelationOperationName}'];
+                const data = {first, last, ...params};
+                const result = await client.query.${op.name}(data, query); 
+                if (!result || result.nodes.length === 0) {
+                  return null;
+                }
+                return result.nodes[0]['${fieldName}']
+              },`;
           });
 
           const findOperationName = `find${capitalize(operationName)}`;
+          opOutputType = `customPgr.PgrNodeArray<customPgr.${opReturn.name}>`;
+
+          mixinGql += `
+            '${findOperationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<{ nodes: customPgr.${opReturn.name} }>>()),
+          `;
+
           mixinInputTypes += `
             export type ${findOperationName}Input = Parameters<pgr.Query['${operationName}']>[0];`;
 
           mixinActions += `
-            moleculerTs.Action<'${findOperationName}', customPgr.${findOperationName}Input, customPgr.PgrNodeArray<customPgr.${opReturn.name}>>,
+            moleculerTs.Action<'${findOperationName}', customPgr.${findOperationName}Input, ${opOutputType}>,
           `;
 
           mixinMixinActions += `
-            async ${findOperationName}(ctx: any) {},`;
+            async ${findOperationName}(this:any, ctx: any) {
+              const params = ctx.params;
+              ${client}
+              const query = ${query}['${findOperationName}'];
+              const data = params;
+              const result = await client.query.${op.name}(data, query); 
+              return result!['nodes'];
+            },`;
         }
+
         // @TODO - add extra single relation operations
         if (opReturn.type === 'node') {
+          let opOutputType = `customPgr.PgrNodeOptional<customPgr.${opReturn.name}>`;
+
+          mixinGql += `
+            '${operationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<${opOutputType}>>()),
+          `;
+
+          mixinInputTypes += `
+          export type ${operationName}Input = Parameters<pgr.Query['${operationName}']>[0];`;
+
+          mixinActions += `
+            moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, ${opOutputType}>,
+          `;
+
+          mixinMixinActions += `
+          async ${operationName}(this: any, ctx: any) {
+            const params = ctx.params;
+            ${client}
+            const query = ${query}['${operationName}'];
+            const data = params;
+            const result = await client.query.${op.name}(data, query); 
+            return result;
+          },`;
+
           getSingleRelationFields(opReturn.name).map(fieldName => {
             const singleRelationOperationName = `${operationName}.${fieldName}`;
             let curType =
@@ -338,88 +497,169 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
               async '${singleRelationOperationName}'(ctx: any) {},`;
           });
         }
-
-        mixinInputTypes += `
-        export type ${operationName}Input = Parameters<pgr.Query['${operationName}']>[0];`;
       }
 
       if (op.isRootMutation) {
         if (opReturn.type === 'create') {
-          const createInputName =
-            opReturn.name.charAt(0).toLowerCase() + opReturn.name.slice(1);
+          const mutationOutField = lowerlize(opReturn.name);
+          let opOutputType = `customPgr.PgrNode<customPgr.${opReturn.name}>`;
+          mixinGql += `
+            '${operationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<{${mutationOutField}: ${opOutputType}} >>()),
+          `;
+
           mixinInputTypes += `
-          export type ${operationName}Input = Parameters<pgr.Mutation['${operationName}']>[0]['input']['${createInputName}']`;
-        } else {
+          export type ${operationName}Input = Parameters<pgr.Mutation['${operationName}']>[0]['input']['${mutationOutField}']`;
+
+          mixinActions += `
+          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, ${opOutputType}>,
+        `;
+
+          mixinMixinActions += `
+          async ${operationName}(this: any, ctx: any) {
+            const params = ctx.params;
+            ${client}
+            const query = ${query}['${operationName}'];
+            const data = {
+              input: {
+                ${mutationOutField}: params,
+              }
+            }
+            const result = await client.mutation.${op.name}(data, query); 
+            return result!['${mutationOutField}'];
+          },`;
+        }
+
+        if (opReturn.type === 'update') {
+          const mutationOutField = lowerlize(opReturn.name);
+          let opOutputType = `customPgr.PgrNodeOptional<customPgr.${opReturn.name}>`;
+          mixinGql += `
+            '${operationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<{${mutationOutField}: ${opOutputType}} >>()),
+          `;
+
           mixinInputTypes += `
           export type ${operationName}Input = Omit<Parameters<pgr.Mutation['${operationName}']>[0]['input'], 'clientMutationId'>`;
+
+          mixinActions += `
+          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, ${opOutputType}>,
+        `;
+
+          mixinMixinActions += `
+          async ${operationName}(this: any, ctx: any) {
+            const params = ctx.params;
+            ${client}
+            const query = ${query}['${operationName}'];
+            const data = {
+              input: params
+            }
+            const result = await client.mutation.${op.name}(data, query); 
+            return result!['${mutationOutField}'];
+          },`;
+          // UPSERT
+          if (
+            operations[`create${opReturn.name}`] &&
+            operationName === `update${opReturn.name}` &&
+            objectTypes[opReturn.name].connectionOpName // @TODO add it in hook !
+          ) {
+            let keyNums: number[] = [];
+            try {
+              keyNums = objectTypes[
+                opReturn.name
+              ].scope.pgIntrospection.primaryKeyConstraint.keyAttributes.map(
+                (one: any) => one.num,
+              );
+            } catch {}
+            if (keyNums.length > 0) {
+              const updateKeys: string[] = [];
+              Object.keys(objectTypes[opReturn.name].fields).map(
+                (fieldName: any) => {
+                  const fieldScope =
+                    objectTypes[opReturn.name].fields[fieldName].scope;
+                  if (keyNums.includes(fieldScope.pgFieldIntrospection.num)) {
+                    updateKeys.push(fieldScope.fieldName);
+                  }
+                },
+              );
+
+              const upsertOutputTypeName = `upsert${opReturn.name}`;
+              const updatePatchField = 'patch';
+              let opOutputType = `customPgr.PgrNode<customPgr.${opReturn.name}>`;
+
+              mixinInputTypes += `
+                export type ${upsertOutputTypeName}Input = { query: customPgr.${
+                objectTypes[opReturn.name].connectionOpName
+              }Input, create: customPgr.create${
+                opReturn.name
+              }Input  , update:  customPgr.update${
+                opReturn.name
+              }Input['${updatePatchField}'] };`;
+
+              mixinActions += `
+                moleculerTs.Action<'${upsertOutputTypeName}', customPgr.${upsertOutputTypeName}Input, ${opOutputType}>,
+              `;
+
+              mixinMixinActions += `
+                async '${upsertOutputTypeName}'(this: any, ctx: any) {
+                  const params = ctx.params;
+                  let node = await ctx.call(\`\${this.name}.first${capitalize(
+                    objectTypes[opReturn.name].connectionOpName,
+                  )}\`, { ...params.query });
+                  console.log('node', node)
+                  if (!node) {
+                    node = await ctx.call(\`\${this.name}.create${
+                      opReturn.name
+                    }\`, { ...params.create });
+                  } else {
+                    const primaryQuery = getPartialObject(node, [${updateKeys
+                      .map(one => `'${one}'`)
+                      .join(',')}]);
+                    node = await ctx.call(\`\${this.name}.update${
+                      opReturn.name
+                    }\`, { ...primaryQuery, ${updatePatchField}: params.update });
+
+                    if (!node) {
+                      return await ctx.callSvc(\`\${this.name}.upsert${
+                        opReturn.name
+                      }\`, ctx.params);
+                    }
+                  }
+
+                  return node;
+                },`;
+            }
+          }
+        }
+
+        if (opReturn.type === 'delete') {
+          const mutationOutField = lowerlize(opReturn.name);
+          let opOutputType = `customPgr.PgrNodeOptional<customPgr.${opReturn.name}>`;
+          mixinGql += `
+            '${operationName}': moleculerPgr.shapeToGql(moleculerPgr.shape<NonNullable<{${mutationOutField}: ${opOutputType}} >>()),
+          `;
+
+          mixinInputTypes += `
+          export type ${operationName}Input = Omit<Parameters<pgr.Mutation['${operationName}']>[0]['input'], 'clientMutationId'>`;
+
+          mixinActions += `
+          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, ${opOutputType}>,
+        `;
+
+          mixinMixinActions += `
+          async ${operationName}(this: any, ctx: any) {
+            const params = ctx.params;
+            ${client}
+            const query = ${query}['${operationName}'];
+            const data = {
+              input: params
+            }
+            const result = await client.mutation.${op.name}(data, query); 
+            return result!['${mutationOutField}'];
+          },`;
+        }
+
+        // @TODO
+        if (opReturn.type === 'customMutation') {
         }
       }
-
-      if (opReturn.type === 'connection') {
-        mixinActions += `
-          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, customPgr.PgrConnection<customPgr.${opReturn.name}>>,
-        `;
-
-        mixinMixinActions += `
-          async ${operationName}(ctx: any) {},`;
-      }
-
-      if (opReturn.type === 'node') {
-        mixinActions += `
-          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, customPgr.PgrNodeOptional<customPgr.${opReturn.name}>>,
-        `;
-
-        mixinMixinActions += `
-          async ${operationName}(ctx: any) {},`;
-      }
-
-      if (opReturn.type === 'create') {
-        mixinActions += `
-          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, customPgr.PgrNode<customPgr.${opReturn.name}>>,
-        `;
-
-        mixinMixinActions += `
-          async ${operationName}(ctx: any) {},`;
-      }
-
-      if (opReturn.type === 'update') {
-        mixinActions += `
-          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, customPgr.PgrNodeOptional<customPgr.${opReturn.name}>>,
-        `;
-
-        mixinMixinActions += `
-          async ${operationName}(ctx: any) {},`;
-      }
-
-      if (opReturn.type === 'delete') {
-        mixinActions += `
-          moleculerTs.Action<'${operationName}', customPgr.${operationName}Input, customPgr.PgrNodeOptional<customPgr.${opReturn.name}>>,
-        `;
-
-        mixinMixinActions += `
-          async ${operationName}(ctx: any) {},`;
-      }
-
-      return;
-      /*
-
-        export const PgrMixin = {
-          name: 'PostgraphileMixin',
-          methods: {},
-          events: {},
-          actions: {
-            async accounts(this: any, ctx: any) {
-              const client = this.settings.pgr.client;
-              const params = ctx.parmas;
-              let $query = params.$query;
-
-              return client.query.accounts(params, $query);
-            },
-       
-
-      console.log(operationName);
-      console.log(op);
-       */
     });
 
     Object.keys(outputTypes).map(outputTypeName => {
@@ -433,10 +673,6 @@ function MyBuilderPlugin(builder: SchemaBuilder) {
       } else {
         Omit = 'never';
       }
-
-      mixinGql += `
-        ${outputTypeName}: moleculerPgr.shapeToGql(moleculerPgr.shape<customPgr.${outputTypeName}>()),
-      `;
 
       mixinPgrExtend += `
         export type ${outputTypeName}<T extends keyof pgr.${outputTypeName}, P, Optional extends true | false = true
@@ -626,7 +862,7 @@ interface DbService {
 }
 @Service({
   name: DbServiceTypes.name,
-  mixins: [],
+  mixins: [PgrMixin],
 })
 class DbService
   extends Broker.Service<{
@@ -645,22 +881,14 @@ class DbService
   }
 
   async started() {
-    if (0) {
-      const a1 = await this.broker.call('db.user.profile', { id: 'user_Id' });
-      const a = await this.broker.call('db.accounts', {});
-
-      /*
-        await this.broker.call('db.user.account', {});
-        await this.broker.call('db.user.profile', {});
-      */
-    }
-
     const app = express();
     const plugins: Plugin[] = [
+      PgNonNullPlugin,
       pgSimplifyInflector,
       ConnectionFilterPlugin,
-      PostGraphileNestedMutations,
+      // PostGraphileNestedMutations,
       PgManyToManyPlugin,
+
       MyInflectorPlugin,
       MySmartTagsPlugin,
     ];
@@ -671,6 +899,7 @@ class DbService
 
     app.use(
       postgraphile(process.env.FIRST_BROKER_DB_URL || 'public', {
+        graphileBuildOptions: {},
         dynamicJson: true,
         setofFunctionsContainNulls: false,
         ignoreRBAC: true,
@@ -691,6 +920,22 @@ class DbService
       this.server.once('listening', resolve);
       this.server.once('error', reject);
     });
+
+    setTimeout(async () => {
+      const userProfile = await this.broker.call('db.upsertUserProfile', {
+        create: { picture: 'create' },
+        update: { picture: 'update' },
+        query: {},
+      });
+      console.log('UP', userProfile);
+
+      console.log(
+        await this.broker.call('db.userProfile', { id: userProfile.id }),
+      );
+    }, 1500);
+
+    if (0) {
+    }
   }
   async stopped() {
     if (this.server) {

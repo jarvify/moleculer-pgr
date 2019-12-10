@@ -10,52 +10,12 @@ const sdl = gql`
     subscriptionId: String!
     createdAt: Datetime!
     updatedAt: Datetime!
+    userId: UUID!
 
     """
-    Reads and enables pagination through a set of \`User\`.
+    Reads a single \`User\` that is related to this \`Account\`.
     """
-    users(
-      """
-      Only read the first \`n\` values of the set.
-      """
-      first: Int
-
-      """
-      Only read the last \`n\` values of the set.
-      """
-      last: Int
-
-      """
-      Skip the first \`n\` values from our \`after\` cursor, an alternative to cursor
-      based pagination. May not be used with \`last\`.
-      """
-      offset: Int
-
-      """
-      Read all values in the set before (above) this cursor.
-      """
-      before: Cursor
-
-      """
-      Read all values in the set after (below) this cursor.
-      """
-      after: Cursor
-
-      """
-      The method to use when ordering \`User\`.
-      """
-      orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-      """
-      A condition to be used in determining which values should be returned by the collection.
-      """
-      condition: UserCondition
-
-      """
-      A filter to be used in determining which values should be returned by the collection.
-      """
-      filter: UserFilter
-    ): UsersConnection!
+    user: User!
   }
 
   """
@@ -96,6 +56,11 @@ const sdl = gql`
     Checks for equality with the object’s \`updatedAt\` field.
     """
     updatedAt: Datetime
+
+    """
+    Checks for equality with the object’s \`userId\` field.
+    """
+    userId: UUID
   }
 
   """
@@ -138,6 +103,11 @@ const sdl = gql`
     updatedAt: DatetimeFilter
 
     """
+    Filter by the object’s \`userId\` field.
+    """
+    userId: UUIDFilter
+
+    """
     Checks for all expressions in this list.
     """
     and: [AccountFilter!]
@@ -154,20 +124,6 @@ const sdl = gql`
   }
 
   """
-  The fields on \`account\` to look up the row to connect.
-  """
-  input AccountIdxAccountIdConnect {
-    id: UUID!
-  }
-
-  """
-  The fields on \`account\` to look up the row to delete.
-  """
-  input AccountIdxAccountIdDelete {
-    id: UUID!
-  }
-
-  """
   An input for mutations affecting \`Account\`
   """
   input AccountInput {
@@ -178,18 +134,7 @@ const sdl = gql`
     subscriptionId: String!
     createdAt: Datetime
     updatedAt: Datetime
-    usersUsingId: FkUserAccountIdInverseInput
-  }
-
-  """
-  The fields on \`account\` to look up the row to update.
-  """
-  input AccountOnUserForFkUserAccountIdUsingIdxAccountIdUpdate {
-    """
-    An object where the defined keys will be set on the \`account\` being updated.
-    """
-    patch: updateAccountOnUserForFkUserAccountIdPatch!
-    id: UUID!
+    userId: UUID!
   }
 
   """
@@ -203,7 +148,7 @@ const sdl = gql`
     subscriptionId: String
     createdAt: Datetime
     updatedAt: Datetime
-    usersUsingId: FkUserAccountIdInverseInput
+    userId: UUID
   }
 
   enum AccountPlanEnum {
@@ -399,6 +344,8 @@ const sdl = gql`
     CREATED_AT_DESC
     UPDATED_AT_ASC
     UPDATED_AT_DESC
+    USER_ID_ASC
+    USER_ID_DESC
     PRIMARY_KEY_ASC
     PRIMARY_KEY_DESC
   }
@@ -507,6 +454,11 @@ const sdl = gql`
     query: Query
 
     """
+    Reads a single \`User\` that is related to this \`Account\`.
+    """
+    user: User!
+
+    """
     An edge for our \`Account\`. May be used by Relay 1.
     """
     accountEdge(
@@ -565,6 +517,100 @@ const sdl = gql`
   }
 
   """
+  All input for the create \`TestMultiplePrimary\` mutation.
+  """
+  input CreateTestMultiplePrimaryInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestMultiplePrimary\` to be created by this mutation.
+    """
+    testMultiplePrimary: TestMultiplePrimaryInput!
+  }
+
+  """
+  The output of our create \`TestMultiplePrimary\` mutation.
+  """
+  type CreateTestMultiplePrimaryPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestMultiplePrimary\` that was created by this mutation.
+    """
+    testMultiplePrimary: TestMultiplePrimary
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`TestMultiplePrimary\`. May be used by Relay 1.
+    """
+    testMultiplePrimaryEdge(
+      """
+      The method to use when ordering \`TestMultiplePrimary\`.
+      """
+      orderBy: [TestMultiplePrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+    ): TestMultiplePrimariesEdge
+  }
+
+  """
+  All input for the create \`TestPrimary\` mutation.
+  """
+  input CreateTestPrimaryInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestPrimary\` to be created by this mutation.
+    """
+    testPrimary: TestPrimaryInput!
+  }
+
+  """
+  The output of our create \`TestPrimary\` mutation.
+  """
+  type CreateTestPrimaryPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestPrimary\` that was created by this mutation.
+    """
+    testPrimary: TestPrimary
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`TestPrimary\`. May be used by Relay 1.
+    """
+    testPrimaryEdge(
+      """
+      The method to use when ordering \`TestPrimary\`.
+      """
+      orderBy: [TestPrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+    ): TestPrimariesEdge
+  }
+
+  """
   All input for the create \`User\` mutation.
   """
   input CreateUserInput {
@@ -601,14 +647,9 @@ const sdl = gql`
     query: Query
 
     """
-    Reads a single \`Account\` that is related to this \`User\`.
-    """
-    account: Account
-
-    """
     Reads a single \`UserProfile\` that is related to this \`User\`.
     """
-    profile: UserProfile
+    profile: UserProfile!
 
     """
     An edge for our \`User\`. May be used by Relay 1.
@@ -773,6 +814,11 @@ const sdl = gql`
     query: Query
 
     """
+    Reads a single \`User\` that is related to this \`Account\`.
+    """
+    user: User!
+
+    """
     An edge for our \`Account\`. May be used by Relay 1.
     """
     accountEdge(
@@ -825,6 +871,95 @@ const sdl = gql`
       """
       orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
     ): MigrationsEdge
+  }
+
+  """
+  All input for the \`deleteTestMultiplePrimary\` mutation.
+  """
+  input DeleteTestMultiplePrimaryInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+    oneId: UUID!
+    twoId: UUID!
+  }
+
+  """
+  The output of our delete \`TestMultiplePrimary\` mutation.
+  """
+  type DeleteTestMultiplePrimaryPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestMultiplePrimary\` that was deleted by this mutation.
+    """
+    testMultiplePrimary: TestMultiplePrimary
+    deletedTestMultiplePrimaryNodeId: ID
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`TestMultiplePrimary\`. May be used by Relay 1.
+    """
+    testMultiplePrimaryEdge(
+      """
+      The method to use when ordering \`TestMultiplePrimary\`.
+      """
+      orderBy: [TestMultiplePrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+    ): TestMultiplePrimariesEdge
+  }
+
+  """
+  All input for the \`deleteTestPrimary\` mutation.
+  """
+  input DeleteTestPrimaryInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+    primary: UUID!
+  }
+
+  """
+  The output of our delete \`TestPrimary\` mutation.
+  """
+  type DeleteTestPrimaryPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestPrimary\` that was deleted by this mutation.
+    """
+    testPrimary: TestPrimary
+    deletedTestPrimaryNodeId: ID
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`TestPrimary\`. May be used by Relay 1.
+    """
+    testPrimaryEdge(
+      """
+      The method to use when ordering \`TestPrimary\`.
+      """
+      orderBy: [TestPrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+    ): TestPrimariesEdge
   }
 
   """
@@ -898,14 +1033,9 @@ const sdl = gql`
     query: Query
 
     """
-    Reads a single \`Account\` that is related to this \`User\`.
-    """
-    account: Account
-
-    """
     Reads a single \`UserProfile\` that is related to this \`User\`.
     """
-    profile: UserProfile
+    profile: UserProfile!
 
     """
     An edge for our \`User\`. May be used by Relay 1.
@@ -960,265 +1090,6 @@ const sdl = gql`
       """
       orderBy: [UserProfilesOrderBy!] = [PRIMARY_KEY_ASC]
     ): UserProfilesEdge
-  }
-
-  """
-  The \`account\` to be created by this mutation.
-  """
-  input FkUserAccountIdAccountCreateInput {
-    id: UUID
-    name: String!
-    planStatus: AccountPlanStatusEnum!
-    plan: AccountPlanEnum!
-    subscriptionId: String!
-    createdAt: Datetime
-    updatedAt: Datetime
-    usersUsingId: FkUserAccountIdInverseInput
-  }
-
-  """
-  Input for the nested mutation of \`account\` in the \`UserInput\` mutation.
-  """
-  input FkUserAccountIdInput {
-    """
-    The primary key(s) for \`account\` for the far side of the relationship.
-    """
-    connectById: AccountIdxAccountIdConnect
-
-    """
-    The primary key(s) for \`account\` for the far side of the relationship.
-    """
-    deleteById: AccountIdxAccountIdDelete
-
-    """
-    The primary key(s) and patch data for \`account\` for the far side of the relationship.
-    """
-    updateById: AccountOnUserForFkUserAccountIdUsingIdxAccountIdUpdate
-
-    """
-    A \`AccountInput\` object that will be created and connected to this object.
-    """
-    create: FkUserAccountIdAccountCreateInput
-  }
-
-  """
-  Input for the nested mutation of \`user\` in the \`AccountInput\` mutation.
-  """
-  input FkUserAccountIdInverseInput {
-    """
-    Flag indicating whether all other \`user\` records that match this relationship should be removed.
-    """
-    deleteOthers: Boolean
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectById: [UserIdxUserIdConnect!]
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectByEmail: [UserUqUserEmailConnect!]
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectByFirstNameAndLastName: [UserUqUserFirstNameLastNameConnect!]
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectByUserProfileId: [UserUqUserUserProfileIdConnect!]
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteById: [UserIdxUserIdDelete!]
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteByEmail: [UserUqUserEmailDelete!]
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteByFirstNameAndLastName: [UserUqUserFirstNameLastNameDelete!]
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteByUserProfileId: [UserUqUserUserProfileIdDelete!]
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateById: [UserOnUserForFkUserAccountIdUsingIdxUserIdUpdate!]
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateByEmail: [UserOnUserForFkUserAccountIdUsingUqUserEmailUpdate!]
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateByFirstNameAndLastName: [UserOnUserForFkUserAccountIdUsingUqUserFirstNameLastNameUpdate!]
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateByUserProfileId: [UserOnUserForFkUserAccountIdUsingUqUserUserProfileIdUpdate!]
-
-    """
-    A \`UserInput\` object that will be created and connected to this object.
-    """
-    create: [FkUserAccountIdUserCreateInput!]
-  }
-
-  """
-  The \`user\` to be created by this mutation.
-  """
-  input FkUserAccountIdUserCreateInput {
-    id: UUID
-    email: String!
-    password: String
-    firstName: String
-    lastName: String
-    lastLoggedAt: Datetime!
-    createdAt: Datetime
-    updatedAt: Datetime
-    userProfileId: UUID
-    accountToAccountId: FkUserAccountIdInput
-    profile: FkUserUserProfileIdInput
-  }
-
-  """
-  Input for the nested mutation of \`userProfile\` in the \`UserInput\` mutation.
-  """
-  input FkUserUserProfileIdInput {
-    """
-    The primary key(s) for \`userProfile\` for the far side of the relationship.
-    """
-    connectById: UserProfileIdxUserProfileIdConnect
-
-    """
-    The primary key(s) for \`userProfile\` for the far side of the relationship.
-    """
-    deleteById: UserProfileIdxUserProfileIdDelete
-
-    """
-    The primary key(s) and patch data for \`userProfile\` for the far side of the relationship.
-    """
-    updateById: UserProfileOnUserForFkUserUserProfileIdUsingIdxUserProfileIdUpdate
-
-    """
-    A \`UserProfileInput\` object that will be created and connected to this object.
-    """
-    create: FkUserUserProfileIdUserProfileCreateInput
-  }
-
-  """
-  Input for the nested mutation of \`user\` in the \`UserProfileInput\` mutation.
-  """
-  input FkUserUserProfileIdInverseInput {
-    """
-    Flag indicating whether all other \`user\` records that match this relationship should be removed.
-    """
-    deleteOthers: Boolean
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectById: UserIdxUserIdConnect
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectByEmail: UserUqUserEmailConnect
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectByFirstNameAndLastName: UserUqUserFirstNameLastNameConnect
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    connectByUserProfileId: UserUqUserUserProfileIdConnect
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteById: UserIdxUserIdDelete
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteByEmail: UserUqUserEmailDelete
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteByFirstNameAndLastName: UserUqUserFirstNameLastNameDelete
-
-    """
-    The primary key(s) for \`user\` for the far side of the relationship.
-    """
-    deleteByUserProfileId: UserUqUserUserProfileIdDelete
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateById: UserOnUserForFkUserUserProfileIdUsingIdxUserIdUpdate
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateByEmail: UserOnUserForFkUserUserProfileIdUsingUqUserEmailUpdate
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateByFirstNameAndLastName: UserOnUserForFkUserUserProfileIdUsingUqUserFirstNameLastNameUpdate
-
-    """
-    The primary key(s) and patch data for \`user\` for the far side of the relationship.
-    """
-    updateByUserProfileId: UserOnUserForFkUserUserProfileIdUsingUqUserUserProfileIdUpdate
-
-    """
-    A \`UserInput\` object that will be created and connected to this object.
-    """
-    create: [FkUserUserProfileIdUserCreateInput!]
-  }
-
-  """
-  The \`user\` to be created by this mutation.
-  """
-  input FkUserUserProfileIdUserCreateInput {
-    id: UUID
-    email: String!
-    password: String
-    firstName: String
-    lastName: String
-    lastLoggedAt: Datetime!
-    createdAt: Datetime
-    updatedAt: Datetime
-    accountId: UUID
-    accountToAccountId: FkUserAccountIdInput
-    profile: FkUserUserProfileIdInput
-  }
-
-  """
-  The \`userProfile\` to be created by this mutation.
-  """
-  input FkUserUserProfileIdUserProfileCreateInput {
-    id: UUID
-    picture: String!
-    createdAt: Datetime
-    updatedAt: Datetime
-    user: FkUserUserProfileIdInverseInput
   }
 
   """
@@ -1441,6 +1312,26 @@ const sdl = gql`
     ): CreateMigrationPayload
 
     """
+    Creates a single \`TestMultiplePrimary\`.
+    """
+    createTestMultiplePrimary(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: CreateTestMultiplePrimaryInput!
+    ): CreateTestMultiplePrimaryPayload
+
+    """
+    Creates a single \`TestPrimary\`.
+    """
+    createTestPrimary(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: CreateTestPrimaryInput!
+    ): CreateTestPrimaryPayload
+
+    """
     Creates a single \`User\`.
     """
     createUser(
@@ -1479,6 +1370,26 @@ const sdl = gql`
       """
       input: UpdateMigrationInput!
     ): UpdateMigrationPayload
+
+    """
+    Updates a single \`TestMultiplePrimary\` using a unique key and a patch.
+    """
+    updateTestMultiplePrimary(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateTestMultiplePrimaryInput!
+    ): UpdateTestMultiplePrimaryPayload
+
+    """
+    Updates a single \`TestPrimary\` using a unique key and a patch.
+    """
+    updateTestPrimary(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateTestPrimaryInput!
+    ): UpdateTestPrimaryPayload
 
     """
     Updates a single \`User\` using a unique key and a patch.
@@ -1549,6 +1460,26 @@ const sdl = gql`
       """
       input: DeleteMigrationInput!
     ): DeleteMigrationPayload
+
+    """
+    Deletes a single \`TestMultiplePrimary\` using a unique key.
+    """
+    deleteTestMultiplePrimary(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteTestMultiplePrimaryInput!
+    ): DeleteTestMultiplePrimaryPayload
+
+    """
+    Deletes a single \`TestPrimary\` using a unique key.
+    """
+    deleteTestPrimary(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteTestPrimaryInput!
+    ): DeleteTestPrimaryPayload
 
     """
     Deletes a single \`User\` using a unique key.
@@ -1735,6 +1666,98 @@ const sdl = gql`
     ): MigrationsConnection
 
     """
+    Reads and enables pagination through a set of \`TestMultiplePrimary\`.
+    """
+    testMultiplePrimaries(
+      """
+      Only read the first \`n\` values of the set.
+      """
+      first: Int
+
+      """
+      Only read the last \`n\` values of the set.
+      """
+      last: Int
+
+      """
+      Skip the first \`n\` values from our \`after\` cursor, an alternative to cursor
+      based pagination. May not be used with \`last\`.
+      """
+      offset: Int
+
+      """
+      Read all values in the set before (above) this cursor.
+      """
+      before: Cursor
+
+      """
+      Read all values in the set after (below) this cursor.
+      """
+      after: Cursor
+
+      """
+      The method to use when ordering \`TestMultiplePrimary\`.
+      """
+      orderBy: [TestMultiplePrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+
+      """
+      A condition to be used in determining which values should be returned by the collection.
+      """
+      condition: TestMultiplePrimaryCondition
+
+      """
+      A filter to be used in determining which values should be returned by the collection.
+      """
+      filter: TestMultiplePrimaryFilter
+    ): TestMultiplePrimariesConnection
+
+    """
+    Reads and enables pagination through a set of \`TestPrimary\`.
+    """
+    testPrimaries(
+      """
+      Only read the first \`n\` values of the set.
+      """
+      first: Int
+
+      """
+      Only read the last \`n\` values of the set.
+      """
+      last: Int
+
+      """
+      Skip the first \`n\` values from our \`after\` cursor, an alternative to cursor
+      based pagination. May not be used with \`last\`.
+      """
+      offset: Int
+
+      """
+      Read all values in the set before (above) this cursor.
+      """
+      before: Cursor
+
+      """
+      Read all values in the set after (below) this cursor.
+      """
+      after: Cursor
+
+      """
+      The method to use when ordering \`TestPrimary\`.
+      """
+      orderBy: [TestPrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+
+      """
+      A condition to be used in determining which values should be returned by the collection.
+      """
+      condition: TestPrimaryCondition
+
+      """
+      A filter to be used in determining which values should be returned by the collection.
+      """
+      filter: TestPrimaryFilter
+    ): TestPrimariesConnection
+
+    """
     Reads and enables pagination through a set of \`User\`.
     """
     users(
@@ -1827,6 +1850,8 @@ const sdl = gql`
     ): UserProfilesConnection
     account(id: UUID!): Account
     migration(id: Int!): Migration
+    testMultiplePrimary(oneId: UUID!, twoId: UUID!): TestMultiplePrimary
+    testPrimary(primary: UUID!): TestPrimary
     user(id: UUID!): User
     userByEmail(email: String!): User
     userByFirstNameAndLastName(firstName: String!, lastName: String!): User
@@ -2029,6 +2054,291 @@ const sdl = gql`
   }
 
   """
+  A connection to a list of \`TestMultiplePrimary\` values.
+  """
+  type TestMultiplePrimariesConnection {
+    """
+    A list of \`TestMultiplePrimary\` objects.
+    """
+    nodes: [TestMultiplePrimary!]!
+
+    """
+    A list of edges which contains the \`TestMultiplePrimary\` and cursor to aid in pagination.
+    """
+    edges: [TestMultiplePrimariesEdge!]!
+
+    """
+    Information to aid in pagination.
+    """
+    pageInfo: PageInfo!
+
+    """
+    The count of *all* \`TestMultiplePrimary\` you could get from the connection.
+    """
+    totalCount: Int!
+  }
+
+  """
+  A \`TestMultiplePrimary\` edge in the connection.
+  """
+  type TestMultiplePrimariesEdge {
+    """
+    A cursor for use in pagination.
+    """
+    cursor: Cursor
+
+    """
+    The \`TestMultiplePrimary\` at the end of the edge.
+    """
+    node: TestMultiplePrimary!
+  }
+
+  """
+  Methods to use when ordering \`TestMultiplePrimary\`.
+  """
+  enum TestMultiplePrimariesOrderBy {
+    NATURAL
+    ONE_ID_ASC
+    ONE_ID_DESC
+    TWO_ID_ASC
+    TWO_ID_DESC
+    CREATED_AT_ASC
+    CREATED_AT_DESC
+    UPDATED_AT_ASC
+    UPDATED_AT_DESC
+    PRIMARY_KEY_ASC
+    PRIMARY_KEY_DESC
+  }
+
+  type TestMultiplePrimary {
+    oneId: UUID!
+    twoId: UUID!
+    createdAt: Datetime!
+    updatedAt: Datetime!
+  }
+
+  """
+  A condition to be used against \`TestMultiplePrimary\` object types. All fields
+  are tested for equality and combined with a logical ‘and.’
+  """
+  input TestMultiplePrimaryCondition {
+    """
+    Checks for equality with the object’s \`oneId\` field.
+    """
+    oneId: UUID
+
+    """
+    Checks for equality with the object’s \`twoId\` field.
+    """
+    twoId: UUID
+
+    """
+    Checks for equality with the object’s \`createdAt\` field.
+    """
+    createdAt: Datetime
+
+    """
+    Checks for equality with the object’s \`updatedAt\` field.
+    """
+    updatedAt: Datetime
+  }
+
+  """
+  A filter to be used against \`TestMultiplePrimary\` object types. All fields are combined with a logical ‘and.’
+  """
+  input TestMultiplePrimaryFilter {
+    """
+    Filter by the object’s \`oneId\` field.
+    """
+    oneId: UUIDFilter
+
+    """
+    Filter by the object’s \`twoId\` field.
+    """
+    twoId: UUIDFilter
+
+    """
+    Filter by the object’s \`createdAt\` field.
+    """
+    createdAt: DatetimeFilter
+
+    """
+    Filter by the object’s \`updatedAt\` field.
+    """
+    updatedAt: DatetimeFilter
+
+    """
+    Checks for all expressions in this list.
+    """
+    and: [TestMultiplePrimaryFilter!]
+
+    """
+    Checks for any expressions in this list.
+    """
+    or: [TestMultiplePrimaryFilter!]
+
+    """
+    Negates the expression.
+    """
+    not: TestMultiplePrimaryFilter
+  }
+
+  """
+  An input for mutations affecting \`TestMultiplePrimary\`
+  """
+  input TestMultiplePrimaryInput {
+    oneId: UUID!
+    twoId: UUID!
+    createdAt: Datetime
+    updatedAt: Datetime
+  }
+
+  """
+  Represents an update to a \`TestMultiplePrimary\`. Fields that are set will be updated.
+  """
+  input TestMultiplePrimaryPatch {
+    oneId: UUID
+    twoId: UUID
+    createdAt: Datetime
+    updatedAt: Datetime
+  }
+
+  """
+  A connection to a list of \`TestPrimary\` values.
+  """
+  type TestPrimariesConnection {
+    """
+    A list of \`TestPrimary\` objects.
+    """
+    nodes: [TestPrimary!]!
+
+    """
+    A list of edges which contains the \`TestPrimary\` and cursor to aid in pagination.
+    """
+    edges: [TestPrimariesEdge!]!
+
+    """
+    Information to aid in pagination.
+    """
+    pageInfo: PageInfo!
+
+    """
+    The count of *all* \`TestPrimary\` you could get from the connection.
+    """
+    totalCount: Int!
+  }
+
+  """
+  A \`TestPrimary\` edge in the connection.
+  """
+  type TestPrimariesEdge {
+    """
+    A cursor for use in pagination.
+    """
+    cursor: Cursor
+
+    """
+    The \`TestPrimary\` at the end of the edge.
+    """
+    node: TestPrimary!
+  }
+
+  """
+  Methods to use when ordering \`TestPrimary\`.
+  """
+  enum TestPrimariesOrderBy {
+    NATURAL
+    PRIMARY_ASC
+    PRIMARY_DESC
+    CREATED_AT_ASC
+    CREATED_AT_DESC
+    UPDATED_AT_ASC
+    UPDATED_AT_DESC
+    PRIMARY_KEY_ASC
+    PRIMARY_KEY_DESC
+  }
+
+  type TestPrimary {
+    primary: UUID!
+    createdAt: Datetime!
+    updatedAt: Datetime!
+  }
+
+  """
+  A condition to be used against \`TestPrimary\` object types. All fields are tested
+  for equality and combined with a logical ‘and.’
+  """
+  input TestPrimaryCondition {
+    """
+    Checks for equality with the object’s \`primary\` field.
+    """
+    primary: UUID
+
+    """
+    Checks for equality with the object’s \`createdAt\` field.
+    """
+    createdAt: Datetime
+
+    """
+    Checks for equality with the object’s \`updatedAt\` field.
+    """
+    updatedAt: Datetime
+  }
+
+  """
+  A filter to be used against \`TestPrimary\` object types. All fields are combined with a logical ‘and.’
+  """
+  input TestPrimaryFilter {
+    """
+    Filter by the object’s \`primary\` field.
+    """
+    primary: UUIDFilter
+
+    """
+    Filter by the object’s \`createdAt\` field.
+    """
+    createdAt: DatetimeFilter
+
+    """
+    Filter by the object’s \`updatedAt\` field.
+    """
+    updatedAt: DatetimeFilter
+
+    """
+    Checks for all expressions in this list.
+    """
+    and: [TestPrimaryFilter!]
+
+    """
+    Checks for any expressions in this list.
+    """
+    or: [TestPrimaryFilter!]
+
+    """
+    Negates the expression.
+    """
+    not: TestPrimaryFilter
+  }
+
+  """
+  An input for mutations affecting \`TestPrimary\`
+  """
+  input TestPrimaryInput {
+    primary: UUID
+    createdAt: Datetime
+    updatedAt: Datetime
+  }
+
+  """
+  Represents an update to a \`TestPrimary\`. Fields that are set will be updated.
+  """
+  input TestPrimaryPatch {
+    primary: UUID
+    createdAt: Datetime
+    updatedAt: Datetime
+  }
+
+  """
   All input for the \`updateAccount\` mutation.
   """
   input UpdateAccountInput {
@@ -2043,20 +2353,6 @@ const sdl = gql`
     """
     patch: AccountPatch!
     id: UUID!
-  }
-
-  """
-  An object where the defined keys will be set on the \`account\` being updated.
-  """
-  input updateAccountOnUserForFkUserAccountIdPatch {
-    id: UUID
-    name: String
-    planStatus: AccountPlanStatusEnum
-    plan: AccountPlanEnum
-    subscriptionId: String
-    createdAt: Datetime
-    updatedAt: Datetime
-    usersUsingId: FkUserAccountIdInverseInput
   }
 
   """
@@ -2078,6 +2374,11 @@ const sdl = gql`
     Our root query field type. Allows us to run any query from our mutation payload.
     """
     query: Query
+
+    """
+    Reads a single \`User\` that is related to this \`Account\`.
+    """
+    user: User!
 
     """
     An edge for our \`Account\`. May be used by Relay 1.
@@ -2136,6 +2437,103 @@ const sdl = gql`
       """
       orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
     ): MigrationsEdge
+  }
+
+  """
+  All input for the \`updateTestMultiplePrimary\` mutation.
+  """
+  input UpdateTestMultiplePrimaryInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    An object where the defined keys will be set on the \`TestMultiplePrimary\` being updated.
+    """
+    patch: TestMultiplePrimaryPatch!
+    oneId: UUID!
+    twoId: UUID!
+  }
+
+  """
+  The output of our update \`TestMultiplePrimary\` mutation.
+  """
+  type UpdateTestMultiplePrimaryPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestMultiplePrimary\` that was updated by this mutation.
+    """
+    testMultiplePrimary: TestMultiplePrimary
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`TestMultiplePrimary\`. May be used by Relay 1.
+    """
+    testMultiplePrimaryEdge(
+      """
+      The method to use when ordering \`TestMultiplePrimary\`.
+      """
+      orderBy: [TestMultiplePrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+    ): TestMultiplePrimariesEdge
+  }
+
+  """
+  All input for the \`updateTestPrimary\` mutation.
+  """
+  input UpdateTestPrimaryInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    An object where the defined keys will be set on the \`TestPrimary\` being updated.
+    """
+    patch: TestPrimaryPatch!
+    primary: UUID!
+  }
+
+  """
+  The output of our update \`TestPrimary\` mutation.
+  """
+  type UpdateTestPrimaryPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`TestPrimary\` that was updated by this mutation.
+    """
+    testPrimary: TestPrimary
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`TestPrimary\`. May be used by Relay 1.
+    """
+    testPrimaryEdge(
+      """
+      The method to use when ordering \`TestPrimary\`.
+      """
+      orderBy: [TestPrimariesOrderBy!] = [PRIMARY_KEY_ASC]
+    ): TestPrimariesEdge
   }
 
   """
@@ -2208,40 +2606,6 @@ const sdl = gql`
   }
 
   """
-  An object where the defined keys will be set on the \`user\` being updated.
-  """
-  input updateUserOnUserForFkUserAccountIdPatch {
-    id: UUID
-    email: String
-    password: String
-    firstName: String
-    lastName: String
-    lastLoggedAt: Datetime
-    createdAt: Datetime
-    updatedAt: Datetime
-    userProfileId: UUID
-    accountToAccountId: FkUserAccountIdInput
-    profile: FkUserUserProfileIdInput
-  }
-
-  """
-  An object where the defined keys will be set on the \`user\` being updated.
-  """
-  input updateUserOnUserForFkUserUserProfileIdPatch {
-    id: UUID
-    email: String
-    password: String
-    firstName: String
-    lastName: String
-    lastLoggedAt: Datetime
-    createdAt: Datetime
-    updatedAt: Datetime
-    accountId: UUID
-    accountToAccountId: FkUserAccountIdInput
-    profile: FkUserUserProfileIdInput
-  }
-
-  """
   The output of our update \`User\` mutation.
   """
   type UpdateUserPayload {
@@ -2262,14 +2626,9 @@ const sdl = gql`
     query: Query
 
     """
-    Reads a single \`Account\` that is related to this \`User\`.
-    """
-    account: Account
-
-    """
     Reads a single \`UserProfile\` that is related to this \`User\`.
     """
-    profile: UserProfile
+    profile: UserProfile!
 
     """
     An edge for our \`User\`. May be used by Relay 1.
@@ -2297,17 +2656,6 @@ const sdl = gql`
     """
     patch: UserProfilePatch!
     id: UUID!
-  }
-
-  """
-  An object where the defined keys will be set on the \`userProfile\` being updated.
-  """
-  input updateUserProfileOnUserForFkUserUserProfileIdPatch {
-    id: UUID
-    picture: String
-    createdAt: Datetime
-    updatedAt: Datetime
-    user: FkUserUserProfileIdInverseInput
   }
 
   """
@@ -2350,18 +2698,58 @@ const sdl = gql`
     lastLoggedAt: Datetime!
     createdAt: Datetime!
     updatedAt: Datetime!
-    accountId: UUID
-    userProfileId: UUID
-
-    """
-    Reads a single \`Account\` that is related to this \`User\`.
-    """
-    account: Account
+    userProfileId: UUID!
 
     """
     Reads a single \`UserProfile\` that is related to this \`User\`.
     """
-    profile: UserProfile
+    profile: UserProfile!
+
+    """
+    Reads and enables pagination through a set of \`Account\`.
+    """
+    accounts(
+      """
+      Only read the first \`n\` values of the set.
+      """
+      first: Int
+
+      """
+      Only read the last \`n\` values of the set.
+      """
+      last: Int
+
+      """
+      Skip the first \`n\` values from our \`after\` cursor, an alternative to cursor
+      based pagination. May not be used with \`last\`.
+      """
+      offset: Int
+
+      """
+      Read all values in the set before (above) this cursor.
+      """
+      before: Cursor
+
+      """
+      Read all values in the set after (below) this cursor.
+      """
+      after: Cursor
+
+      """
+      The method to use when ordering \`Account\`.
+      """
+      orderBy: [AccountsOrderBy!] = [PRIMARY_KEY_ASC]
+
+      """
+      A condition to be used in determining which values should be returned by the collection.
+      """
+      condition: AccountCondition
+
+      """
+      A filter to be used in determining which values should be returned by the collection.
+      """
+      filter: AccountFilter
+    ): AccountsConnection!
   }
 
   """
@@ -2409,11 +2797,6 @@ const sdl = gql`
     updatedAt: Datetime
 
     """
-    Checks for equality with the object’s \`accountId\` field.
-    """
-    accountId: UUID
-
-    """
     Checks for equality with the object’s \`userProfileId\` field.
     """
     userProfileId: UUID
@@ -2448,14 +2831,9 @@ const sdl = gql`
     query: Query
 
     """
-    Reads a single \`Account\` that is related to this \`User\`.
-    """
-    account: Account
-
-    """
     Reads a single \`UserProfile\` that is related to this \`User\`.
     """
-    profile: UserProfile
+    profile: UserProfile!
 
     """
     An edge for our \`User\`. May be used by Relay 1.
@@ -2513,11 +2891,6 @@ const sdl = gql`
     updatedAt: DatetimeFilter
 
     """
-    Filter by the object’s \`accountId\` field.
-    """
-    accountId: UUIDFilter
-
-    """
     Filter by the object’s \`userProfileId\` field.
     """
     userProfileId: UUIDFilter
@@ -2539,20 +2912,6 @@ const sdl = gql`
   }
 
   """
-  The fields on \`user\` to look up the row to connect.
-  """
-  input UserIdxUserIdConnect {
-    id: UUID!
-  }
-
-  """
-  The fields on \`user\` to look up the row to delete.
-  """
-  input UserIdxUserIdDelete {
-    id: UUID!
-  }
-
-  """
   An input for mutations affecting \`User\`
   """
   input UserInput {
@@ -2564,99 +2923,6 @@ const sdl = gql`
     lastLoggedAt: Datetime!
     createdAt: Datetime
     updatedAt: Datetime
-    accountId: UUID
-    userProfileId: UUID
-    accountToAccountId: FkUserAccountIdInput
-    profile: FkUserUserProfileIdInput
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserAccountIdUsingIdxUserIdUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserAccountIdPatch!
-    id: UUID!
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserAccountIdUsingUqUserEmailUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserAccountIdPatch!
-    email: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserAccountIdUsingUqUserFirstNameLastNameUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserAccountIdPatch!
-    firstName: String!
-    lastName: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserAccountIdUsingUqUserUserProfileIdUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserAccountIdPatch!
-    userProfileId: UUID!
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserUserProfileIdUsingIdxUserIdUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserUserProfileIdPatch!
-    id: UUID!
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserUserProfileIdUsingUqUserEmailUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserUserProfileIdPatch!
-    email: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserUserProfileIdUsingUqUserFirstNameLastNameUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserUserProfileIdPatch!
-    firstName: String!
-    lastName: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to update.
-  """
-  input UserOnUserForFkUserUserProfileIdUsingUqUserUserProfileIdUpdate {
-    """
-    An object where the defined keys will be set on the \`user\` being updated.
-    """
-    patch: updateUserOnUserForFkUserUserProfileIdPatch!
     userProfileId: UUID!
   }
 
@@ -2672,10 +2938,7 @@ const sdl = gql`
     lastLoggedAt: Datetime
     createdAt: Datetime
     updatedAt: Datetime
-    accountId: UUID
     userProfileId: UUID
-    accountToAccountId: FkUserAccountIdInput
-    profile: FkUserUserProfileIdInput
   }
 
   type UserProfile {
@@ -2757,20 +3020,6 @@ const sdl = gql`
   }
 
   """
-  The fields on \`userProfile\` to look up the row to connect.
-  """
-  input UserProfileIdxUserProfileIdConnect {
-    id: UUID!
-  }
-
-  """
-  The fields on \`userProfile\` to look up the row to delete.
-  """
-  input UserProfileIdxUserProfileIdDelete {
-    id: UUID!
-  }
-
-  """
   An input for mutations affecting \`UserProfile\`
   """
   input UserProfileInput {
@@ -2778,18 +3027,6 @@ const sdl = gql`
     picture: String!
     createdAt: Datetime
     updatedAt: Datetime
-    user: FkUserUserProfileIdInverseInput
-  }
-
-  """
-  The fields on \`userProfile\` to look up the row to update.
-  """
-  input UserProfileOnUserForFkUserUserProfileIdUsingIdxUserProfileIdUpdate {
-    """
-    An object where the defined keys will be set on the \`userProfile\` being updated.
-    """
-    patch: updateUserProfileOnUserForFkUserUserProfileIdPatch!
-    id: UUID!
   }
 
   """
@@ -2800,7 +3037,6 @@ const sdl = gql`
     picture: String
     createdAt: Datetime
     updatedAt: Datetime
-    user: FkUserUserProfileIdInverseInput
   }
 
   """
@@ -2921,56 +3157,10 @@ const sdl = gql`
     CREATED_AT_DESC
     UPDATED_AT_ASC
     UPDATED_AT_DESC
-    ACCOUNT_ID_ASC
-    ACCOUNT_ID_DESC
     USER_PROFILE_ID_ASC
     USER_PROFILE_ID_DESC
     PRIMARY_KEY_ASC
     PRIMARY_KEY_DESC
-  }
-
-  """
-  The fields on \`user\` to look up the row to connect.
-  """
-  input UserUqUserEmailConnect {
-    email: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to delete.
-  """
-  input UserUqUserEmailDelete {
-    email: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to connect.
-  """
-  input UserUqUserFirstNameLastNameConnect {
-    firstName: String!
-    lastName: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to delete.
-  """
-  input UserUqUserFirstNameLastNameDelete {
-    firstName: String!
-    lastName: String!
-  }
-
-  """
-  The fields on \`user\` to look up the row to connect.
-  """
-  input UserUqUserUserProfileIdConnect {
-    userProfileId: UUID!
-  }
-
-  """
-  The fields on \`user\` to look up the row to delete.
-  """
-  input UserUqUserUserProfileIdDelete {
-    userProfileId: UUID!
   }
 
   """

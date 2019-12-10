@@ -8,7 +8,7 @@
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "dev:docker": "docker-compose -f ./docker/docker-compose.yml build",
     "dev:watch": "ts-node src/dev.watch.ts",
-    "dev:gen:pgr": "ts-node src/dev.gen.pgr.ts",
+    "dev:gen:pgr": "TS_NODE_LOG_ERROR=true ts-node src/dev.gen.pgr.ts",
     "dev:mig:gen": "npm run dev:mig:run && npm run typeorm -- migration:generate -n migration -f src/typeorm/config.ts -c $NAME",
     "dev:mig:create": "npm run typeorm -- migration:create -n migration -f src/typeorm/config.ts -c $NAME",
     "dev:mig:show": "npm run typeorm -- migration:show -f src/typeorm/config.ts -c $NAME",
@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "@graphile-contrib/pg-many-to-many": "^1.0.0-beta.12",
+    "@graphile-contrib/pg-non-null": "^1.0.3",
     "@graphile-contrib/pg-simplify-inflector": "^5.0.0-beta.1",
     "@types/bluebird": "^3.5.29",
     "@types/node-fetch": "^2.5.4",

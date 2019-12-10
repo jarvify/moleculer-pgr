@@ -50,4 +50,8 @@ export class Account {
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updated_at!: Date;
+
+  @ManyToOne(type => User, { nullable: false })
+  @JoinColumn({ name: 'user_id' })
+  user_id!: Account;
 }

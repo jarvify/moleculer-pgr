@@ -37,6 +37,34 @@ export interface Query {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  testMultiplePrimaries: <T = TestMultiplePrimariesConnection | null>(
+    args: {
+      first?: Int | null;
+      last?: Int | null;
+      offset?: Int | null;
+      before?: Cursor | null;
+      after?: Cursor | null;
+      orderBy?: Array<TestMultiplePrimariesOrderBy> | null;
+      condition?: TestMultiplePrimaryCondition | null;
+      filter?: TestMultiplePrimaryFilter | null;
+    },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  testPrimaries: <T = TestPrimariesConnection | null>(
+    args: {
+      first?: Int | null;
+      last?: Int | null;
+      offset?: Int | null;
+      before?: Cursor | null;
+      after?: Cursor | null;
+      orderBy?: Array<TestPrimariesOrderBy> | null;
+      condition?: TestPrimaryCondition | null;
+      filter?: TestPrimaryFilter | null;
+    },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   users: <T = UsersConnection | null>(
     args: {
       first?: Int | null;
@@ -72,6 +100,16 @@ export interface Query {
   ) => Promise<T | null>;
   migration: <T = Migration | null>(
     args: { id: Int },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  testMultiplePrimary: <T = TestMultiplePrimary | null>(
+    args: { oneId: UUID; twoId: UUID },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  testPrimary: <T = TestPrimary | null>(
+    args: { primary: UUID },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -126,6 +164,16 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  createTestMultiplePrimary: <T = CreateTestMultiplePrimaryPayload | null>(
+    args: { input: CreateTestMultiplePrimaryInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  createTestPrimary: <T = CreateTestPrimaryPayload | null>(
+    args: { input: CreateTestPrimaryInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   createUser: <T = CreateUserPayload | null>(
     args: { input: CreateUserInput },
     info?: GraphQLResolveInfo | string,
@@ -143,6 +191,16 @@ export interface Mutation {
   ) => Promise<T | null>;
   updateMigration: <T = UpdateMigrationPayload | null>(
     args: { input: UpdateMigrationInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateTestMultiplePrimary: <T = UpdateTestMultiplePrimaryPayload | null>(
+    args: { input: UpdateTestMultiplePrimaryInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateTestPrimary: <T = UpdateTestPrimaryPayload | null>(
+    args: { input: UpdateTestPrimaryInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -178,6 +236,16 @@ export interface Mutation {
   ) => Promise<T | null>;
   deleteMigration: <T = DeleteMigrationPayload | null>(
     args: { input: DeleteMigrationInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteTestMultiplePrimary: <T = DeleteTestMultiplePrimaryPayload | null>(
+    args: { input: DeleteTestMultiplePrimaryInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteTestPrimary: <T = DeleteTestPrimaryPayload | null>(
+    args: { input: DeleteTestPrimaryInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -283,6 +351,8 @@ export type AccountsOrderBy =
   | 'CREATED_AT_DESC'
   | 'UPDATED_AT_ASC'
   | 'UPDATED_AT_DESC'
+  | 'USER_ID_ASC'
+  | 'USER_ID_DESC'
   | 'PRIMARY_KEY_ASC'
   | 'PRIMARY_KEY_DESC';
 
@@ -298,6 +368,38 @@ export type MigrationsOrderBy =
   | 'TIMESTAMP_DESC'
   | 'NAME_ASC'
   | 'NAME_DESC'
+  | 'PRIMARY_KEY_ASC'
+  | 'PRIMARY_KEY_DESC';
+
+/*
+ * Methods to use when ordering `TestMultiplePrimary`.
+
+ */
+export type TestMultiplePrimariesOrderBy =
+  | 'NATURAL'
+  | 'ONE_ID_ASC'
+  | 'ONE_ID_DESC'
+  | 'TWO_ID_ASC'
+  | 'TWO_ID_DESC'
+  | 'CREATED_AT_ASC'
+  | 'CREATED_AT_DESC'
+  | 'UPDATED_AT_ASC'
+  | 'UPDATED_AT_DESC'
+  | 'PRIMARY_KEY_ASC'
+  | 'PRIMARY_KEY_DESC';
+
+/*
+ * Methods to use when ordering `TestPrimary`.
+
+ */
+export type TestPrimariesOrderBy =
+  | 'NATURAL'
+  | 'PRIMARY_ASC'
+  | 'PRIMARY_DESC'
+  | 'CREATED_AT_ASC'
+  | 'CREATED_AT_DESC'
+  | 'UPDATED_AT_ASC'
+  | 'UPDATED_AT_DESC'
   | 'PRIMARY_KEY_ASC'
   | 'PRIMARY_KEY_DESC';
 
@@ -340,8 +442,6 @@ export type UsersOrderBy =
   | 'CREATED_AT_DESC'
   | 'UPDATED_AT_ASC'
   | 'UPDATED_AT_DESC'
-  | 'ACCOUNT_ID_ASC'
-  | 'ACCOUNT_ID_DESC'
   | 'USER_PROFILE_ID_ASC'
   | 'USER_PROFILE_ID_DESC'
   | 'PRIMARY_KEY_ASC'
@@ -359,6 +459,7 @@ export interface AccountCondition {
   subscriptionId?: String | null;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
+  userId?: UUID | null;
 }
 
 /*
@@ -373,25 +474,10 @@ export interface AccountFilter {
   subscriptionId?: StringFilter | null;
   createdAt?: DatetimeFilter | null;
   updatedAt?: DatetimeFilter | null;
+  userId?: UUIDFilter | null;
   and?: AccountFilter[] | AccountFilter | null;
   or?: AccountFilter[] | AccountFilter | null;
   not?: AccountFilter | null;
-}
-
-/*
- * The fields on `account` to look up the row to connect.
-
- */
-export interface AccountIdxAccountIdConnect {
-  id: UUID;
-}
-
-/*
- * The fields on `account` to look up the row to delete.
-
- */
-export interface AccountIdxAccountIdDelete {
-  id: UUID;
 }
 
 /*
@@ -406,16 +492,7 @@ export interface AccountInput {
   subscriptionId: String;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
-  usersUsingId?: FkUserAccountIdInverseInput | null;
-}
-
-/*
- * The fields on `account` to look up the row to update.
-
- */
-export interface AccountOnUserForFkUserAccountIdUsingIdxAccountIdUpdate {
-  patch: updateAccountOnUserForFkUserAccountIdPatch;
-  id: UUID;
+  userId: UUID;
 }
 
 /*
@@ -430,7 +507,7 @@ export interface AccountPatch {
   subscriptionId?: String | null;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
-  usersUsingId?: FkUserAccountIdInverseInput | null;
+  userId?: UUID | null;
 }
 
 /*
@@ -506,6 +583,24 @@ export interface CreateMigrationInput {
 }
 
 /*
+ * All input for the create `TestMultiplePrimary` mutation.
+
+ */
+export interface CreateTestMultiplePrimaryInput {
+  clientMutationId?: String | null;
+  testMultiplePrimary: TestMultiplePrimaryInput;
+}
+
+/*
+ * All input for the create `TestPrimary` mutation.
+
+ */
+export interface CreateTestPrimaryInput {
+  clientMutationId?: String | null;
+  testPrimary: TestPrimaryInput;
+}
+
+/*
  * All input for the create `User` mutation.
 
  */
@@ -560,6 +655,25 @@ export interface DeleteMigrationInput {
 }
 
 /*
+ * All input for the `deleteTestMultiplePrimary` mutation.
+
+ */
+export interface DeleteTestMultiplePrimaryInput {
+  clientMutationId?: String | null;
+  oneId: UUID;
+  twoId: UUID;
+}
+
+/*
+ * All input for the `deleteTestPrimary` mutation.
+
+ */
+export interface DeleteTestPrimaryInput {
+  clientMutationId?: String | null;
+  primary: UUID;
+}
+
+/*
  * All input for the `deleteUserByEmail` mutation.
 
  */
@@ -603,163 +717,6 @@ export interface DeleteUserInput {
 export interface DeleteUserProfileInput {
   clientMutationId?: String | null;
   id: UUID;
-}
-
-/*
- * The `account` to be created by this mutation.
-
- */
-export interface FkUserAccountIdAccountCreateInput {
-  id?: UUID | null;
-  name: String;
-  planStatus: AccountPlanStatusEnum;
-  plan: AccountPlanEnum;
-  subscriptionId: String;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  usersUsingId?: FkUserAccountIdInverseInput | null;
-}
-
-/*
- * Input for the nested mutation of `account` in the `UserInput` mutation.
-
- */
-export interface FkUserAccountIdInput {
-  connectById?: AccountIdxAccountIdConnect | null;
-  deleteById?: AccountIdxAccountIdDelete | null;
-  updateById?: AccountOnUserForFkUserAccountIdUsingIdxAccountIdUpdate | null;
-  create?: FkUserAccountIdAccountCreateInput | null;
-}
-
-/*
- * Input for the nested mutation of `user` in the `AccountInput` mutation.
-
- */
-export interface FkUserAccountIdInverseInput {
-  deleteOthers?: Boolean | null;
-  connectById?: UserIdxUserIdConnect[] | UserIdxUserIdConnect | null;
-  connectByEmail?: UserUqUserEmailConnect[] | UserUqUserEmailConnect | null;
-  connectByFirstNameAndLastName?:
-    | UserUqUserFirstNameLastNameConnect[]
-    | UserUqUserFirstNameLastNameConnect
-    | null;
-  connectByUserProfileId?:
-    | UserUqUserUserProfileIdConnect[]
-    | UserUqUserUserProfileIdConnect
-    | null;
-  deleteById?: UserIdxUserIdDelete[] | UserIdxUserIdDelete | null;
-  deleteByEmail?: UserUqUserEmailDelete[] | UserUqUserEmailDelete | null;
-  deleteByFirstNameAndLastName?:
-    | UserUqUserFirstNameLastNameDelete[]
-    | UserUqUserFirstNameLastNameDelete
-    | null;
-  deleteByUserProfileId?:
-    | UserUqUserUserProfileIdDelete[]
-    | UserUqUserUserProfileIdDelete
-    | null;
-  updateById?:
-    | UserOnUserForFkUserAccountIdUsingIdxUserIdUpdate[]
-    | UserOnUserForFkUserAccountIdUsingIdxUserIdUpdate
-    | null;
-  updateByEmail?:
-    | UserOnUserForFkUserAccountIdUsingUqUserEmailUpdate[]
-    | UserOnUserForFkUserAccountIdUsingUqUserEmailUpdate
-    | null;
-  updateByFirstNameAndLastName?:
-    | UserOnUserForFkUserAccountIdUsingUqUserFirstNameLastNameUpdate[]
-    | UserOnUserForFkUserAccountIdUsingUqUserFirstNameLastNameUpdate
-    | null;
-  updateByUserProfileId?:
-    | UserOnUserForFkUserAccountIdUsingUqUserUserProfileIdUpdate[]
-    | UserOnUserForFkUserAccountIdUsingUqUserUserProfileIdUpdate
-    | null;
-  create?:
-    | FkUserAccountIdUserCreateInput[]
-    | FkUserAccountIdUserCreateInput
-    | null;
-}
-
-/*
- * The `user` to be created by this mutation.
-
- */
-export interface FkUserAccountIdUserCreateInput {
-  id?: UUID | null;
-  email: String;
-  password?: String | null;
-  firstName?: String | null;
-  lastName?: String | null;
-  lastLoggedAt: Datetime;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  userProfileId?: UUID | null;
-  accountToAccountId?: FkUserAccountIdInput | null;
-  profile?: FkUserUserProfileIdInput | null;
-}
-
-/*
- * Input for the nested mutation of `userProfile` in the `UserInput` mutation.
-
- */
-export interface FkUserUserProfileIdInput {
-  connectById?: UserProfileIdxUserProfileIdConnect | null;
-  deleteById?: UserProfileIdxUserProfileIdDelete | null;
-  updateById?: UserProfileOnUserForFkUserUserProfileIdUsingIdxUserProfileIdUpdate | null;
-  create?: FkUserUserProfileIdUserProfileCreateInput | null;
-}
-
-/*
- * Input for the nested mutation of `user` in the `UserProfileInput` mutation.
-
- */
-export interface FkUserUserProfileIdInverseInput {
-  deleteOthers?: Boolean | null;
-  connectById?: UserIdxUserIdConnect | null;
-  connectByEmail?: UserUqUserEmailConnect | null;
-  connectByFirstNameAndLastName?: UserUqUserFirstNameLastNameConnect | null;
-  connectByUserProfileId?: UserUqUserUserProfileIdConnect | null;
-  deleteById?: UserIdxUserIdDelete | null;
-  deleteByEmail?: UserUqUserEmailDelete | null;
-  deleteByFirstNameAndLastName?: UserUqUserFirstNameLastNameDelete | null;
-  deleteByUserProfileId?: UserUqUserUserProfileIdDelete | null;
-  updateById?: UserOnUserForFkUserUserProfileIdUsingIdxUserIdUpdate | null;
-  updateByEmail?: UserOnUserForFkUserUserProfileIdUsingUqUserEmailUpdate | null;
-  updateByFirstNameAndLastName?: UserOnUserForFkUserUserProfileIdUsingUqUserFirstNameLastNameUpdate | null;
-  updateByUserProfileId?: UserOnUserForFkUserUserProfileIdUsingUqUserUserProfileIdUpdate | null;
-  create?:
-    | FkUserUserProfileIdUserCreateInput[]
-    | FkUserUserProfileIdUserCreateInput
-    | null;
-}
-
-/*
- * The `user` to be created by this mutation.
-
- */
-export interface FkUserUserProfileIdUserCreateInput {
-  id?: UUID | null;
-  email: String;
-  password?: String | null;
-  firstName?: String | null;
-  lastName?: String | null;
-  lastLoggedAt: Datetime;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  accountId?: UUID | null;
-  accountToAccountId?: FkUserAccountIdInput | null;
-  profile?: FkUserUserProfileIdInput | null;
-}
-
-/*
- * The `userProfile` to be created by this mutation.
-
- */
-export interface FkUserUserProfileIdUserProfileCreateInput {
-  id?: UUID | null;
-  picture: String;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  user?: FkUserUserProfileIdInverseInput | null;
 }
 
 /*
@@ -860,6 +817,96 @@ export interface StringFilter {
 }
 
 /*
+ * A condition to be used against `TestMultiplePrimary` object types. All fields are tested for equality and combined with a logical ‘and.’
+
+ */
+export interface TestMultiplePrimaryCondition {
+  oneId?: UUID | null;
+  twoId?: UUID | null;
+  createdAt?: Datetime | null;
+  updatedAt?: Datetime | null;
+}
+
+/*
+ * A filter to be used against `TestMultiplePrimary` object types. All fields are combined with a logical ‘and.’
+
+ */
+export interface TestMultiplePrimaryFilter {
+  oneId?: UUIDFilter | null;
+  twoId?: UUIDFilter | null;
+  createdAt?: DatetimeFilter | null;
+  updatedAt?: DatetimeFilter | null;
+  and?: TestMultiplePrimaryFilter[] | TestMultiplePrimaryFilter | null;
+  or?: TestMultiplePrimaryFilter[] | TestMultiplePrimaryFilter | null;
+  not?: TestMultiplePrimaryFilter | null;
+}
+
+/*
+ * An input for mutations affecting `TestMultiplePrimary`
+
+ */
+export interface TestMultiplePrimaryInput {
+  oneId: UUID;
+  twoId: UUID;
+  createdAt?: Datetime | null;
+  updatedAt?: Datetime | null;
+}
+
+/*
+ * Represents an update to a `TestMultiplePrimary`. Fields that are set will be updated.
+
+ */
+export interface TestMultiplePrimaryPatch {
+  oneId?: UUID | null;
+  twoId?: UUID | null;
+  createdAt?: Datetime | null;
+  updatedAt?: Datetime | null;
+}
+
+/*
+ * A condition to be used against `TestPrimary` object types. All fields are tested for equality and combined with a logical ‘and.’
+
+ */
+export interface TestPrimaryCondition {
+  primary?: UUID | null;
+  createdAt?: Datetime | null;
+  updatedAt?: Datetime | null;
+}
+
+/*
+ * A filter to be used against `TestPrimary` object types. All fields are combined with a logical ‘and.’
+
+ */
+export interface TestPrimaryFilter {
+  primary?: UUIDFilter | null;
+  createdAt?: DatetimeFilter | null;
+  updatedAt?: DatetimeFilter | null;
+  and?: TestPrimaryFilter[] | TestPrimaryFilter | null;
+  or?: TestPrimaryFilter[] | TestPrimaryFilter | null;
+  not?: TestPrimaryFilter | null;
+}
+
+/*
+ * An input for mutations affecting `TestPrimary`
+
+ */
+export interface TestPrimaryInput {
+  primary?: UUID | null;
+  createdAt?: Datetime | null;
+  updatedAt?: Datetime | null;
+}
+
+/*
+ * Represents an update to a `TestPrimary`. Fields that are set will be updated.
+
+ */
+export interface TestPrimaryPatch {
+  primary?: UUID | null;
+  createdAt?: Datetime | null;
+  updatedAt?: Datetime | null;
+}
+
+/*
  * All input for the `updateAccount` mutation.
 
  */
@@ -870,21 +917,6 @@ export interface UpdateAccountInput {
 }
 
 /*
- * An object where the defined keys will be set on the `account` being updated.
-
- */
-export interface updateAccountOnUserForFkUserAccountIdPatch {
-  id?: UUID | null;
-  name?: String | null;
-  planStatus?: AccountPlanStatusEnum | null;
-  plan?: AccountPlanEnum | null;
-  subscriptionId?: String | null;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  usersUsingId?: FkUserAccountIdInverseInput | null;
-}
-
-/*
  * All input for the `updateMigration` mutation.
 
  */
@@ -892,6 +924,27 @@ export interface UpdateMigrationInput {
   clientMutationId?: String | null;
   patch: MigrationPatch;
   id: Int;
+}
+
+/*
+ * All input for the `updateTestMultiplePrimary` mutation.
+
+ */
+export interface UpdateTestMultiplePrimaryInput {
+  clientMutationId?: String | null;
+  patch: TestMultiplePrimaryPatch;
+  oneId: UUID;
+  twoId: UUID;
+}
+
+/*
+ * All input for the `updateTestPrimary` mutation.
+
+ */
+export interface UpdateTestPrimaryInput {
+  clientMutationId?: String | null;
+  patch: TestPrimaryPatch;
+  primary: UUID;
 }
 
 /*
@@ -936,42 +989,6 @@ export interface UpdateUserInput {
 }
 
 /*
- * An object where the defined keys will be set on the `user` being updated.
-
- */
-export interface updateUserOnUserForFkUserAccountIdPatch {
-  id?: UUID | null;
-  email?: String | null;
-  password?: String | null;
-  firstName?: String | null;
-  lastName?: String | null;
-  lastLoggedAt?: Datetime | null;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  userProfileId?: UUID | null;
-  accountToAccountId?: FkUserAccountIdInput | null;
-  profile?: FkUserUserProfileIdInput | null;
-}
-
-/*
- * An object where the defined keys will be set on the `user` being updated.
-
- */
-export interface updateUserOnUserForFkUserUserProfileIdPatch {
-  id?: UUID | null;
-  email?: String | null;
-  password?: String | null;
-  firstName?: String | null;
-  lastName?: String | null;
-  lastLoggedAt?: Datetime | null;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  accountId?: UUID | null;
-  accountToAccountId?: FkUserAccountIdInput | null;
-  profile?: FkUserUserProfileIdInput | null;
-}
-
-/*
  * All input for the `updateUserProfile` mutation.
 
  */
@@ -979,18 +996,6 @@ export interface UpdateUserProfileInput {
   clientMutationId?: String | null;
   patch: UserProfilePatch;
   id: UUID;
-}
-
-/*
- * An object where the defined keys will be set on the `userProfile` being updated.
-
- */
-export interface updateUserProfileOnUserForFkUserUserProfileIdPatch {
-  id?: UUID | null;
-  picture?: String | null;
-  createdAt?: Datetime | null;
-  updatedAt?: Datetime | null;
-  user?: FkUserUserProfileIdInverseInput | null;
 }
 
 /*
@@ -1006,7 +1011,6 @@ export interface UserCondition {
   lastLoggedAt?: Datetime | null;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
-  accountId?: UUID | null;
   userProfileId?: UUID | null;
 }
 
@@ -1032,27 +1036,10 @@ export interface UserFilter {
   lastLoggedAt?: DatetimeFilter | null;
   createdAt?: DatetimeFilter | null;
   updatedAt?: DatetimeFilter | null;
-  accountId?: UUIDFilter | null;
   userProfileId?: UUIDFilter | null;
   and?: UserFilter[] | UserFilter | null;
   or?: UserFilter[] | UserFilter | null;
   not?: UserFilter | null;
-}
-
-/*
- * The fields on `user` to look up the row to connect.
-
- */
-export interface UserIdxUserIdConnect {
-  id: UUID;
-}
-
-/*
- * The fields on `user` to look up the row to delete.
-
- */
-export interface UserIdxUserIdDelete {
-  id: UUID;
 }
 
 /*
@@ -1068,83 +1055,6 @@ export interface UserInput {
   lastLoggedAt: Datetime;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
-  accountId?: UUID | null;
-  userProfileId?: UUID | null;
-  accountToAccountId?: FkUserAccountIdInput | null;
-  profile?: FkUserUserProfileIdInput | null;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserAccountIdUsingIdxUserIdUpdate {
-  patch: updateUserOnUserForFkUserAccountIdPatch;
-  id: UUID;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserAccountIdUsingUqUserEmailUpdate {
-  patch: updateUserOnUserForFkUserAccountIdPatch;
-  email: String;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserAccountIdUsingUqUserFirstNameLastNameUpdate {
-  patch: updateUserOnUserForFkUserAccountIdPatch;
-  firstName: String;
-  lastName: String;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserAccountIdUsingUqUserUserProfileIdUpdate {
-  patch: updateUserOnUserForFkUserAccountIdPatch;
-  userProfileId: UUID;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserUserProfileIdUsingIdxUserIdUpdate {
-  patch: updateUserOnUserForFkUserUserProfileIdPatch;
-  id: UUID;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserUserProfileIdUsingUqUserEmailUpdate {
-  patch: updateUserOnUserForFkUserUserProfileIdPatch;
-  email: String;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserUserProfileIdUsingUqUserFirstNameLastNameUpdate {
-  patch: updateUserOnUserForFkUserUserProfileIdPatch;
-  firstName: String;
-  lastName: String;
-}
-
-/*
- * The fields on `user` to look up the row to update.
-
- */
-export interface UserOnUserForFkUserUserProfileIdUsingUqUserUserProfileIdUpdate {
-  patch: updateUserOnUserForFkUserUserProfileIdPatch;
   userProfileId: UUID;
 }
 
@@ -1161,10 +1071,7 @@ export interface UserPatch {
   lastLoggedAt?: Datetime | null;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
-  accountId?: UUID | null;
   userProfileId?: UUID | null;
-  accountToAccountId?: FkUserAccountIdInput | null;
-  profile?: FkUserUserProfileIdInput | null;
 }
 
 /*
@@ -1193,22 +1100,6 @@ export interface UserProfileFilter {
 }
 
 /*
- * The fields on `userProfile` to look up the row to connect.
-
- */
-export interface UserProfileIdxUserProfileIdConnect {
-  id: UUID;
-}
-
-/*
- * The fields on `userProfile` to look up the row to delete.
-
- */
-export interface UserProfileIdxUserProfileIdDelete {
-  id: UUID;
-}
-
-/*
  * An input for mutations affecting `UserProfile`
 
  */
@@ -1217,16 +1108,6 @@ export interface UserProfileInput {
   picture: String;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
-  user?: FkUserUserProfileIdInverseInput | null;
-}
-
-/*
- * The fields on `userProfile` to look up the row to update.
-
- */
-export interface UserProfileOnUserForFkUserUserProfileIdUsingIdxUserProfileIdUpdate {
-  patch: updateUserProfileOnUserForFkUserUserProfileIdPatch;
-  id: UUID;
 }
 
 /*
@@ -1238,57 +1119,6 @@ export interface UserProfilePatch {
   picture?: String | null;
   createdAt?: Datetime | null;
   updatedAt?: Datetime | null;
-  user?: FkUserUserProfileIdInverseInput | null;
-}
-
-/*
- * The fields on `user` to look up the row to connect.
-
- */
-export interface UserUqUserEmailConnect {
-  email: String;
-}
-
-/*
- * The fields on `user` to look up the row to delete.
-
- */
-export interface UserUqUserEmailDelete {
-  email: String;
-}
-
-/*
- * The fields on `user` to look up the row to connect.
-
- */
-export interface UserUqUserFirstNameLastNameConnect {
-  firstName: String;
-  lastName: String;
-}
-
-/*
- * The fields on `user` to look up the row to delete.
-
- */
-export interface UserUqUserFirstNameLastNameDelete {
-  firstName: String;
-  lastName: String;
-}
-
-/*
- * The fields on `user` to look up the row to connect.
-
- */
-export interface UserUqUserUserProfileIdConnect {
-  userProfileId: UUID;
-}
-
-/*
- * The fields on `user` to look up the row to delete.
-
- */
-export interface UserUqUserUserProfileIdDelete {
-  userProfileId: UUID;
 }
 
 /*
@@ -1317,7 +1147,8 @@ export interface Account {
   subscriptionId: String;
   createdAt: Datetime;
   updatedAt: Datetime;
-  users: UsersConnection;
+  userId: UUID;
+  user: User;
 }
 
 /*
@@ -1348,6 +1179,7 @@ export interface CreateAccountPayload {
   clientMutationId?: String | null;
   account?: Account | null;
   query?: Query | null;
+  user: User;
   accountEdge?: AccountsEdge | null;
 }
 
@@ -1363,6 +1195,28 @@ export interface CreateMigrationPayload {
 }
 
 /*
+ * The output of our create `TestMultiplePrimary` mutation.
+
+ */
+export interface CreateTestMultiplePrimaryPayload {
+  clientMutationId?: String | null;
+  testMultiplePrimary?: TestMultiplePrimary | null;
+  query?: Query | null;
+  testMultiplePrimaryEdge?: TestMultiplePrimariesEdge | null;
+}
+
+/*
+ * The output of our create `TestPrimary` mutation.
+
+ */
+export interface CreateTestPrimaryPayload {
+  clientMutationId?: String | null;
+  testPrimary?: TestPrimary | null;
+  query?: Query | null;
+  testPrimaryEdge?: TestPrimariesEdge | null;
+}
+
+/*
  * The output of our create `User` mutation.
 
  */
@@ -1370,8 +1224,7 @@ export interface CreateUserPayload {
   clientMutationId?: String | null;
   user?: User | null;
   query?: Query | null;
-  account?: Account | null;
-  profile?: UserProfile | null;
+  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 
@@ -1395,6 +1248,7 @@ export interface DeleteAccountPayload {
   account?: Account | null;
   deletedAccountNodeId?: ID_Output | null;
   query?: Query | null;
+  user: User;
   accountEdge?: AccountsEdge | null;
 }
 
@@ -1411,6 +1265,30 @@ export interface DeleteMigrationPayload {
 }
 
 /*
+ * The output of our delete `TestMultiplePrimary` mutation.
+
+ */
+export interface DeleteTestMultiplePrimaryPayload {
+  clientMutationId?: String | null;
+  testMultiplePrimary?: TestMultiplePrimary | null;
+  deletedTestMultiplePrimaryNodeId?: ID_Output | null;
+  query?: Query | null;
+  testMultiplePrimaryEdge?: TestMultiplePrimariesEdge | null;
+}
+
+/*
+ * The output of our delete `TestPrimary` mutation.
+
+ */
+export interface DeleteTestPrimaryPayload {
+  clientMutationId?: String | null;
+  testPrimary?: TestPrimary | null;
+  deletedTestPrimaryNodeId?: ID_Output | null;
+  query?: Query | null;
+  testPrimaryEdge?: TestPrimariesEdge | null;
+}
+
+/*
  * The output of our delete `User` mutation.
 
  */
@@ -1419,8 +1297,7 @@ export interface DeleteUserPayload {
   user?: User | null;
   deletedUserNodeId?: ID_Output | null;
   query?: Query | null;
-  account?: Account | null;
-  profile?: UserProfile | null;
+  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 
@@ -1474,6 +1351,59 @@ export interface PageInfo {
 }
 
 /*
+ * A connection to a list of `TestMultiplePrimary` values.
+
+ */
+export interface TestMultiplePrimariesConnection {
+  nodes: Array<TestMultiplePrimary>;
+  edges: Array<TestMultiplePrimariesEdge>;
+  pageInfo: PageInfo;
+  totalCount: Int;
+}
+
+/*
+ * A `TestMultiplePrimary` edge in the connection.
+
+ */
+export interface TestMultiplePrimariesEdge {
+  cursor?: Cursor | null;
+  node: TestMultiplePrimary;
+}
+
+export interface TestMultiplePrimary {
+  oneId: UUID;
+  twoId: UUID;
+  createdAt: Datetime;
+  updatedAt: Datetime;
+}
+
+/*
+ * A connection to a list of `TestPrimary` values.
+
+ */
+export interface TestPrimariesConnection {
+  nodes: Array<TestPrimary>;
+  edges: Array<TestPrimariesEdge>;
+  pageInfo: PageInfo;
+  totalCount: Int;
+}
+
+/*
+ * A `TestPrimary` edge in the connection.
+
+ */
+export interface TestPrimariesEdge {
+  cursor?: Cursor | null;
+  node: TestPrimary;
+}
+
+export interface TestPrimary {
+  primary: UUID;
+  createdAt: Datetime;
+  updatedAt: Datetime;
+}
+
+/*
  * The output of our update `Account` mutation.
 
  */
@@ -1481,6 +1411,7 @@ export interface UpdateAccountPayload {
   clientMutationId?: String | null;
   account?: Account | null;
   query?: Query | null;
+  user: User;
   accountEdge?: AccountsEdge | null;
 }
 
@@ -1496,6 +1427,28 @@ export interface UpdateMigrationPayload {
 }
 
 /*
+ * The output of our update `TestMultiplePrimary` mutation.
+
+ */
+export interface UpdateTestMultiplePrimaryPayload {
+  clientMutationId?: String | null;
+  testMultiplePrimary?: TestMultiplePrimary | null;
+  query?: Query | null;
+  testMultiplePrimaryEdge?: TestMultiplePrimariesEdge | null;
+}
+
+/*
+ * The output of our update `TestPrimary` mutation.
+
+ */
+export interface UpdateTestPrimaryPayload {
+  clientMutationId?: String | null;
+  testPrimary?: TestPrimary | null;
+  query?: Query | null;
+  testPrimaryEdge?: TestPrimariesEdge | null;
+}
+
+/*
  * The output of our update `User` mutation.
 
  */
@@ -1503,8 +1456,7 @@ export interface UpdateUserPayload {
   clientMutationId?: String | null;
   user?: User | null;
   query?: Query | null;
-  account?: Account | null;
-  profile?: UserProfile | null;
+  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 
@@ -1528,10 +1480,9 @@ export interface User {
   lastLoggedAt: Datetime;
   createdAt: Datetime;
   updatedAt: Datetime;
-  accountId?: UUID | null;
-  userProfileId?: UUID | null;
-  account?: Account | null;
-  profile?: UserProfile | null;
+  userProfileId: UUID;
+  profile: UserProfile;
+  accounts: AccountsConnection;
 }
 
 /*
@@ -1542,8 +1493,7 @@ export interface UserCustomMutationPayload {
   clientMutationId?: String | null;
   user?: User | null;
   query?: Query | null;
-  account?: Account | null;
-  profile?: UserProfile | null;
+  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 

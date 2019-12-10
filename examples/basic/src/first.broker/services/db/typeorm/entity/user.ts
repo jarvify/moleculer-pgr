@@ -12,7 +12,6 @@ import {
   Unique,
 } from 'typeorm';
 
-import { Account } from './account';
 import { UserProfile } from './user.profile';
 @Entity()
 @Unique(['email'])
@@ -25,13 +24,13 @@ export class User {
   email!: string;
 
   @Column({ nullable: true })
-  password?: string;
+  password!: string;
 
   @Column({ nullable: true })
-  first_name?: string;
+  first_name!: string;
 
   @Column({ nullable: true })
-  last_name?: string;
+  last_name!: string;
 
   @Column('timestamptz')
   last_logged_at!: Date;
@@ -42,11 +41,7 @@ export class User {
   @UpdateDateColumn({ type: 'timestamptz' })
   updated_at!: Date;
 
-  @ManyToOne(type => Account)
-  @JoinColumn({ name: 'account_id' })
-  account_id!: Account;
-
-  @OneToOne(type => UserProfile)
+  @OneToOne(type => UserProfile, { nullable: false })
   @JoinColumn({ name: 'user_profile_id' })
   user_profile_id!: UserProfile;
 }
