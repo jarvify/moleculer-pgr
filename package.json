@@ -23,6 +23,7 @@
     "@types/node": "^12.12.14",
     "@types/prettier": "^1.19.0",
     "graphql": "^14.5.8",
+    "postgraphile": "^4.5.0",
     "prettier": "^1.19.1",
     "typescript": "^3.7.2"
   }
