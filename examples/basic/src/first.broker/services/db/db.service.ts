@@ -2,69 +2,12 @@ import { Service, Action, Event, Method } from 'moleculer-decorators';
 import * as Broker from '@first.broker/moleculer';
 import { DbServiceTypes } from '@first.broker/types';
 
-import { createGenerateClientPlugin } from 'moleculer-pgr';
-import path from 'path';
 import express from 'express';
-import { postgraphile, Plugin } from 'postgraphile';
-
-import {
-  makeJSONPgSmartTagsPlugin,
-  makeAddInflectorsPlugin,
-} from 'graphile-utils';
-
-import { NodePlugin } from 'graphile-build';
-import pgSimplifyInflector from '@graphile-contrib/pg-simplify-inflector';
-// @ts-ignore
-import ConnectionFilterPlugin from 'postgraphile-plugin-connection-filter';
-// @ts-ignore
-import PostGraphileNestedMutations from 'postgraphile-plugin-nested-mutations';
-// @ts-ignore
-import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
-const PgNonNullPlugin = require('@graphile-contrib/pg-non-null');
-
 import { Server } from 'http';
+import { createPostgraphile } from './postgraphile';
 
 import { PgrMixin } from './mixin';
 import { PgrClient } from './client';
-
-// @ts-ignore
-const MySmartTagsPlugin = makeJSONPgSmartTagsPlugin({
-  version: 1,
-  config: {
-    constraint: {
-      FK_user_user_profile_id: {
-        tags: {
-          fieldName: 'profile',
-          foreignFieldName: 'user',
-        },
-      },
-    },
-  },
-});
-
-// @TODO refactor inflector with new build hooks
-const MyInflectorPlugin = makeAddInflectorsPlugin(oldInflectors => {
-  // @ts-ignore
-  const oldSingularize = oldInflectors.singularize.bind(oldInflectors);
-
-  return {
-    singularize(str) {
-      if (str.match(/_os$/i)) {
-        return str;
-      }
-
-      if (str.match(/_tls$/i)) {
-        return str;
-      }
-
-      if (str.match(/_options$/i)) {
-        return str;
-      }
-
-      return oldSingularize(str);
-    },
-  };
-}, true);
 
 interface DbService {
   name: typeof DbServiceTypes.name;
@@ -92,51 +35,8 @@ class DbService
 
   async started() {
     const app = express();
-    const plugins: Plugin[] = [
-      PgNonNullPlugin,
-      pgSimplifyInflector,
-      ConnectionFilterPlugin,
-      // PostGraphileNestedMutations,
-      PgManyToManyPlugin,
-
-      MyInflectorPlugin,
-      MySmartTagsPlugin,
-    ];
-
-    if (this.settings.pgr.generate) {
-      const GenerateClientPlugin = createGenerateClientPlugin(
-        {
-          outputDir: path.join(__dirname, 'schema'),
-          customMixinPath: path.join(__dirname, 'mixin.ts'),
-        },
-        async err => {
-          if (err) {
-            this.logger.error(err);
-          }
-          console.log('client generated');
-          await this.broker.stop();
-        },
-      );
-
-      plugins.push(GenerateClientPlugin);
-    }
-
-    app.use(
-      postgraphile(process.env.FIRST_BROKER_DB_URL || 'public', {
-        graphileBuildOptions: {},
-        dynamicJson: true,
-        setofFunctionsContainNulls: false,
-        ignoreRBAC: true,
-        ignoreIndexes: true,
-        extendedErrors: ['hint', 'detail', 'errcode'],
-        skipPlugins: [NodePlugin],
-        appendPlugins: plugins,
-        graphiql: true,
-        enhanceGraphiql: true,
-        enableQueryBatching: true,
-        legacyRelations: 'omit',
-      }),
-    );
+    const instance = await createPostgraphile();
+    app.use(instance.postgraphile);
 
     await new Promise((resolve, reject) => {
       this.server = app.listen(this.settings.port);
@@ -144,7 +44,7 @@ class DbService
       this.server.once('listening', resolve);
       this.server.once('error', reject);
     });
-    /*
+
     setTimeout(async () => {
       const userProfile = await this.broker.call('db.upsertUserProfile', {
         create: { picture: 'create' },
@@ -296,10 +196,6 @@ class DbService
         }),
       );
     }, 1500);
-
-    if (0) {
-    }
-    */
   }
   async stopped() {
     if (this.server) {

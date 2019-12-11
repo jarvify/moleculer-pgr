@@ -1,10 +1,7 @@
-import { createBroker } from '@first.broker/broker';
+import { createPostgraphile } from './postgraphile';
 
 async function run() {
-  const broker = await createBroker();
-  broker.loadService(`${__dirname}/db.service`);
-  broker.getLocalService('db').settings.pgr.generate = true;
-  await broker.start();
+  await createPostgraphile(true);
 }
 
 run();
