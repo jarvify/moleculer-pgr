@@ -1,4 +1,4 @@
-import { postgraphile, Plugin } from 'postgraphile';
+import { postgraphile, Plugin, makePluginHook } from 'postgraphile';
 import { createGenerateMixinPlugin } from 'moleculer-pgr';
 
 import {
@@ -18,6 +18,9 @@ import PostGraphileNestedMutations from 'postgraphile-plugin-nested-mutations';
 // @ts-ignore
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 const PgNonNullPlugin = require('@graphile-contrib/pg-non-null');
+
+const { default: PgPubsub } = require('@graphile/pg-pubsub');
+const pluginHook = makePluginHook([PgPubsub]);
 
 // @ts-ignore
 const MySmartTagsPlugin = makeJSONPgSmartTagsPlugin({
@@ -88,15 +91,18 @@ export async function createPostgraphile(generateClient: boolean = false) {
 
     plugins.push(GenerateClientPlugin);
   }
-
-  const pgr = postgraphile(process.env.FIRST_BROKER_DB_URL || 'public', {
+  // @ts-ignore
+  const pgr = postgraphile(process.env.FIRST_BROKER_DB_URL, {
+    pluginHook,
+    subscriptions: true,
+    simpleSubscriptions: true,
     graphileBuildOptions: {},
     dynamicJson: true,
     setofFunctionsContainNulls: false,
     ignoreRBAC: true,
     ignoreIndexes: true,
     extendedErrors: ['hint', 'detail', 'errcode'],
-    skipPlugins: [NodePlugin],
+    // skipPlugins: [NodePlugin],
     appendPlugins: plugins,
     graphiql: true,
     enhanceGraphiql: true,

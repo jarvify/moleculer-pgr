@@ -9,6 +9,16 @@ export interface Query {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T>;
+  nodeId: <T = ID_Output>(
+    args?: {},
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T>;
+  node: <T = Node | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   accounts: <T = AccountsConnection | null>(
     args: {
       first?: Int | null;
@@ -151,6 +161,36 @@ export interface Query {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T>;
+  accountByNodeId: <T = Account | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  migrationByNodeId: <T = Migration | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  testMultiplePrimaryByNodeId: <T = TestMultiplePrimary | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  testPrimaryByNodeId: <T = TestPrimary | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  userByNodeId: <T = User | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  userProfileByNodeId: <T = UserProfile | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
 }
 
 export interface Mutation {
@@ -184,8 +224,18 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  updateAccountByNodeId: <T = UpdateAccountPayload | null>(
+    args: { input: UpdateAccountByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   updateAccount: <T = UpdateAccountPayload | null>(
     args: { input: UpdateAccountInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateMigrationByNodeId: <T = UpdateMigrationPayload | null>(
+    args: { input: UpdateMigrationByNodeIdInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -194,13 +244,30 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  updateTestMultiplePrimaryByNodeId: <
+    T = UpdateTestMultiplePrimaryPayload | null
+  >(
+    args: { input: UpdateTestMultiplePrimaryByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   updateTestMultiplePrimary: <T = UpdateTestMultiplePrimaryPayload | null>(
     args: { input: UpdateTestMultiplePrimaryInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  updateTestPrimaryByNodeId: <T = UpdateTestPrimaryPayload | null>(
+    args: { input: UpdateTestPrimaryByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   updateTestPrimary: <T = UpdateTestPrimaryPayload | null>(
     args: { input: UpdateTestPrimaryInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateUserByNodeId: <T = UpdateUserPayload | null>(
+    args: { input: UpdateUserByNodeIdInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -224,8 +291,18 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  updateUserProfileByNodeId: <T = UpdateUserProfilePayload | null>(
+    args: { input: UpdateUserProfileByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   updateUserProfile: <T = UpdateUserProfilePayload | null>(
     args: { input: UpdateUserProfileInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteAccountByNodeId: <T = DeleteAccountPayload | null>(
+    args: { input: DeleteAccountByNodeIdInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -234,8 +311,20 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  deleteMigrationByNodeId: <T = DeleteMigrationPayload | null>(
+    args: { input: DeleteMigrationByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   deleteMigration: <T = DeleteMigrationPayload | null>(
     args: { input: DeleteMigrationInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteTestMultiplePrimaryByNodeId: <
+    T = DeleteTestMultiplePrimaryPayload | null
+  >(
+    args: { input: DeleteTestMultiplePrimaryByNodeIdInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -244,8 +333,18 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  deleteTestPrimaryByNodeId: <T = DeleteTestPrimaryPayload | null>(
+    args: { input: DeleteTestPrimaryByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   deleteTestPrimary: <T = DeleteTestPrimaryPayload | null>(
     args: { input: DeleteTestPrimaryInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteUserByNodeId: <T = DeleteUserPayload | null>(
+    args: { input: DeleteUserByNodeIdInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -269,6 +368,11 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
+  deleteUserProfileByNodeId: <T = DeleteUserProfilePayload | null>(
+    args: { input: DeleteUserProfileByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
   deleteUserProfile: <T = DeleteUserProfilePayload | null>(
     args: { input: DeleteUserProfileInput },
     info?: GraphQLResolveInfo | string,
@@ -281,7 +385,13 @@ export interface Mutation {
   ) => Promise<T | null>;
 }
 
-export interface Subscription {}
+export interface Subscription {
+  listen: <T = ListenPayload>(
+    args: { topic: String },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<AsyncIterator<T>>;
+}
 
 export interface Binding {
   query: Query;
@@ -637,12 +747,30 @@ export interface DatetimeFilter {
 }
 
 /*
+ * All input for the `deleteAccountByNodeId` mutation.
+
+ */
+export interface DeleteAccountByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+}
+
+/*
  * All input for the `deleteAccount` mutation.
 
  */
 export interface DeleteAccountInput {
   clientMutationId?: String | null;
   id: UUID;
+}
+
+/*
+ * All input for the `deleteMigrationByNodeId` mutation.
+
+ */
+export interface DeleteMigrationByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
 }
 
 /*
@@ -655,6 +783,15 @@ export interface DeleteMigrationInput {
 }
 
 /*
+ * All input for the `deleteTestMultiplePrimaryByNodeId` mutation.
+
+ */
+export interface DeleteTestMultiplePrimaryByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+}
+
+/*
  * All input for the `deleteTestMultiplePrimary` mutation.
 
  */
@@ -662,6 +799,15 @@ export interface DeleteTestMultiplePrimaryInput {
   clientMutationId?: String | null;
   oneId: UUID;
   twoId: UUID;
+}
+
+/*
+ * All input for the `deleteTestPrimaryByNodeId` mutation.
+
+ */
+export interface DeleteTestPrimaryByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
 }
 
 /*
@@ -693,6 +839,15 @@ export interface DeleteUserByFirstNameAndLastNameInput {
 }
 
 /*
+ * All input for the `deleteUserByNodeId` mutation.
+
+ */
+export interface DeleteUserByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+}
+
+/*
  * All input for the `deleteUserByUserProfileId` mutation.
 
  */
@@ -708,6 +863,15 @@ export interface DeleteUserByUserProfileIdInput {
 export interface DeleteUserInput {
   clientMutationId?: String | null;
   id: UUID;
+}
+
+/*
+ * All input for the `deleteUserProfileByNodeId` mutation.
+
+ */
+export interface DeleteUserProfileByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
 }
 
 /*
@@ -907,6 +1071,16 @@ export interface TestPrimaryPatch {
 }
 
 /*
+ * All input for the `updateAccountByNodeId` mutation.
+
+ */
+export interface UpdateAccountByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: AccountPatch;
+}
+
+/*
  * All input for the `updateAccount` mutation.
 
  */
@@ -914,6 +1088,16 @@ export interface UpdateAccountInput {
   clientMutationId?: String | null;
   patch: AccountPatch;
   id: UUID;
+}
+
+/*
+ * All input for the `updateMigrationByNodeId` mutation.
+
+ */
+export interface UpdateMigrationByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: MigrationPatch;
 }
 
 /*
@@ -927,6 +1111,16 @@ export interface UpdateMigrationInput {
 }
 
 /*
+ * All input for the `updateTestMultiplePrimaryByNodeId` mutation.
+
+ */
+export interface UpdateTestMultiplePrimaryByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: TestMultiplePrimaryPatch;
+}
+
+/*
  * All input for the `updateTestMultiplePrimary` mutation.
 
  */
@@ -935,6 +1129,16 @@ export interface UpdateTestMultiplePrimaryInput {
   patch: TestMultiplePrimaryPatch;
   oneId: UUID;
   twoId: UUID;
+}
+
+/*
+ * All input for the `updateTestPrimaryByNodeId` mutation.
+
+ */
+export interface UpdateTestPrimaryByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: TestPrimaryPatch;
 }
 
 /*
@@ -969,6 +1173,16 @@ export interface UpdateUserByFirstNameAndLastNameInput {
 }
 
 /*
+ * All input for the `updateUserByNodeId` mutation.
+
+ */
+export interface UpdateUserByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: UserPatch;
+}
+
+/*
  * All input for the `updateUserByUserProfileId` mutation.
 
  */
@@ -986,6 +1200,16 @@ export interface UpdateUserInput {
   clientMutationId?: String | null;
   patch: UserPatch;
   id: UUID;
+}
+
+/*
+ * All input for the `updateUserProfileByNodeId` mutation.
+
+ */
+export interface UpdateUserProfileByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: UserProfilePatch;
 }
 
 /*
@@ -1139,7 +1363,16 @@ export interface UUIDFilter {
   greaterThanOrEqualTo?: UUID | null;
 }
 
-export interface Account {
+/*
+ * An object with a globally unique `ID`.
+
+ */
+export interface Node {
+  nodeId: ID_Output;
+}
+
+export interface Account extends Node {
+  nodeId: ID_Output;
   id: UUID;
   name: String;
   planStatus: AccountPlanStatusEnum;
@@ -1308,7 +1541,14 @@ export interface DeleteUserProfilePayload {
   userProfileEdge?: UserProfilesEdge | null;
 }
 
-export interface Migration {
+export interface ListenPayload {
+  query?: Query | null;
+  relatedNode?: Node | null;
+  relatedNodeId?: ID_Output | null;
+}
+
+export interface Migration extends Node {
+  nodeId: ID_Output;
   id: Int;
   timestamp: BigInt;
   name: String;
@@ -1365,7 +1605,8 @@ export interface TestMultiplePrimariesEdge {
   node: TestMultiplePrimary;
 }
 
-export interface TestMultiplePrimary {
+export interface TestMultiplePrimary extends Node {
+  nodeId: ID_Output;
   oneId: UUID;
   twoId: UUID;
   createdAt: Datetime;
@@ -1392,7 +1633,8 @@ export interface TestPrimariesEdge {
   node: TestPrimary;
 }
 
-export interface TestPrimary {
+export interface TestPrimary extends Node {
+  nodeId: ID_Output;
   primary: UUID;
   createdAt: Datetime;
   updatedAt: Datetime;
@@ -1464,7 +1706,8 @@ export interface UpdateUserProfilePayload {
   userProfileEdge?: UserProfilesEdge | null;
 }
 
-export interface User {
+export interface User extends Node {
+  nodeId: ID_Output;
   id: UUID;
   email: String;
   password?: String | null;
@@ -1487,7 +1730,8 @@ export interface UserCustomMutationPayload {
   userEdge?: UsersEdge | null;
 }
 
-export interface UserProfile {
+export interface UserProfile extends Node {
+  nodeId: ID_Output;
   id: UUID;
   picture: String;
   createdAt: Datetime;

@@ -2,7 +2,11 @@ import { buildSchema } from 'graphql';
 import { gql } from 'moleculer-pgr';
 
 export const sdl = gql`
-  type Account {
+  type Account implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
     id: UUID!
     name: String!
     planStatus: AccountPlanStatusEnum!
@@ -781,6 +785,22 @@ export const sdl = gql`
   }
 
   """
+  All input for the \`deleteAccountByNodeId\` mutation.
+  """
+  input DeleteAccountByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`Account\` to be deleted.
+    """
+    nodeId: ID!
+  }
+
+  """
   All input for the \`deleteAccount\` mutation.
   """
   input DeleteAccountInput {
@@ -830,6 +850,22 @@ export const sdl = gql`
   }
 
   """
+  All input for the \`deleteMigrationByNodeId\` mutation.
+  """
+  input DeleteMigrationByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`Migration\` to be deleted.
+    """
+    nodeId: ID!
+  }
+
+  """
   All input for the \`deleteMigration\` mutation.
   """
   input DeleteMigrationInput {
@@ -871,6 +907,22 @@ export const sdl = gql`
       """
       orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
     ): MigrationsEdge
+  }
+
+  """
+  All input for the \`deleteTestMultiplePrimaryByNodeId\` mutation.
+  """
+  input DeleteTestMultiplePrimaryByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`TestMultiplePrimary\` to be deleted.
+    """
+    nodeId: ID!
   }
 
   """
@@ -916,6 +968,22 @@ export const sdl = gql`
       """
       orderBy: [TestMultiplePrimariesOrderBy!] = [PRIMARY_KEY_ASC]
     ): TestMultiplePrimariesEdge
+  }
+
+  """
+  All input for the \`deleteTestPrimaryByNodeId\` mutation.
+  """
+  input DeleteTestPrimaryByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`TestPrimary\` to be deleted.
+    """
+    nodeId: ID!
   }
 
   """
@@ -988,6 +1056,22 @@ export const sdl = gql`
   }
 
   """
+  All input for the \`deleteUserByNodeId\` mutation.
+  """
+  input DeleteUserByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`User\` to be deleted.
+    """
+    nodeId: ID!
+  }
+
+  """
   All input for the \`deleteUserByUserProfileId\` mutation.
   """
   input DeleteUserByUserProfileIdInput {
@@ -1046,6 +1130,22 @@ export const sdl = gql`
       """
       orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
     ): UsersEdge
+  }
+
+  """
+  All input for the \`deleteUserProfileByNodeId\` mutation.
+  """
+  input DeleteUserProfileByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`UserProfile\` to be deleted.
+    """
+    nodeId: ID!
   }
 
   """
@@ -1152,7 +1252,20 @@ export const sdl = gql`
     greaterThanOrEqualTo: Int
   }
 
-  type Migration {
+  type ListenPayload {
+    """
+    Our root query field type. Allows us to run any query from our subscription payload.
+    """
+    query: Query
+    relatedNode: Node
+    relatedNodeId: ID
+  }
+
+  type Migration implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
     id: Int!
     timestamp: BigInt!
     name: String!
@@ -1352,6 +1465,16 @@ export const sdl = gql`
     ): CreateUserProfilePayload
 
     """
+    Updates a single \`Account\` using its globally unique id and a patch.
+    """
+    updateAccountByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateAccountByNodeIdInput!
+    ): UpdateAccountPayload
+
+    """
     Updates a single \`Account\` using a unique key and a patch.
     """
     updateAccount(
@@ -1360,6 +1483,16 @@ export const sdl = gql`
       """
       input: UpdateAccountInput!
     ): UpdateAccountPayload
+
+    """
+    Updates a single \`Migration\` using its globally unique id and a patch.
+    """
+    updateMigrationByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateMigrationByNodeIdInput!
+    ): UpdateMigrationPayload
 
     """
     Updates a single \`Migration\` using a unique key and a patch.
@@ -1372,6 +1505,16 @@ export const sdl = gql`
     ): UpdateMigrationPayload
 
     """
+    Updates a single \`TestMultiplePrimary\` using its globally unique id and a patch.
+    """
+    updateTestMultiplePrimaryByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateTestMultiplePrimaryByNodeIdInput!
+    ): UpdateTestMultiplePrimaryPayload
+
+    """
     Updates a single \`TestMultiplePrimary\` using a unique key and a patch.
     """
     updateTestMultiplePrimary(
@@ -1382,6 +1525,16 @@ export const sdl = gql`
     ): UpdateTestMultiplePrimaryPayload
 
     """
+    Updates a single \`TestPrimary\` using its globally unique id and a patch.
+    """
+    updateTestPrimaryByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateTestPrimaryByNodeIdInput!
+    ): UpdateTestPrimaryPayload
+
+    """
     Updates a single \`TestPrimary\` using a unique key and a patch.
     """
     updateTestPrimary(
@@ -1390,6 +1543,16 @@ export const sdl = gql`
       """
       input: UpdateTestPrimaryInput!
     ): UpdateTestPrimaryPayload
+
+    """
+    Updates a single \`User\` using its globally unique id and a patch.
+    """
+    updateUserByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateUserByNodeIdInput!
+    ): UpdateUserPayload
 
     """
     Updates a single \`User\` using a unique key and a patch.
@@ -1432,6 +1595,16 @@ export const sdl = gql`
     ): UpdateUserPayload
 
     """
+    Updates a single \`UserProfile\` using its globally unique id and a patch.
+    """
+    updateUserProfileByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateUserProfileByNodeIdInput!
+    ): UpdateUserProfilePayload
+
+    """
     Updates a single \`UserProfile\` using a unique key and a patch.
     """
     updateUserProfile(
@@ -1440,6 +1613,16 @@ export const sdl = gql`
       """
       input: UpdateUserProfileInput!
     ): UpdateUserProfilePayload
+
+    """
+    Deletes a single \`Account\` using its globally unique id.
+    """
+    deleteAccountByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteAccountByNodeIdInput!
+    ): DeleteAccountPayload
 
     """
     Deletes a single \`Account\` using a unique key.
@@ -1452,6 +1635,16 @@ export const sdl = gql`
     ): DeleteAccountPayload
 
     """
+    Deletes a single \`Migration\` using its globally unique id.
+    """
+    deleteMigrationByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteMigrationByNodeIdInput!
+    ): DeleteMigrationPayload
+
+    """
     Deletes a single \`Migration\` using a unique key.
     """
     deleteMigration(
@@ -1460,6 +1653,16 @@ export const sdl = gql`
       """
       input: DeleteMigrationInput!
     ): DeleteMigrationPayload
+
+    """
+    Deletes a single \`TestMultiplePrimary\` using its globally unique id.
+    """
+    deleteTestMultiplePrimaryByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteTestMultiplePrimaryByNodeIdInput!
+    ): DeleteTestMultiplePrimaryPayload
 
     """
     Deletes a single \`TestMultiplePrimary\` using a unique key.
@@ -1472,6 +1675,16 @@ export const sdl = gql`
     ): DeleteTestMultiplePrimaryPayload
 
     """
+    Deletes a single \`TestPrimary\` using its globally unique id.
+    """
+    deleteTestPrimaryByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteTestPrimaryByNodeIdInput!
+    ): DeleteTestPrimaryPayload
+
+    """
     Deletes a single \`TestPrimary\` using a unique key.
     """
     deleteTestPrimary(
@@ -1480,6 +1693,16 @@ export const sdl = gql`
       """
       input: DeleteTestPrimaryInput!
     ): DeleteTestPrimaryPayload
+
+    """
+    Deletes a single \`User\` using its globally unique id.
+    """
+    deleteUserByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteUserByNodeIdInput!
+    ): DeleteUserPayload
 
     """
     Deletes a single \`User\` using a unique key.
@@ -1522,6 +1745,16 @@ export const sdl = gql`
     ): DeleteUserPayload
 
     """
+    Deletes a single \`UserProfile\` using its globally unique id.
+    """
+    deleteUserProfileByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteUserProfileByNodeIdInput!
+    ): DeleteUserProfilePayload
+
+    """
     Deletes a single \`UserProfile\` using a unique key.
     """
     deleteUserProfile(
@@ -1536,6 +1769,16 @@ export const sdl = gql`
       """
       input: UserCustomMutationInput!
     ): UserCustomMutationPayload
+  }
+
+  """
+  An object with a globally unique \`ID\`.
+  """
+  interface Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
   }
 
   """
@@ -1566,12 +1809,27 @@ export const sdl = gql`
   """
   The root query type which gives access points into the data universe.
   """
-  type Query {
+  type Query implements Node {
     """
     Exposes the root query type nested one level down. This is helpful for Relay 1
     which can only query top level fields if they are in a particular form.
     """
     query: Query!
+
+    """
+    The root query type must be a \`Node\` to work well with Relay 1 mutations. This just resolves to \`query\`.
+    """
+    nodeId: ID!
+
+    """
+    Fetches an object given its globally unique \`ID\`.
+    """
+    node(
+      """
+      The globally unique \`ID\`.
+      """
+      nodeId: ID!
+    ): Node
 
     """
     Reads and enables pagination through a set of \`Account\`.
@@ -1895,6 +2153,66 @@ export const sdl = gql`
       """
       filter: UserFilter
     ): UsersConnection!
+
+    """
+    Reads a single \`Account\` using its globally unique \`ID\`.
+    """
+    accountByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`Account\`.
+      """
+      nodeId: ID!
+    ): Account
+
+    """
+    Reads a single \`Migration\` using its globally unique \`ID\`.
+    """
+    migrationByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`Migration\`.
+      """
+      nodeId: ID!
+    ): Migration
+
+    """
+    Reads a single \`TestMultiplePrimary\` using its globally unique \`ID\`.
+    """
+    testMultiplePrimaryByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`TestMultiplePrimary\`.
+      """
+      nodeId: ID!
+    ): TestMultiplePrimary
+
+    """
+    Reads a single \`TestPrimary\` using its globally unique \`ID\`.
+    """
+    testPrimaryByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`TestPrimary\`.
+      """
+      nodeId: ID!
+    ): TestPrimary
+
+    """
+    Reads a single \`User\` using its globally unique \`ID\`.
+    """
+    userByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`User\`.
+      """
+      nodeId: ID!
+    ): User
+
+    """
+    Reads a single \`UserProfile\` using its globally unique \`ID\`.
+    """
+    userProfileByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`UserProfile\`.
+      """
+      nodeId: ID!
+    ): UserProfile
   }
 
   """
@@ -2054,6 +2372,13 @@ export const sdl = gql`
   }
 
   """
+  The root subscription type: contains realtime events you can subscribe to with the \`subscription\` operation.
+  """
+  type Subscription {
+    listen(topic: String!): ListenPayload!
+  }
+
+  """
   A connection to a list of \`TestMultiplePrimary\` values.
   """
   type TestMultiplePrimariesConnection {
@@ -2110,7 +2435,11 @@ export const sdl = gql`
     PRIMARY_KEY_DESC
   }
 
-  type TestMultiplePrimary {
+  type TestMultiplePrimary implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
     oneId: UUID!
     twoId: UUID!
     createdAt: Datetime!
@@ -2258,7 +2587,11 @@ export const sdl = gql`
     PRIMARY_KEY_DESC
   }
 
-  type TestPrimary {
+  type TestPrimary implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
     primary: UUID!
     createdAt: Datetime!
     updatedAt: Datetime!
@@ -2339,6 +2672,27 @@ export const sdl = gql`
   }
 
   """
+  All input for the \`updateAccountByNodeId\` mutation.
+  """
+  input UpdateAccountByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`Account\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`Account\` being updated.
+    """
+    patch: AccountPatch!
+  }
+
+  """
   All input for the \`updateAccount\` mutation.
   """
   input UpdateAccountInput {
@@ -2392,6 +2746,27 @@ export const sdl = gql`
   }
 
   """
+  All input for the \`updateMigrationByNodeId\` mutation.
+  """
+  input UpdateMigrationByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`Migration\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`Migration\` being updated.
+    """
+    patch: MigrationPatch!
+  }
+
+  """
   All input for the \`updateMigration\` mutation.
   """
   input UpdateMigrationInput {
@@ -2437,6 +2812,27 @@ export const sdl = gql`
       """
       orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
     ): MigrationsEdge
+  }
+
+  """
+  All input for the \`updateTestMultiplePrimaryByNodeId\` mutation.
+  """
+  input UpdateTestMultiplePrimaryByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`TestMultiplePrimary\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`TestMultiplePrimary\` being updated.
+    """
+    patch: TestMultiplePrimaryPatch!
   }
 
   """
@@ -2486,6 +2882,27 @@ export const sdl = gql`
       """
       orderBy: [TestMultiplePrimariesOrderBy!] = [PRIMARY_KEY_ASC]
     ): TestMultiplePrimariesEdge
+  }
+
+  """
+  All input for the \`updateTestPrimaryByNodeId\` mutation.
+  """
+  input UpdateTestPrimaryByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`TestPrimary\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`TestPrimary\` being updated.
+    """
+    patch: TestPrimaryPatch!
   }
 
   """
@@ -2572,6 +2989,27 @@ export const sdl = gql`
   }
 
   """
+  All input for the \`updateUserByNodeId\` mutation.
+  """
+  input UpdateUserByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`User\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`User\` being updated.
+    """
+    patch: UserPatch!
+  }
+
+  """
   All input for the \`updateUserByUserProfileId\` mutation.
   """
   input UpdateUserByUserProfileIdInput {
@@ -2642,6 +3080,27 @@ export const sdl = gql`
   }
 
   """
+  All input for the \`updateUserProfileByNodeId\` mutation.
+  """
+  input UpdateUserProfileByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`UserProfile\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`UserProfile\` being updated.
+    """
+    patch: UserProfilePatch!
+  }
+
+  """
   All input for the \`updateUserProfile\` mutation.
   """
   input UpdateUserProfileInput {
@@ -2689,7 +3148,11 @@ export const sdl = gql`
     ): UserProfilesEdge
   }
 
-  type User {
+  type User implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
     id: UUID!
     email: String!
     password: String
@@ -2941,7 +3404,11 @@ export const sdl = gql`
     userProfileId: UUID
   }
 
-  type UserProfile {
+  type UserProfile implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
     id: UUID!
     picture: String!
     createdAt: Datetime!

@@ -68,37 +68,58 @@ type GetCallParams = {
   'db.firstUserSearch': Services.DbServiceTypes.Actions[45]['in'];
   'db.firstUserSearch.profile': Services.DbServiceTypes.Actions[46]['in'];
   'db.findUserSearch': Services.DbServiceTypes.Actions[47]['in'];
-  'db.createAccount': Services.DbServiceTypes.Actions[48]['in'];
-  'db.createMigration': Services.DbServiceTypes.Actions[49]['in'];
-  'db.createTestMultiplePrimary': Services.DbServiceTypes.Actions[50]['in'];
-  'db.createTestPrimary': Services.DbServiceTypes.Actions[51]['in'];
-  'db.createUser': Services.DbServiceTypes.Actions[52]['in'];
-  'db.createUserProfile': Services.DbServiceTypes.Actions[53]['in'];
-  'db.updateAccount': Services.DbServiceTypes.Actions[54]['in'];
-  'db.upsertAccount': Services.DbServiceTypes.Actions[55]['in'];
-  'db.updateMigration': Services.DbServiceTypes.Actions[56]['in'];
-  'db.upsertMigration': Services.DbServiceTypes.Actions[57]['in'];
-  'db.updateTestMultiplePrimary': Services.DbServiceTypes.Actions[58]['in'];
-  'db.upsertTestMultiplePrimary': Services.DbServiceTypes.Actions[59]['in'];
-  'db.updateTestPrimary': Services.DbServiceTypes.Actions[60]['in'];
-  'db.upsertTestPrimary': Services.DbServiceTypes.Actions[61]['in'];
-  'db.updateUser': Services.DbServiceTypes.Actions[62]['in'];
-  'db.upsertUser': Services.DbServiceTypes.Actions[63]['in'];
-  'db.updateUserByEmail': Services.DbServiceTypes.Actions[64]['in'];
-  'db.updateUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[65]['in'];
-  'db.updateUserByUserProfileId': Services.DbServiceTypes.Actions[66]['in'];
-  'db.updateUserProfile': Services.DbServiceTypes.Actions[67]['in'];
-  'db.upsertUserProfile': Services.DbServiceTypes.Actions[68]['in'];
-  'db.deleteAccount': Services.DbServiceTypes.Actions[69]['in'];
-  'db.deleteMigration': Services.DbServiceTypes.Actions[70]['in'];
-  'db.deleteTestMultiplePrimary': Services.DbServiceTypes.Actions[71]['in'];
-  'db.deleteTestPrimary': Services.DbServiceTypes.Actions[72]['in'];
-  'db.deleteUser': Services.DbServiceTypes.Actions[73]['in'];
-  'db.deleteUserByEmail': Services.DbServiceTypes.Actions[74]['in'];
-  'db.deleteUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[75]['in'];
-  'db.deleteUserByUserProfileId': Services.DbServiceTypes.Actions[76]['in'];
-  'db.deleteUserProfile': Services.DbServiceTypes.Actions[77]['in'];
-  'db.userCustomMutation': Services.DbServiceTypes.Actions[78]['in'];
+  'db.accountByNodeId': Services.DbServiceTypes.Actions[48]['in'];
+  'db.accountByNodeId.user': Services.DbServiceTypes.Actions[49]['in'];
+  'db.migrationByNodeId': Services.DbServiceTypes.Actions[50]['in'];
+  'db.testMultiplePrimaryByNodeId': Services.DbServiceTypes.Actions[51]['in'];
+  'db.testPrimaryByNodeId': Services.DbServiceTypes.Actions[52]['in'];
+  'db.userByNodeId': Services.DbServiceTypes.Actions[53]['in'];
+  'db.userByNodeId.profile': Services.DbServiceTypes.Actions[54]['in'];
+  'db.userProfileByNodeId': Services.DbServiceTypes.Actions[55]['in'];
+  'db.userProfileByNodeId.user': Services.DbServiceTypes.Actions[56]['in'];
+  'db.createAccount': Services.DbServiceTypes.Actions[57]['in'];
+  'db.createMigration': Services.DbServiceTypes.Actions[58]['in'];
+  'db.createTestMultiplePrimary': Services.DbServiceTypes.Actions[59]['in'];
+  'db.createTestPrimary': Services.DbServiceTypes.Actions[60]['in'];
+  'db.createUser': Services.DbServiceTypes.Actions[61]['in'];
+  'db.createUserProfile': Services.DbServiceTypes.Actions[62]['in'];
+  'db.updateAccountByNodeId': Services.DbServiceTypes.Actions[63]['in'];
+  'db.updateAccount': Services.DbServiceTypes.Actions[64]['in'];
+  'db.upsertAccount': Services.DbServiceTypes.Actions[65]['in'];
+  'db.updateMigrationByNodeId': Services.DbServiceTypes.Actions[66]['in'];
+  'db.updateMigration': Services.DbServiceTypes.Actions[67]['in'];
+  'db.upsertMigration': Services.DbServiceTypes.Actions[68]['in'];
+  'db.updateTestMultiplePrimaryByNodeId': Services.DbServiceTypes.Actions[69]['in'];
+  'db.updateTestMultiplePrimary': Services.DbServiceTypes.Actions[70]['in'];
+  'db.upsertTestMultiplePrimary': Services.DbServiceTypes.Actions[71]['in'];
+  'db.updateTestPrimaryByNodeId': Services.DbServiceTypes.Actions[72]['in'];
+  'db.updateTestPrimary': Services.DbServiceTypes.Actions[73]['in'];
+  'db.upsertTestPrimary': Services.DbServiceTypes.Actions[74]['in'];
+  'db.updateUserByNodeId': Services.DbServiceTypes.Actions[75]['in'];
+  'db.updateUser': Services.DbServiceTypes.Actions[76]['in'];
+  'db.upsertUser': Services.DbServiceTypes.Actions[77]['in'];
+  'db.updateUserByEmail': Services.DbServiceTypes.Actions[78]['in'];
+  'db.updateUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[79]['in'];
+  'db.updateUserByUserProfileId': Services.DbServiceTypes.Actions[80]['in'];
+  'db.updateUserProfileByNodeId': Services.DbServiceTypes.Actions[81]['in'];
+  'db.updateUserProfile': Services.DbServiceTypes.Actions[82]['in'];
+  'db.upsertUserProfile': Services.DbServiceTypes.Actions[83]['in'];
+  'db.deleteAccountByNodeId': Services.DbServiceTypes.Actions[84]['in'];
+  'db.deleteAccount': Services.DbServiceTypes.Actions[85]['in'];
+  'db.deleteMigrationByNodeId': Services.DbServiceTypes.Actions[86]['in'];
+  'db.deleteMigration': Services.DbServiceTypes.Actions[87]['in'];
+  'db.deleteTestMultiplePrimaryByNodeId': Services.DbServiceTypes.Actions[88]['in'];
+  'db.deleteTestMultiplePrimary': Services.DbServiceTypes.Actions[89]['in'];
+  'db.deleteTestPrimaryByNodeId': Services.DbServiceTypes.Actions[90]['in'];
+  'db.deleteTestPrimary': Services.DbServiceTypes.Actions[91]['in'];
+  'db.deleteUserByNodeId': Services.DbServiceTypes.Actions[92]['in'];
+  'db.deleteUser': Services.DbServiceTypes.Actions[93]['in'];
+  'db.deleteUserByEmail': Services.DbServiceTypes.Actions[94]['in'];
+  'db.deleteUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[95]['in'];
+  'db.deleteUserByUserProfileId': Services.DbServiceTypes.Actions[96]['in'];
+  'db.deleteUserProfileByNodeId': Services.DbServiceTypes.Actions[97]['in'];
+  'db.deleteUserProfile': Services.DbServiceTypes.Actions[98]['in'];
+  'db.userCustomMutation': Services.DbServiceTypes.Actions[99]['in'];
 };
 
 type GetCallReturn = {
@@ -150,37 +171,58 @@ type GetCallReturn = {
   'db.firstUserSearch': Services.DbServiceTypes.Actions[45]['out'];
   'db.firstUserSearch.profile': Services.DbServiceTypes.Actions[46]['out'];
   'db.findUserSearch': Services.DbServiceTypes.Actions[47]['out'];
-  'db.createAccount': Services.DbServiceTypes.Actions[48]['out'];
-  'db.createMigration': Services.DbServiceTypes.Actions[49]['out'];
-  'db.createTestMultiplePrimary': Services.DbServiceTypes.Actions[50]['out'];
-  'db.createTestPrimary': Services.DbServiceTypes.Actions[51]['out'];
-  'db.createUser': Services.DbServiceTypes.Actions[52]['out'];
-  'db.createUserProfile': Services.DbServiceTypes.Actions[53]['out'];
-  'db.updateAccount': Services.DbServiceTypes.Actions[54]['out'];
-  'db.upsertAccount': Services.DbServiceTypes.Actions[55]['out'];
-  'db.updateMigration': Services.DbServiceTypes.Actions[56]['out'];
-  'db.upsertMigration': Services.DbServiceTypes.Actions[57]['out'];
-  'db.updateTestMultiplePrimary': Services.DbServiceTypes.Actions[58]['out'];
-  'db.upsertTestMultiplePrimary': Services.DbServiceTypes.Actions[59]['out'];
-  'db.updateTestPrimary': Services.DbServiceTypes.Actions[60]['out'];
-  'db.upsertTestPrimary': Services.DbServiceTypes.Actions[61]['out'];
-  'db.updateUser': Services.DbServiceTypes.Actions[62]['out'];
-  'db.upsertUser': Services.DbServiceTypes.Actions[63]['out'];
-  'db.updateUserByEmail': Services.DbServiceTypes.Actions[64]['out'];
-  'db.updateUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[65]['out'];
-  'db.updateUserByUserProfileId': Services.DbServiceTypes.Actions[66]['out'];
-  'db.updateUserProfile': Services.DbServiceTypes.Actions[67]['out'];
-  'db.upsertUserProfile': Services.DbServiceTypes.Actions[68]['out'];
-  'db.deleteAccount': Services.DbServiceTypes.Actions[69]['out'];
-  'db.deleteMigration': Services.DbServiceTypes.Actions[70]['out'];
-  'db.deleteTestMultiplePrimary': Services.DbServiceTypes.Actions[71]['out'];
-  'db.deleteTestPrimary': Services.DbServiceTypes.Actions[72]['out'];
-  'db.deleteUser': Services.DbServiceTypes.Actions[73]['out'];
-  'db.deleteUserByEmail': Services.DbServiceTypes.Actions[74]['out'];
-  'db.deleteUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[75]['out'];
-  'db.deleteUserByUserProfileId': Services.DbServiceTypes.Actions[76]['out'];
-  'db.deleteUserProfile': Services.DbServiceTypes.Actions[77]['out'];
-  'db.userCustomMutation': Services.DbServiceTypes.Actions[78]['out'];
+  'db.accountByNodeId': Services.DbServiceTypes.Actions[48]['out'];
+  'db.accountByNodeId.user': Services.DbServiceTypes.Actions[49]['out'];
+  'db.migrationByNodeId': Services.DbServiceTypes.Actions[50]['out'];
+  'db.testMultiplePrimaryByNodeId': Services.DbServiceTypes.Actions[51]['out'];
+  'db.testPrimaryByNodeId': Services.DbServiceTypes.Actions[52]['out'];
+  'db.userByNodeId': Services.DbServiceTypes.Actions[53]['out'];
+  'db.userByNodeId.profile': Services.DbServiceTypes.Actions[54]['out'];
+  'db.userProfileByNodeId': Services.DbServiceTypes.Actions[55]['out'];
+  'db.userProfileByNodeId.user': Services.DbServiceTypes.Actions[56]['out'];
+  'db.createAccount': Services.DbServiceTypes.Actions[57]['out'];
+  'db.createMigration': Services.DbServiceTypes.Actions[58]['out'];
+  'db.createTestMultiplePrimary': Services.DbServiceTypes.Actions[59]['out'];
+  'db.createTestPrimary': Services.DbServiceTypes.Actions[60]['out'];
+  'db.createUser': Services.DbServiceTypes.Actions[61]['out'];
+  'db.createUserProfile': Services.DbServiceTypes.Actions[62]['out'];
+  'db.updateAccountByNodeId': Services.DbServiceTypes.Actions[63]['out'];
+  'db.updateAccount': Services.DbServiceTypes.Actions[64]['out'];
+  'db.upsertAccount': Services.DbServiceTypes.Actions[65]['out'];
+  'db.updateMigrationByNodeId': Services.DbServiceTypes.Actions[66]['out'];
+  'db.updateMigration': Services.DbServiceTypes.Actions[67]['out'];
+  'db.upsertMigration': Services.DbServiceTypes.Actions[68]['out'];
+  'db.updateTestMultiplePrimaryByNodeId': Services.DbServiceTypes.Actions[69]['out'];
+  'db.updateTestMultiplePrimary': Services.DbServiceTypes.Actions[70]['out'];
+  'db.upsertTestMultiplePrimary': Services.DbServiceTypes.Actions[71]['out'];
+  'db.updateTestPrimaryByNodeId': Services.DbServiceTypes.Actions[72]['out'];
+  'db.updateTestPrimary': Services.DbServiceTypes.Actions[73]['out'];
+  'db.upsertTestPrimary': Services.DbServiceTypes.Actions[74]['out'];
+  'db.updateUserByNodeId': Services.DbServiceTypes.Actions[75]['out'];
+  'db.updateUser': Services.DbServiceTypes.Actions[76]['out'];
+  'db.upsertUser': Services.DbServiceTypes.Actions[77]['out'];
+  'db.updateUserByEmail': Services.DbServiceTypes.Actions[78]['out'];
+  'db.updateUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[79]['out'];
+  'db.updateUserByUserProfileId': Services.DbServiceTypes.Actions[80]['out'];
+  'db.updateUserProfileByNodeId': Services.DbServiceTypes.Actions[81]['out'];
+  'db.updateUserProfile': Services.DbServiceTypes.Actions[82]['out'];
+  'db.upsertUserProfile': Services.DbServiceTypes.Actions[83]['out'];
+  'db.deleteAccountByNodeId': Services.DbServiceTypes.Actions[84]['out'];
+  'db.deleteAccount': Services.DbServiceTypes.Actions[85]['out'];
+  'db.deleteMigrationByNodeId': Services.DbServiceTypes.Actions[86]['out'];
+  'db.deleteMigration': Services.DbServiceTypes.Actions[87]['out'];
+  'db.deleteTestMultiplePrimaryByNodeId': Services.DbServiceTypes.Actions[88]['out'];
+  'db.deleteTestMultiplePrimary': Services.DbServiceTypes.Actions[89]['out'];
+  'db.deleteTestPrimaryByNodeId': Services.DbServiceTypes.Actions[90]['out'];
+  'db.deleteTestPrimary': Services.DbServiceTypes.Actions[91]['out'];
+  'db.deleteUserByNodeId': Services.DbServiceTypes.Actions[92]['out'];
+  'db.deleteUser': Services.DbServiceTypes.Actions[93]['out'];
+  'db.deleteUserByEmail': Services.DbServiceTypes.Actions[94]['out'];
+  'db.deleteUserByFirstNameAndLastName': Services.DbServiceTypes.Actions[95]['out'];
+  'db.deleteUserByUserProfileId': Services.DbServiceTypes.Actions[96]['out'];
+  'db.deleteUserProfileByNodeId': Services.DbServiceTypes.Actions[97]['out'];
+  'db.deleteUserProfile': Services.DbServiceTypes.Actions[98]['out'];
+  'db.userCustomMutation': Services.DbServiceTypes.Actions[99]['out'];
 };
 
 type GetEmitParams = {};
@@ -237,35 +279,56 @@ export type ServiceActionNames = Exclude<
   | 'db.firstUserSearch'
   | 'db.firstUserSearch.profile'
   | 'db.findUserSearch'
+  | 'db.accountByNodeId'
+  | 'db.accountByNodeId.user'
+  | 'db.migrationByNodeId'
+  | 'db.testMultiplePrimaryByNodeId'
+  | 'db.testPrimaryByNodeId'
+  | 'db.userByNodeId'
+  | 'db.userByNodeId.profile'
+  | 'db.userProfileByNodeId'
+  | 'db.userProfileByNodeId.user'
   | 'db.createAccount'
   | 'db.createMigration'
   | 'db.createTestMultiplePrimary'
   | 'db.createTestPrimary'
   | 'db.createUser'
   | 'db.createUserProfile'
+  | 'db.updateAccountByNodeId'
   | 'db.updateAccount'
   | 'db.upsertAccount'
+  | 'db.updateMigrationByNodeId'
   | 'db.updateMigration'
   | 'db.upsertMigration'
+  | 'db.updateTestMultiplePrimaryByNodeId'
   | 'db.updateTestMultiplePrimary'
   | 'db.upsertTestMultiplePrimary'
+  | 'db.updateTestPrimaryByNodeId'
   | 'db.updateTestPrimary'
   | 'db.upsertTestPrimary'
+  | 'db.updateUserByNodeId'
   | 'db.updateUser'
   | 'db.upsertUser'
   | 'db.updateUserByEmail'
   | 'db.updateUserByFirstNameAndLastName'
   | 'db.updateUserByUserProfileId'
+  | 'db.updateUserProfileByNodeId'
   | 'db.updateUserProfile'
   | 'db.upsertUserProfile'
+  | 'db.deleteAccountByNodeId'
   | 'db.deleteAccount'
+  | 'db.deleteMigrationByNodeId'
   | 'db.deleteMigration'
+  | 'db.deleteTestMultiplePrimaryByNodeId'
   | 'db.deleteTestMultiplePrimary'
+  | 'db.deleteTestPrimaryByNodeId'
   | 'db.deleteTestPrimary'
+  | 'db.deleteUserByNodeId'
   | 'db.deleteUser'
   | 'db.deleteUserByEmail'
   | 'db.deleteUserByFirstNameAndLastName'
   | 'db.deleteUserByUserProfileId'
+  | 'db.deleteUserProfileByNodeId'
   | 'db.deleteUserProfile'
   | 'db.userCustomMutation',
   never

@@ -249,6 +249,51 @@ export type PgrActions = [
     NodeArray<binding.User>
   >,
   moleculerTs.Action<
+    'accountByNodeId',
+    Parameters<binding.Query['accountByNodeId']>[0],
+    binding.Account
+  >,
+  moleculerTs.Action<
+    'accountByNodeId.user',
+    Parameters<binding.Query['accountByNodeId']>[0],
+    NodeOptional<binding.User>
+  >,
+  moleculerTs.Action<
+    'migrationByNodeId',
+    Parameters<binding.Query['migrationByNodeId']>[0],
+    binding.Migration
+  >,
+  moleculerTs.Action<
+    'testMultiplePrimaryByNodeId',
+    Parameters<binding.Query['testMultiplePrimaryByNodeId']>[0],
+    binding.TestMultiplePrimary
+  >,
+  moleculerTs.Action<
+    'testPrimaryByNodeId',
+    Parameters<binding.Query['testPrimaryByNodeId']>[0],
+    binding.TestPrimary
+  >,
+  moleculerTs.Action<
+    'userByNodeId',
+    Parameters<binding.Query['userByNodeId']>[0],
+    binding.User
+  >,
+  moleculerTs.Action<
+    'userByNodeId.profile',
+    Parameters<binding.Query['userByNodeId']>[0],
+    NodeOptional<binding.UserProfile>
+  >,
+  moleculerTs.Action<
+    'userProfileByNodeId',
+    Parameters<binding.Query['userProfileByNodeId']>[0],
+    binding.UserProfile
+  >,
+  moleculerTs.Action<
+    'userProfileByNodeId.user',
+    Parameters<binding.Query['userProfileByNodeId']>[0],
+    NodeOptional<binding.User>
+  >,
+  moleculerTs.Action<
     'createAccount',
     Parameters<binding.Mutation['createAccount']>[0]['input']['account'],
     Node<binding.Account>
@@ -285,6 +330,11 @@ export type PgrActions = [
     Node<binding.UserProfile>
   >,
   moleculerTs.Action<
+    'updateAccountByNodeId',
+    Parameters<binding.Mutation['updateAccountByNodeId']>[0]['input'],
+    NodeOptional<binding.Account>
+  >,
+  moleculerTs.Action<
     'updateAccount',
     Parameters<binding.Mutation['updateAccount']>[0]['input'],
     NodeOptional<binding.Account>
@@ -301,6 +351,11 @@ export type PgrActions = [
       >[0]['input']['patch'];
     },
     Node<binding.Account>
+  >,
+  moleculerTs.Action<
+    'updateMigrationByNodeId',
+    Parameters<binding.Mutation['updateMigrationByNodeId']>[0]['input'],
+    NodeOptional<binding.Migration>
   >,
   moleculerTs.Action<
     'updateMigration',
@@ -321,6 +376,13 @@ export type PgrActions = [
     Node<binding.Migration>
   >,
   moleculerTs.Action<
+    'updateTestMultiplePrimaryByNodeId',
+    Parameters<
+      binding.Mutation['updateTestMultiplePrimaryByNodeId']
+    >[0]['input'],
+    NodeOptional<binding.TestMultiplePrimary>
+  >,
+  moleculerTs.Action<
     'updateTestMultiplePrimary',
     Parameters<binding.Mutation['updateTestMultiplePrimary']>[0]['input'],
     NodeOptional<binding.TestMultiplePrimary>
@@ -339,6 +401,11 @@ export type PgrActions = [
     Node<binding.TestMultiplePrimary>
   >,
   moleculerTs.Action<
+    'updateTestPrimaryByNodeId',
+    Parameters<binding.Mutation['updateTestPrimaryByNodeId']>[0]['input'],
+    NodeOptional<binding.TestPrimary>
+  >,
+  moleculerTs.Action<
     'updateTestPrimary',
     Parameters<binding.Mutation['updateTestPrimary']>[0]['input'],
     NodeOptional<binding.TestPrimary>
@@ -355,6 +422,11 @@ export type PgrActions = [
       >[0]['input']['patch'];
     },
     Node<binding.TestPrimary>
+  >,
+  moleculerTs.Action<
+    'updateUserByNodeId',
+    Parameters<binding.Mutation['updateUserByNodeId']>[0]['input'],
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'updateUser',
@@ -388,6 +460,11 @@ export type PgrActions = [
     NodeOptional<binding.User>
   >,
   moleculerTs.Action<
+    'updateUserProfileByNodeId',
+    Parameters<binding.Mutation['updateUserProfileByNodeId']>[0]['input'],
+    NodeOptional<binding.UserProfile>
+  >,
+  moleculerTs.Action<
     'updateUserProfile',
     Parameters<binding.Mutation['updateUserProfile']>[0]['input'],
     NodeOptional<binding.UserProfile>
@@ -406,9 +483,19 @@ export type PgrActions = [
     Node<binding.UserProfile>
   >,
   moleculerTs.Action<
+    'deleteAccountByNodeId',
+    Parameters<binding.Mutation['deleteAccountByNodeId']>[0]['input'],
+    NodeOptional<binding.Account>
+  >,
+  moleculerTs.Action<
     'deleteAccount',
     Parameters<binding.Mutation['deleteAccount']>[0]['input'],
     NodeOptional<binding.Account>
+  >,
+  moleculerTs.Action<
+    'deleteMigrationByNodeId',
+    Parameters<binding.Mutation['deleteMigrationByNodeId']>[0]['input'],
+    NodeOptional<binding.Migration>
   >,
   moleculerTs.Action<
     'deleteMigration',
@@ -416,14 +503,31 @@ export type PgrActions = [
     NodeOptional<binding.Migration>
   >,
   moleculerTs.Action<
+    'deleteTestMultiplePrimaryByNodeId',
+    Parameters<
+      binding.Mutation['deleteTestMultiplePrimaryByNodeId']
+    >[0]['input'],
+    NodeOptional<binding.TestMultiplePrimary>
+  >,
+  moleculerTs.Action<
     'deleteTestMultiplePrimary',
     Parameters<binding.Mutation['deleteTestMultiplePrimary']>[0]['input'],
     NodeOptional<binding.TestMultiplePrimary>
   >,
   moleculerTs.Action<
+    'deleteTestPrimaryByNodeId',
+    Parameters<binding.Mutation['deleteTestPrimaryByNodeId']>[0]['input'],
+    NodeOptional<binding.TestPrimary>
+  >,
+  moleculerTs.Action<
     'deleteTestPrimary',
     Parameters<binding.Mutation['deleteTestPrimary']>[0]['input'],
     NodeOptional<binding.TestPrimary>
+  >,
+  moleculerTs.Action<
+    'deleteUserByNodeId',
+    Parameters<binding.Mutation['deleteUserByNodeId']>[0]['input'],
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'deleteUser',
@@ -446,6 +550,11 @@ export type PgrActions = [
     'deleteUserByUserProfileId',
     Parameters<binding.Mutation['deleteUserByUserProfileId']>[0]['input'],
     NodeOptional<binding.User>
+  >,
+  moleculerTs.Action<
+    'deleteUserProfileByNodeId',
+    Parameters<binding.Mutation['deleteUserProfileByNodeId']>[0]['input'],
+    NodeOptional<binding.UserProfile>
   >,
   moleculerTs.Action<
     'deleteUserProfile',
@@ -471,6 +580,7 @@ const gqlQueryString = {
     createdAt 
     updatedAt 
     userId 
+    nodeId 
   }
   edges 
   {
@@ -485,6 +595,7 @@ const gqlQueryString = {
       createdAt 
       updatedAt 
       userId 
+      nodeId 
     }
   }
   totalCount 
@@ -508,6 +619,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
  } }`,
   migrations: `{
@@ -516,6 +628,7 @@ const gqlQueryString = {
     id 
     timestamp 
     name 
+    nodeId 
   }
   edges 
   {
@@ -525,6 +638,7 @@ const gqlQueryString = {
       id 
       timestamp 
       name 
+      nodeId 
     }
   }
   totalCount 
@@ -545,6 +659,7 @@ const gqlQueryString = {
     twoId 
     createdAt 
     updatedAt 
+    nodeId 
   }
   edges 
   {
@@ -555,6 +670,7 @@ const gqlQueryString = {
       twoId 
       createdAt 
       updatedAt 
+      nodeId 
     }
   }
   totalCount 
@@ -574,6 +690,7 @@ const gqlQueryString = {
     primary 
     createdAt 
     updatedAt 
+    nodeId 
   }
   edges 
   {
@@ -583,6 +700,7 @@ const gqlQueryString = {
       primary 
       createdAt 
       updatedAt 
+      nodeId 
     }
   }
   totalCount 
@@ -608,6 +726,7 @@ const gqlQueryString = {
     createdAt 
     updatedAt 
     userProfileId 
+    nodeId 
   }
   edges 
   {
@@ -623,6 +742,7 @@ const gqlQueryString = {
       createdAt 
       updatedAt 
       userProfileId 
+      nodeId 
     }
   }
   totalCount 
@@ -641,6 +761,7 @@ const gqlQueryString = {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
  } }`,
   userProfiles: `{
@@ -650,6 +771,7 @@ const gqlQueryString = {
     picture 
     createdAt 
     updatedAt 
+    nodeId 
   }
   edges 
   {
@@ -660,6 +782,7 @@ const gqlQueryString = {
       picture 
       createdAt 
       updatedAt 
+      nodeId 
     }
   }
   totalCount 
@@ -683,6 +806,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
  } }`,
   account: `{
@@ -694,6 +818,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userId 
+  nodeId 
 }
 `,
   'account.user': `{ user {
@@ -706,12 +831,14 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 }`,
   migration: `{
   id 
   timestamp 
   name 
+  nodeId 
 }
 `,
   testMultiplePrimary: `{
@@ -719,12 +846,14 @@ const gqlQueryString = {
   twoId 
   createdAt 
   updatedAt 
+  nodeId 
 }
 `,
   testPrimary: `{
   primary 
   createdAt 
   updatedAt 
+  nodeId 
 }
 `,
   user: `{
@@ -737,6 +866,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 `,
   'user.profile': `{ profile {
@@ -744,6 +874,7 @@ const gqlQueryString = {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
 }`,
   userByEmail: `{
@@ -756,6 +887,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 `,
   'userByEmail.profile': `{ profile {
@@ -763,6 +895,7 @@ const gqlQueryString = {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
 }`,
   userByFirstNameAndLastName: `{
@@ -775,6 +908,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 `,
   'userByFirstNameAndLastName.profile': `{ profile {
@@ -782,6 +916,7 @@ const gqlQueryString = {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
 }`,
   userByUserProfileId: `{
@@ -794,6 +929,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 `,
   'userByUserProfileId.profile': `{ profile {
@@ -801,6 +937,7 @@ const gqlQueryString = {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
 }`,
   userProfile: `{
@@ -808,6 +945,7 @@ const gqlQueryString = {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
 `,
   'userProfile.user': `{ user {
@@ -820,6 +958,7 @@ const gqlQueryString = {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 }`,
   userSearch: `{
@@ -834,6 +973,7 @@ const gqlQueryString = {
     createdAt 
     updatedAt 
     userProfileId 
+    nodeId 
   }
   edges 
   {
@@ -849,6 +989,7 @@ const gqlQueryString = {
       createdAt 
       updatedAt 
       userProfileId 
+      nodeId 
     }
   }
   totalCount 
@@ -867,8 +1008,98 @@ const gqlQueryString = {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
  } }`,
+  accountByNodeId: `{
+  id 
+  name 
+  planStatus 
+  plan 
+  subscriptionId 
+  createdAt 
+  updatedAt 
+  userId 
+  nodeId 
+}
+`,
+  'accountByNodeId.user': `{ user {
+  id 
+  email 
+  password 
+  firstName 
+  lastName 
+  lastLoggedAt 
+  createdAt 
+  updatedAt 
+  userProfileId 
+  nodeId 
+}
+}`,
+  migrationByNodeId: `{
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+`,
+  testMultiplePrimaryByNodeId: `{
+  oneId 
+  twoId 
+  createdAt 
+  updatedAt 
+  nodeId 
+}
+`,
+  testPrimaryByNodeId: `{
+  primary 
+  createdAt 
+  updatedAt 
+  nodeId 
+}
+`,
+  userByNodeId: `{
+  id 
+  email 
+  password 
+  firstName 
+  lastName 
+  lastLoggedAt 
+  createdAt 
+  updatedAt 
+  userProfileId 
+  nodeId 
+}
+`,
+  'userByNodeId.profile': `{ profile {
+  id 
+  picture 
+  createdAt 
+  updatedAt 
+  nodeId 
+}
+}`,
+  userProfileByNodeId: `{
+  id 
+  picture 
+  createdAt 
+  updatedAt 
+  nodeId 
+}
+`,
+  'userProfileByNodeId.user': `{ user {
+  id 
+  email 
+  password 
+  firstName 
+  lastName 
+  lastLoggedAt 
+  createdAt 
+  updatedAt 
+  userProfileId 
+  nodeId 
+}
+}`,
   createAccount: `{ 
 account {
   id 
@@ -879,6 +1110,7 @@ account {
   createdAt 
   updatedAt 
   userId 
+  nodeId 
 }
 
 }`,
@@ -887,6 +1119,7 @@ migration {
   id 
   timestamp 
   name 
+  nodeId 
 }
 
 }`,
@@ -896,6 +1129,7 @@ testMultiplePrimary {
   twoId 
   createdAt 
   updatedAt 
+  nodeId 
 }
 
 }`,
@@ -904,6 +1138,7 @@ testPrimary {
   primary 
   createdAt 
   updatedAt 
+  nodeId 
 }
 
 }`,
@@ -918,6 +1153,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -927,6 +1163,21 @@ userProfile {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
+}
+
+}`,
+  updateAccountByNodeId: `{ 
+account {
+  id 
+  name 
+  planStatus 
+  plan 
+  subscriptionId 
+  createdAt 
+  updatedAt 
+  userId 
+  nodeId 
 }
 
 }`,
@@ -940,6 +1191,16 @@ account {
   createdAt 
   updatedAt 
   userId 
+  nodeId 
+}
+
+}`,
+  updateMigrationByNodeId: `{ 
+migration {
+  id 
+  timestamp 
+  name 
+  nodeId 
 }
 
 }`,
@@ -948,6 +1209,17 @@ migration {
   id 
   timestamp 
   name 
+  nodeId 
+}
+
+}`,
+  updateTestMultiplePrimaryByNodeId: `{ 
+testMultiplePrimary {
+  oneId 
+  twoId 
+  createdAt 
+  updatedAt 
+  nodeId 
 }
 
 }`,
@@ -957,6 +1229,16 @@ testMultiplePrimary {
   twoId 
   createdAt 
   updatedAt 
+  nodeId 
+}
+
+}`,
+  updateTestPrimaryByNodeId: `{ 
+testPrimary {
+  primary 
+  createdAt 
+  updatedAt 
+  nodeId 
 }
 
 }`,
@@ -965,6 +1247,22 @@ testPrimary {
   primary 
   createdAt 
   updatedAt 
+  nodeId 
+}
+
+}`,
+  updateUserByNodeId: `{ 
+user {
+  id 
+  email 
+  password 
+  firstName 
+  lastName 
+  lastLoggedAt 
+  createdAt 
+  updatedAt 
+  userProfileId 
+  nodeId 
 }
 
 }`,
@@ -979,6 +1277,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -993,6 +1292,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -1007,6 +1307,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -1021,6 +1322,17 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
+}
+
+}`,
+  updateUserProfileByNodeId: `{ 
+userProfile {
+  id 
+  picture 
+  createdAt 
+  updatedAt 
+  nodeId 
 }
 
 }`,
@@ -1030,6 +1342,21 @@ userProfile {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
+}
+
+}`,
+  deleteAccountByNodeId: `{ 
+account {
+  id 
+  name 
+  planStatus 
+  plan 
+  subscriptionId 
+  createdAt 
+  updatedAt 
+  userId 
+  nodeId 
 }
 
 }`,
@@ -1043,6 +1370,16 @@ account {
   createdAt 
   updatedAt 
   userId 
+  nodeId 
+}
+
+}`,
+  deleteMigrationByNodeId: `{ 
+migration {
+  id 
+  timestamp 
+  name 
+  nodeId 
 }
 
 }`,
@@ -1051,6 +1388,17 @@ migration {
   id 
   timestamp 
   name 
+  nodeId 
+}
+
+}`,
+  deleteTestMultiplePrimaryByNodeId: `{ 
+testMultiplePrimary {
+  oneId 
+  twoId 
+  createdAt 
+  updatedAt 
+  nodeId 
 }
 
 }`,
@@ -1060,6 +1408,16 @@ testMultiplePrimary {
   twoId 
   createdAt 
   updatedAt 
+  nodeId 
+}
+
+}`,
+  deleteTestPrimaryByNodeId: `{ 
+testPrimary {
+  primary 
+  createdAt 
+  updatedAt 
+  nodeId 
 }
 
 }`,
@@ -1068,6 +1426,22 @@ testPrimary {
   primary 
   createdAt 
   updatedAt 
+  nodeId 
+}
+
+}`,
+  deleteUserByNodeId: `{ 
+user {
+  id 
+  email 
+  password 
+  firstName 
+  lastName 
+  lastLoggedAt 
+  createdAt 
+  updatedAt 
+  userProfileId 
+  nodeId 
 }
 
 }`,
@@ -1082,6 +1456,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -1096,6 +1471,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -1110,6 +1486,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -1124,6 +1501,17 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
+}
+
+}`,
+  deleteUserProfileByNodeId: `{ 
+userProfile {
+  id 
+  picture 
+  createdAt 
+  updatedAt 
+  nodeId 
 }
 
 }`,
@@ -1133,6 +1521,7 @@ userProfile {
   picture 
   createdAt 
   updatedAt 
+  nodeId 
 }
 
 }`,
@@ -1147,6 +1536,7 @@ user {
   createdAt 
   updatedAt 
   userProfileId 
+  nodeId 
 }
 
 }`,
@@ -1709,6 +2099,90 @@ export const PgrMixin = {
       const result = await ctx.call(`${this.name}.userSearch`, params);
       return result.nodes;
     },
+    async accountByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['accountByNodeId'];
+      const data = params;
+      const result = await client.query.accountByNodeId(data, query);
+      return result;
+    },
+    async 'accountByNodeId.user'(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['accountByNodeId.user'];
+      const data = params;
+      const result = await client.query.accountByNodeId(data, query);
+      if (result === null) {
+        return null;
+      }
+      return result['user'];
+    },
+    async migrationByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['migrationByNodeId'];
+      const data = params;
+      const result = await client.query.migrationByNodeId(data, query);
+      return result;
+    },
+    async testMultiplePrimaryByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['testMultiplePrimaryByNodeId'];
+      const data = params;
+      const result = await client.query.testMultiplePrimaryByNodeId(
+        data,
+        query,
+      );
+      return result;
+    },
+    async testPrimaryByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['testPrimaryByNodeId'];
+      const data = params;
+      const result = await client.query.testPrimaryByNodeId(data, query);
+      return result;
+    },
+    async userByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['userByNodeId'];
+      const data = params;
+      const result = await client.query.userByNodeId(data, query);
+      return result;
+    },
+    async 'userByNodeId.profile'(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['userByNodeId.profile'];
+      const data = params;
+      const result = await client.query.userByNodeId(data, query);
+      if (result === null) {
+        return null;
+      }
+      return result['profile'];
+    },
+    async userProfileByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['userProfileByNodeId'];
+      const data = params;
+      const result = await client.query.userProfileByNodeId(data, query);
+      return result;
+    },
+    async 'userProfileByNodeId.user'(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['userProfileByNodeId.user'];
+      const data = params;
+      const result = await client.query.userProfileByNodeId(data, query);
+      if (result === null) {
+        return null;
+      }
+      return result['user'];
+    },
     async createAccount(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -1772,6 +2246,29 @@ export const PgrMixin = {
       const result = await client.mutation.createUserProfile(data, query);
       return result!['userProfile'];
     },
+    async updateAccountByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateAccountByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateAccountByNodeId(data, query);
+        return result!['account'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
     async updateAccount(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -1819,6 +2316,32 @@ export const PgrMixin = {
 
       return node;
     },
+    async updateMigrationByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateMigrationByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateMigrationByNodeId(
+          data,
+          query,
+        );
+        return result!['migration'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
     async updateMigration(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -1865,6 +2388,32 @@ export const PgrMixin = {
       }
 
       return node;
+    },
+    async updateTestMultiplePrimaryByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateTestMultiplePrimaryByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateTestMultiplePrimaryByNodeId(
+          data,
+          query,
+        );
+        return result!['testMultiplePrimary'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
     },
     async updateTestMultiplePrimary(this: any, ctx: any) {
       const params = ctx.params;
@@ -1919,6 +2468,32 @@ export const PgrMixin = {
 
       return node;
     },
+    async updateTestPrimaryByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateTestPrimaryByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateTestPrimaryByNodeId(
+          data,
+          query,
+        );
+        return result!['testPrimary'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
     async updateTestPrimary(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -1968,6 +2543,29 @@ export const PgrMixin = {
       }
 
       return node;
+    },
+    async updateUserByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateUserByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateUserByNodeId(data, query);
+        return result!['user'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
     },
     async updateUser(this: any, ctx: any) {
       const params = ctx.params;
@@ -2087,6 +2685,32 @@ export const PgrMixin = {
         throw err;
       }
     },
+    async updateUserProfileByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateUserProfileByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateUserProfileByNodeId(
+          data,
+          query,
+        );
+        return result!['userProfile'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
     async updateUserProfile(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -2137,6 +2761,27 @@ export const PgrMixin = {
 
       return node;
     },
+    async deleteAccountByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteAccountByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteAccountByNodeId(data, query);
+        return result!['account'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
     async deleteAccount(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -2158,6 +2803,30 @@ export const PgrMixin = {
         throw err;
       }
     },
+    async deleteMigrationByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteMigrationByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteMigrationByNodeId(
+          data,
+          query,
+        );
+        return result!['migration'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
     async deleteMigration(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -2167,6 +2836,30 @@ export const PgrMixin = {
       try {
         const result = await client.mutation.deleteMigration(data, query);
         return result!['migration'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async deleteTestMultiplePrimaryByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteTestMultiplePrimaryByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteTestMultiplePrimaryByNodeId(
+          data,
+          query,
+        );
+        return result!['testMultiplePrimary'];
       } catch (err) {
         if (
           err.message &&
@@ -2203,6 +2896,30 @@ export const PgrMixin = {
         throw err;
       }
     },
+    async deleteTestPrimaryByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteTestPrimaryByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteTestPrimaryByNodeId(
+          data,
+          query,
+        );
+        return result!['testPrimary'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
     async deleteTestPrimary(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
@@ -2212,6 +2929,27 @@ export const PgrMixin = {
       try {
         const result = await client.mutation.deleteTestPrimary(data, query);
         return result!['testPrimary'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async deleteUserByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteUserByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteUserByNodeId(data, query);
+        return result!['user'];
       } catch (err) {
         if (
           err.message &&
@@ -2302,6 +3040,30 @@ export const PgrMixin = {
           query,
         );
         return result!['user'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async deleteUserProfileByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteUserProfileByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteUserProfileByNodeId(
+          data,
+          query,
+        );
+        return result!['userProfile'];
       } catch (err) {
         if (
           err.message &&
