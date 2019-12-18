@@ -34,7 +34,6 @@
     "graphql": "^14.5.8",
     "moleculer": "^0.13.11",
     "moleculer-decorators": "^1.1.1",
-    "moleculer-pgr": "file:../..",
     "node-fetch": "^2.6.0",
     "patch-package": "^6.2.0",
     "postgraphile": "^4.5.0",
@@ -46,16 +45,15 @@
     "typeorm": "^0.2.20"
   },
   "devDependencies": {
-    "moleculer-ts": "^1.0.3",
     "@types/node": "^10.17.6",
     "@types/prettier": "^1.19.0",
     "gts": "^1.1.0",
+    "moleculer-ts": "^1.0.4",
     "prettier": "^1.19.1",
     "sequelize-cli": "^5.5.1",
     "ts-node": "^8.5.2",
     "ts-patch": "^1.0.4",
     "ts-transformer-enumerate": "^0.5.1",
-    "ts-transformer-keys": "^0.4.1",
     "typescript": "^3.7.3",
     "typescript-transform-paths": "^1.1.13"
   },

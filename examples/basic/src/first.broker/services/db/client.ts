@@ -2,8 +2,8 @@ import { createBroker } from '@first.broker/broker';
 import fetch from 'node-fetch';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { makeRemoteExecutableSchema } from 'graphql-tools';
-import { Binding } from './pgr-client/binding';
-import schema from './pgr-client/schema';
+import { Binding } from './mixin/binding';
+import schema from './mixin/schema';
 
 export async function createSeedBroker() {
   const broker = await createBroker();

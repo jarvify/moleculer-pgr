@@ -25,6 +25,14 @@ class DbService
   implements DbServiceTypes.ServiceOwnActions {
   server!: Server;
 
+  @Action()
+  test(
+    ctx: Broker.Context<DbServiceTypes.ActionParams<'test'>>,
+  ): DbServiceTypes.ActionReturn<'test'> {
+    ctx.params.id;
+    return 'a';
+  }
+
   created() {
     this.settings.port = '3000';
     this.settings.pgr = {
@@ -66,8 +74,12 @@ class DbService
 
       const unknownId = '1c96407c-8be8-4c0e-bbf2-724761a7ac5a';
 
+      // this.broker.call('')
+
       console.log('createUser', user);
       console.log('user', await this.broker.call('db.user', { id: user.id }));
+
+      console.log('users', await this.broker.call('db.users', {}));
 
       console.log(
         'db.userProfile.user',
@@ -166,7 +178,7 @@ class DbService
       console.log(
         'db.updateUserProfile',
         await this.broker.call('db.updateUserProfile', {
-          id: '1c96407c-8be8-4c0e-bbf2-724761a7ac5a',
+          id: userProfile.id,
           patch: {},
         }),
       );

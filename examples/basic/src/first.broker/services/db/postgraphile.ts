@@ -1,5 +1,5 @@
 import { postgraphile, Plugin } from 'postgraphile';
-import { createGenerateClientPlugin } from 'moleculer-pgr';
+import { createGenerateMixinPlugin } from 'moleculer-pgr';
 
 import {
   makeJSONPgSmartTagsPlugin,
@@ -71,10 +71,9 @@ export async function createPostgraphile(generateClient: boolean = false) {
   ];
 
   if (generateClient) {
-    const GenerateClientPlugin = createGenerateClientPlugin(
+    const GenerateClientPlugin = createGenerateMixinPlugin(
       {
-        outputDir: path.join(__dirname, 'pgr-client'),
-        customMixinPath: path.join(__dirname, 'mixin.ts'),
+        outputDir: path.join(__dirname, 'mixin'),
       },
       async err => {
         if (err) {

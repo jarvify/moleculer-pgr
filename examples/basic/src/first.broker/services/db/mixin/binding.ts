@@ -1148,7 +1148,6 @@ export interface Account {
   createdAt: Datetime;
   updatedAt: Datetime;
   userId: UUID;
-  user: User;
 }
 
 /*
@@ -1179,7 +1178,6 @@ export interface CreateAccountPayload {
   clientMutationId?: String | null;
   account?: Account | null;
   query?: Query | null;
-  user: User;
   accountEdge?: AccountsEdge | null;
 }
 
@@ -1224,7 +1222,6 @@ export interface CreateUserPayload {
   clientMutationId?: String | null;
   user?: User | null;
   query?: Query | null;
-  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 
@@ -1248,7 +1245,6 @@ export interface DeleteAccountPayload {
   account?: Account | null;
   deletedAccountNodeId?: ID_Output | null;
   query?: Query | null;
-  user: User;
   accountEdge?: AccountsEdge | null;
 }
 
@@ -1297,7 +1293,6 @@ export interface DeleteUserPayload {
   user?: User | null;
   deletedUserNodeId?: ID_Output | null;
   query?: Query | null;
-  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 
@@ -1411,7 +1406,6 @@ export interface UpdateAccountPayload {
   clientMutationId?: String | null;
   account?: Account | null;
   query?: Query | null;
-  user: User;
   accountEdge?: AccountsEdge | null;
 }
 
@@ -1456,7 +1450,6 @@ export interface UpdateUserPayload {
   clientMutationId?: String | null;
   user?: User | null;
   query?: Query | null;
-  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 
@@ -1481,8 +1474,6 @@ export interface User {
   createdAt: Datetime;
   updatedAt: Datetime;
   userProfileId: UUID;
-  profile: UserProfile;
-  accounts: AccountsConnection;
 }
 
 /*
@@ -1493,7 +1484,6 @@ export interface UserCustomMutationPayload {
   clientMutationId?: String | null;
   user?: User | null;
   query?: Query | null;
-  profile: UserProfile;
   userEdge?: UsersEdge | null;
 }
 
@@ -1502,7 +1492,6 @@ export interface UserProfile {
   picture: String;
   createdAt: Datetime;
   updatedAt: Datetime;
-  user?: User | null;
 }
 
 /*

@@ -1,7 +1,7 @@
 import { buildSchema } from 'graphql';
 import { gql } from 'moleculer-pgr';
 
-const sdl = gql`
+export const sdl = gql`
   type Account {
     id: UUID!
     name: String!

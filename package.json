@@ -7,7 +7,7 @@
     "lib": "dist"
   },
   "scripts": {
-    "build": "tsc && tsc --project tsconfig.transformer.json",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,7 +17,8 @@
   },
   "peerDependencies": {
     "prettier": "1.x",
-    "graphql": "14.x"
+    "graphql": "14.x",
+    "moleculer-ts": "^1.x.x"
   },
   "devDependencies": {
     "@types/node": "^12.12.14",

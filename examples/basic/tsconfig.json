@@ -66,8 +66,6 @@
 
     "plugins": [
       { "transform": "typescript-transform-paths" },
-      { "transform": "moleculer-pgr/transformer" },
-      { "transform": "ts-transformer-keys/transformer" },
       { "transform": "ts-transformer-enumerate/transformer" }
     ]
   },
