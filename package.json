@@ -1,11 +1,26 @@
 {
   "name": "moleculer-pgr",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "Moleculer postgraphile service mixin generator",
+  "keywords": [
+    "postgraphile",
+    "postgres",
+    "db",
+    "database",
+    "moleculer",
+    "moleculer-js",
+    "typescript",
+    "ts"
+  ],
+  "homepage": "https://github.com/jarvify/moleculer-pgr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jarvify/moleculer-pgr"
+  },
   "directories": {
     "lib": "dist"
   },
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
