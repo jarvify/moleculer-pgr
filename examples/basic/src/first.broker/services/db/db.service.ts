@@ -34,18 +34,6 @@ class DbService
     };
   }
 
-  /*
-  pgNotify() {
-    const client = new PgrClient(
-      `http://127.0.0.1:${this.settings.port}/graphql`,
-    );
-    /*
-    client.subscription.listen('create', ``);
-    client.subscription.listen('update', ``);
-    client.subscription.listen('delete', ``);
-  }
-  */
-
   async started() {
     const app = express();
 
