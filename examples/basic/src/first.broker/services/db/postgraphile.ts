@@ -1,5 +1,6 @@
 import { postgraphile, Plugin, makePluginHook } from 'postgraphile';
 import { createGenerateMixinPlugin } from 'moleculer-pgr';
+import { Pool, PoolConfig } from 'pg';
 
 import {
   makeJSONPgSmartTagsPlugin,
@@ -8,13 +9,9 @@ import {
 
 import path from 'path';
 
-// Plugins
-import { NodePlugin } from 'graphile-build';
 import pgSimplifyInflector from '@graphile-contrib/pg-simplify-inflector';
 // @ts-ignore
 import ConnectionFilterPlugin from 'postgraphile-plugin-connection-filter';
-// @ts-ignore
-import PostGraphileNestedMutations from 'postgraphile-plugin-nested-mutations';
 // @ts-ignore
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 const PgNonNullPlugin = require('@graphile-contrib/pg-non-null');
@@ -61,56 +58,66 @@ const MyInflectorPlugin = makeAddInflectorsPlugin(oldInflectors => {
   };
 }, true);
 
-export async function createPostgraphile(generateClient: boolean = false) {
-  const plugins: Plugin[] = [
-    PgNonNullPlugin,
-    pgSimplifyInflector,
-    ConnectionFilterPlugin,
-    // PostGraphileNestedMutations,
-    PgManyToManyPlugin,
+type CreatePostgraphileOptions = {
+  poolOrConfig?: string | Pool | PoolConfig | undefined;
+  schema?: string | string[] | undefined;
+};
 
-    MyInflectorPlugin,
-    MySmartTagsPlugin,
-  ];
+const plugins: Plugin[] = [
+  PgNonNullPlugin,
+  pgSimplifyInflector,
+  ConnectionFilterPlugin,
+  PgManyToManyPlugin,
+  MyInflectorPlugin,
+  MySmartTagsPlugin,
+];
 
-  if (generateClient) {
-    const GenerateClientPlugin = createGenerateMixinPlugin(
-      {
-        outputDir: path.join(__dirname, 'mixin'),
-      },
-      async err => {
-        if (err) {
-          console.error(err);
-          process.exit(1);
-          return;
-        }
-        console.log('generate client - ok');
-        process.exit(0);
-      },
-    );
-
-    plugins.push(GenerateClientPlugin);
+function getPostgraphile(options: CreatePostgraphileOptions) {
+  if (!options.schema) {
+    options.schema = 'public';
   }
-  // @ts-ignore
-  const pgr = postgraphile(process.env.FIRST_BROKER_DB_URL, {
+
+  return postgraphile(options.poolOrConfig, options.schema, {
+    /* TODO subscriptions
     pluginHook,
     subscriptions: true,
+    // @ts-ignore
     simpleSubscriptions: true,
+    */
     graphileBuildOptions: {},
     dynamicJson: true,
     setofFunctionsContainNulls: false,
     ignoreRBAC: true,
     ignoreIndexes: true,
     extendedErrors: ['hint', 'detail', 'errcode'],
-    // skipPlugins: [NodePlugin],
     appendPlugins: plugins,
     graphiql: true,
     enhanceGraphiql: true,
     enableQueryBatching: true,
     legacyRelations: 'omit',
   });
+}
 
-  return {
-    postgraphile: pgr,
-  };
+export async function generateMixin(options: CreatePostgraphileOptions) {
+  return new Promise((resolve, reject) => {
+    const GenerateClientPlugin = createGenerateMixinPlugin(
+      {
+        outputDir: path.join(__dirname, 'mixin'),
+      },
+      async err => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      },
+    );
+
+    plugins.push(GenerateClientPlugin);
+    getPostgraphile(options);
+  });
+}
+
+export function createPostgraphile(options: CreatePostgraphileOptions) {
+  return getPostgraphile(options);
 }

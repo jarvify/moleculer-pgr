@@ -1,10 +1,9 @@
 import { Action, Event, ConcatMultiple } from 'moleculer-ts';
-import { PgrActions } from './mixin';
 
-export const name: 'db' = 'db';
+export const name: 'test' = 'test';
 
 export type OwnActions = [];
 export type OwnEvents = [];
 
-type Actions = ConcatMultiple<[OwnActions, PgrActions]>;
+type Actions = ConcatMultiple<[OwnActions]>;
 type Events = ConcatMultiple<[OwnEvents]>;

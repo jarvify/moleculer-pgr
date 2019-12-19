@@ -2,10 +2,11 @@ import * as MoleculerTs from 'moleculer-ts';
 import { OwnActions as Service0Action0 } from '../services/db/db.service.types';
 import { PgrActions as Service0Action1 } from '../services/db/./mixin';
 import { OwnEvents as Service0Event0 } from '../services/db/db.service.types';
+import { OwnActions as Service1Action0 } from '../services/test/test.service.types';
+import { OwnEvents as Service1Event0 } from '../services/test/test.service.types';
 
 declare module '../services/db/db.service.types' {
   type Actions = [
-    Service0Action0[0],
     Service0Action1[0],
     Service0Action1[1],
     Service0Action1[2],
@@ -120,6 +121,23 @@ declare module '../services/db/db.service.types' {
   type ServiceOwnActions = MoleculerTs.GetServiceOwnActions<OwnActions>;
 }
 
-import * as DbServiceTypes from '../services/db/db.service.types';
+declare module '../services/test/test.service.types' {
+  type Actions = [];
+  type Events = [];
 
-export { DbServiceTypes };
+  type ActionParams<
+    T extends MoleculerTs.GetNames<Actions>
+  > = MoleculerTs.GetParamsStrict<Actions, T>;
+  type ActionReturn<
+    T extends MoleculerTs.GetNames<Actions>
+  > = MoleculerTs.GetReturn<Actions, T>;
+  type EventParams<
+    T extends MoleculerTs.GetNames<Events>
+  > = MoleculerTs.GetParamsStrict<Events, T>;
+  type ServiceOwnActions = MoleculerTs.GetServiceOwnActions<OwnActions>;
+}
+
+import * as DbServiceTypes from '../services/db/db.service.types';
+import * as TestServiceTypes from '../services/test/test.service.types';
+
+export { DbServiceTypes, TestServiceTypes };

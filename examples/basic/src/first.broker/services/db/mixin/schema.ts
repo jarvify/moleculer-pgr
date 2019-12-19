@@ -1252,15 +1252,6 @@ export const sdl = gql`
     greaterThanOrEqualTo: Int
   }
 
-  type ListenPayload {
-    """
-    Our root query field type. Allows us to run any query from our subscription payload.
-    """
-    query: Query
-    relatedNode: Node
-    relatedNodeId: ID
-  }
-
   type Migration implements Node {
     """
     A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -2369,13 +2360,6 @@ export const sdl = gql`
     Does not match the specified pattern using the SQL standard's definition of a regular expression.
     """
     notSimilarTo: String
-  }
-
-  """
-  The root subscription type: contains realtime events you can subscribe to with the \`subscription\` operation.
-  """
-  type Subscription {
-    listen(topic: String!): ListenPayload!
   }
 
   """

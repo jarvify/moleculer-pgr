@@ -385,13 +385,7 @@ export interface Mutation {
   ) => Promise<T | null>;
 }
 
-export interface Subscription {
-  listen: <T = ListenPayload>(
-    args: { topic: String },
-    info?: GraphQLResolveInfo | string,
-    options?: Options,
-  ) => Promise<AsyncIterator<T>>;
-}
+export interface Subscription {}
 
 export interface Binding {
   query: Query;
@@ -1539,12 +1533,6 @@ export interface DeleteUserProfilePayload {
   deletedUserProfileNodeId?: ID_Output | null;
   query?: Query | null;
   userProfileEdge?: UserProfilesEdge | null;
-}
-
-export interface ListenPayload {
-  query?: Query | null;
-  relatedNode?: Node | null;
-  relatedNodeId?: ID_Output | null;
 }
 
 export interface Migration extends Node {

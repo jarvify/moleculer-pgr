@@ -278,17 +278,6 @@ declare namespace Moleculer {
     _stop(): PromiseLike<void>;
   }
 
-/// file 
-
-declare module 'moleculer' {
-  export type ServiceNamesGroup = newType 
-
-}
-
-import {Service,ServiceNamesGroup  } from 'moleculer'
-
-Service.waitForServices({})
-
   type CheckRetryable = (err: Error) => boolean;
 
   interface BrokerCircuitBreakerOptions {
