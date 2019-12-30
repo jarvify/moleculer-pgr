@@ -28,6 +28,13 @@ export async function generateMixin(options: GenerateMixinOptions) {
   await generateMixinFile(options);
 }
 
+function moleculerTsReturnType(options: { type: string; nullable?: boolean }) {
+  if (options.nullable) {
+    return `NodeOptional<${options.type}>`;
+  }
+  return options.type;
+}
+
 function getPrimaryFields(options: GenerateMixinOptions, typeName: string) {
   const objectTypes = options.objectTypes;
   const primaryKeys: string[] = [];
@@ -127,7 +134,14 @@ async function generateMixinFile(options: GenerateMixinOptions) {
         opReturn.name,
       )}\`,`;
 
-      mixinActionsTs += `moleculerTs.Action<'${operationName}', Parameters<binding.Query['${operationName}']>[0], binding.${opReturn.name}>,\n`;
+      let mixinActionTsNullable = true;
+      if (opReturn.opScope.isConnectionType) {
+        mixinActionTsNullable = false;
+      }
+
+      mixinActionsTs += `moleculerTs.Action<'${operationName}', Parameters<binding.Query['${operationName}']>[0], ${moleculerTsReturnType(
+        { type: `binding.${opReturn.name}`, nullable: mixinActionTsNullable },
+      )}>,\n`;
 
       mixinActions += `
       async ${operationName}(this: any, ctx: any) {
@@ -161,7 +175,7 @@ async function generateMixinFile(options: GenerateMixinOptions) {
 
         // FRIST
         customOperationName = `first${capitalize(operationName)}`;
-        mixinActionsTs += `moleculerTs.Action<'${customOperationName}', Parameters<binding.Query['${operationName}']>[0], binding.${connectionNames.nodeType}>,\n`;
+        mixinActionsTs += `moleculerTs.Action<'${customOperationName}', Parameters<binding.Query['${operationName}']>[0], NodeOptional<binding.${connectionNames.nodeType}>>,\n`;
         mixinActions += `
         async ${customOperationName}(this: any, ctx: any) {
           let { first, last, ...params } = ctx.params;   
