@@ -26,7 +26,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'firstAccounts',
     Parameters<binding.Query['accounts']>[0],
-    binding.Account
+    NodeOptional<binding.Account>
   >,
   moleculerTs.Action<
     'firstAccounts.user',
@@ -51,7 +51,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'firstMigrations',
     Parameters<binding.Query['migrations']>[0],
-    binding.Migration
+    NodeOptional<binding.Migration>
   >,
   moleculerTs.Action<
     'findMigrations',
@@ -71,7 +71,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'firstTestMultiplePrimaries',
     Parameters<binding.Query['testMultiplePrimaries']>[0],
-    binding.TestMultiplePrimary
+    NodeOptional<binding.TestMultiplePrimary>
   >,
   moleculerTs.Action<
     'findTestMultiplePrimaries',
@@ -91,7 +91,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'firstTestPrimaries',
     Parameters<binding.Query['testPrimaries']>[0],
-    binding.TestPrimary
+    NodeOptional<binding.TestPrimary>
   >,
   moleculerTs.Action<
     'findTestPrimaries',
@@ -111,7 +111,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'firstUsers',
     Parameters<binding.Query['users']>[0],
-    binding.User
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'firstUsers.profile',
@@ -136,7 +136,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'firstUserProfiles',
     Parameters<binding.Query['userProfiles']>[0],
-    binding.UserProfile
+    NodeOptional<binding.UserProfile>
   >,
   moleculerTs.Action<
     'firstUserProfiles.user',
@@ -151,7 +151,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'account',
     Parameters<binding.Query['account']>[0],
-    binding.Account
+    NodeOptional<binding.Account>
   >,
   moleculerTs.Action<
     'account.user',
@@ -161,22 +161,22 @@ export type PgrActions = [
   moleculerTs.Action<
     'migration',
     Parameters<binding.Query['migration']>[0],
-    binding.Migration
+    NodeOptional<binding.Migration>
   >,
   moleculerTs.Action<
     'testMultiplePrimary',
     Parameters<binding.Query['testMultiplePrimary']>[0],
-    binding.TestMultiplePrimary
+    NodeOptional<binding.TestMultiplePrimary>
   >,
   moleculerTs.Action<
     'testPrimary',
     Parameters<binding.Query['testPrimary']>[0],
-    binding.TestPrimary
+    NodeOptional<binding.TestPrimary>
   >,
   moleculerTs.Action<
     'user',
     Parameters<binding.Query['user']>[0],
-    binding.User
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'user.profile',
@@ -186,7 +186,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'userByEmail',
     Parameters<binding.Query['userByEmail']>[0],
-    binding.User
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'userByEmail.profile',
@@ -196,7 +196,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'userByFirstNameAndLastName',
     Parameters<binding.Query['userByFirstNameAndLastName']>[0],
-    binding.User
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'userByFirstNameAndLastName.profile',
@@ -206,7 +206,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'userByUserProfileId',
     Parameters<binding.Query['userByUserProfileId']>[0],
-    binding.User
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'userByUserProfileId.profile',
@@ -216,7 +216,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'userProfile',
     Parameters<binding.Query['userProfile']>[0],
-    binding.UserProfile
+    NodeOptional<binding.UserProfile>
   >,
   moleculerTs.Action<
     'userProfile.user',
@@ -236,7 +236,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'firstUserSearch',
     Parameters<binding.Query['userSearch']>[0],
-    binding.User
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'firstUserSearch.profile',
@@ -251,7 +251,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'accountByNodeId',
     Parameters<binding.Query['accountByNodeId']>[0],
-    binding.Account
+    NodeOptional<binding.Account>
   >,
   moleculerTs.Action<
     'accountByNodeId.user',
@@ -261,22 +261,22 @@ export type PgrActions = [
   moleculerTs.Action<
     'migrationByNodeId',
     Parameters<binding.Query['migrationByNodeId']>[0],
-    binding.Migration
+    NodeOptional<binding.Migration>
   >,
   moleculerTs.Action<
     'testMultiplePrimaryByNodeId',
     Parameters<binding.Query['testMultiplePrimaryByNodeId']>[0],
-    binding.TestMultiplePrimary
+    NodeOptional<binding.TestMultiplePrimary>
   >,
   moleculerTs.Action<
     'testPrimaryByNodeId',
     Parameters<binding.Query['testPrimaryByNodeId']>[0],
-    binding.TestPrimary
+    NodeOptional<binding.TestPrimary>
   >,
   moleculerTs.Action<
     'userByNodeId',
     Parameters<binding.Query['userByNodeId']>[0],
-    binding.User
+    NodeOptional<binding.User>
   >,
   moleculerTs.Action<
     'userByNodeId.profile',
@@ -286,7 +286,7 @@ export type PgrActions = [
   moleculerTs.Action<
     'userProfileByNodeId',
     Parameters<binding.Query['userProfileByNodeId']>[0],
-    binding.UserProfile
+    NodeOptional<binding.UserProfile>
   >,
   moleculerTs.Action<
     'userProfileByNodeId.user',

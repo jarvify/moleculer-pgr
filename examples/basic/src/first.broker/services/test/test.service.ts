@@ -38,9 +38,11 @@ class TestService
       update: { picture: 'update' },
       query: {},
     });
+    // not null
+    userProfile.id;
     console.log('UP', userProfile);
 
-    await this.broker.call('db.deleteUser', {
+    const delUser = await this.broker.call('db.deleteUser', {
       id: 'b9bd501c-9e54-45f4-8518-bd4793b72207',
     });
 
@@ -50,13 +52,19 @@ class TestService
       lastLoggedAt: new Date().toISOString(),
       userProfileId: userProfile.id,
     });
+    // not null !
+    user.id;
 
     const unknownId = '1c96407c-8be8-4c0e-bbf2-724761a7ac5a';
 
     console.log('createUser', user);
-    console.log('user', await this.broker.call('db.user', { id: user.id }));
+    console.log('user');
 
     console.log('users', await this.broker.call('db.users', {}));
+
+    const u = await this.broker.call('db.userProfile.user', {
+      id: userProfile.id,
+    });
 
     console.log(
       'db.userProfile.user',
