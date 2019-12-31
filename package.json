@@ -1,6 +1,6 @@
 {
   "name": "moleculer-pgr",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Moleculer postgraphile service mixin generator",
   "keywords": [
     "postgraphile",
