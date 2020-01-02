@@ -1,44 +1,26 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-/*
-select pg_notify(
-  'postgraphile:create',
-  json_build_object(
-    '__node__', json_build_array(TG_TABLE_NAME, NEW.id)
-  )::text
-);
-
-select pg_notify(
-  'postgraphile:update',
-  json_build_object(
-    '__node__', json_build_array(TG_TABLE_NAME, NEW.id)
-  )::text
-);
-
-select pg_notify(
-  'postgraphile:delete',
-  json_build_object(
-    '__node__', json_build_array(TG_TABLE_NAME, OLD.id)
-  )::text
-);
-
-*/
-
 export class migration1576687314564 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    /*
     await queryRunner.query(
-      `CREATE FUNCTION public.graphql_subscription() returns trigger as $$
+      `DROP FUNCTION IF EXISTS public.postgraphile_node_change() CASCADE;`,
+    );
+
+    await queryRunner.query(
+      `CREATE FUNCTION public.postgraphile_node_change() returns trigger as $$
             declare
+              v_name text = TG_ARGV[0];
               v_record record;
             begin
             -- On UPDATE sometimes topic may be changed for NEW record,
             -- so we need notify to both topics NEW and OLD.
               IF TG_OP = 'INSERT' THEN
                 perform pg_notify(
-                  'postgraphile:create',
+                  'postgraphile:node:change',
                   json_build_object(
-                    '__node__', json_build_array(TG_TABLE_NAME, NEW.id)
+                    'mutation', 'CREATE',
+                    'name', v_name,
+                    'id', NEW.id 
                   )::text
                 );
                 v_record = NEW;
@@ -46,9 +28,11 @@ export class migration1576687314564 implements MigrationInterface {
 
               IF TG_OP = 'UPDATE' THEN
                 perform pg_notify(
-                  'postgraphile:update',
+                  'postgraphile:node:change',
                   json_build_object(
-                    '__node__', json_build_array(TG_TABLE_NAME, NEW.id)
+                    'mutation', 'UPDATE',
+                    'name', v_name,
+                    'id', NEW.id 
                   )::text
                 );
                 v_record = NEW;
@@ -56,9 +40,11 @@ export class migration1576687314564 implements MigrationInterface {
 
               IF TG_OP = 'DELETE' THEN
                 perform pg_notify(
-                  'postgraphile:delete',
+                  'postgraphile:node:change',
                   json_build_object(
-                    '__node__', json_build_array(TG_TABLE_NAME, OLD.id)
+                    'mutation', 'DELETE',
+                    'name', v_name,
+                    'id', OLD.id 
                   )::text
                 );
                 v_record = OLD;
@@ -68,12 +54,9 @@ export class migration1576687314564 implements MigrationInterface {
             
         $$ language plpgsql volatile set search_path from current;`,
     );
-    */
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    /*
-    await queryRunner.query(`DROP FUNCTION public.graphql_subscription()`);
-    */
+    await queryRunner.query(`DROP FUNCTION public.postgraphile_node_change()`);
   }
 }

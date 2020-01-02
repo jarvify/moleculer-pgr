@@ -14,6 +14,9 @@ import pgSimplifyInflector from '@graphile-contrib/pg-simplify-inflector';
 import ConnectionFilterPlugin from 'postgraphile-plugin-connection-filter';
 // @ts-ignore
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
+
+import { NodeChangeSubscriptionPlugin } from './subscription';
+
 const PgNonNullPlugin = require('@graphile-contrib/pg-non-null');
 
 const { default: PgPubsub } = require('@graphile/pg-pubsub');
@@ -70,6 +73,7 @@ const plugins: Plugin[] = [
   PgManyToManyPlugin,
   MyInflectorPlugin,
   MySmartTagsPlugin,
+  NodeChangeSubscriptionPlugin,
 ];
 
 function getPostgraphile(options: CreatePostgraphileOptions) {
@@ -78,12 +82,8 @@ function getPostgraphile(options: CreatePostgraphileOptions) {
   }
 
   return postgraphile(options.poolOrConfig, options.schema, {
-    /* TODO subscriptions
     pluginHook,
     subscriptions: true,
-    // @ts-ignore
-    simpleSubscriptions: true,
-    */
     graphileBuildOptions: {},
     dynamicJson: true,
     setofFunctionsContainNulls: false,
@@ -104,7 +104,7 @@ export async function generateMixin(options: CreatePostgraphileOptions) {
       {
         outputDir: path.join(__dirname, 'mixin'),
       },
-      async err => {
+      async (err: any) => {
         if (err) {
           reject(err);
           return;

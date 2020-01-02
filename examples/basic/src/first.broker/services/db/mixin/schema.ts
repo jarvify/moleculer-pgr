@@ -1772,6 +1772,18 @@ export const sdl = gql`
     nodeId: ID!
   }
 
+  enum NodeChangeMutation {
+    CREATE
+    UPDATE
+    DELETE
+  }
+
+  type NodeChangePayload {
+    mutation: NodeChangeMutation!
+    name: String!
+    id: String!
+  }
+
   """
   Information about pagination in a connection.
   """
@@ -2360,6 +2372,13 @@ export const sdl = gql`
     Does not match the specified pattern using the SQL standard's definition of a regular expression.
     """
     notSimilarTo: String
+  }
+
+  """
+  The root subscription type: contains realtime events you can subscribe to with the \`subscription\` operation.
+  """
+  type Subscription {
+    nodeChange: NodeChangePayload
   }
 
   """

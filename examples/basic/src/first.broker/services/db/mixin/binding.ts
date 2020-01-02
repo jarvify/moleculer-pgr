@@ -385,7 +385,13 @@ export interface Mutation {
   ) => Promise<T | null>;
 }
 
-export interface Subscription {}
+export interface Subscription {
+  nodeChange: <T = NodeChangePayload | null>(
+    args?: {},
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<AsyncIterator<T | null>>;
+}
 
 export interface Binding {
   query: Query;
@@ -474,6 +480,8 @@ export type MigrationsOrderBy =
   | 'NAME_DESC'
   | 'PRIMARY_KEY_ASC'
   | 'PRIMARY_KEY_DESC';
+
+export type NodeChangeMutation = 'CREATE' | 'UPDATE' | 'DELETE';
 
 /*
  * Methods to use when ordering `TestMultiplePrimary`.
@@ -1560,6 +1568,12 @@ export interface MigrationsConnection {
 export interface MigrationsEdge {
   cursor?: Cursor | null;
   node: Migration;
+}
+
+export interface NodeChangePayload {
+  mutation: NodeChangeMutation;
+  name: String;
+  id: String;
 }
 
 /*
