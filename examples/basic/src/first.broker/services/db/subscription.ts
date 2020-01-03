@@ -1,4 +1,4 @@
-import { makeExtendSchemaPlugin, gql, embed } from 'graphile-utils';
+import { makeExtendSchemaPlugin, gql } from 'graphile-utils';
 
 export const nodeChangeTopicName = `postgraphile:node:change`;
 

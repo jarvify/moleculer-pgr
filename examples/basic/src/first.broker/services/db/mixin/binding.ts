@@ -33,16 +33,44 @@ export interface Query {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  migrations: <T = MigrationsConnection | null>(
+  migrationGenerateds: <T = MigrationGeneratedsConnection | null>(
     args: {
       first?: Int | null;
       last?: Int | null;
       offset?: Int | null;
       before?: Cursor | null;
       after?: Cursor | null;
-      orderBy?: Array<MigrationsOrderBy> | null;
-      condition?: MigrationCondition | null;
-      filter?: MigrationFilter | null;
+      orderBy?: Array<MigrationGeneratedsOrderBy> | null;
+      condition?: MigrationGeneratedCondition | null;
+      filter?: MigrationGeneratedFilter | null;
+    },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  migrationManuals: <T = MigrationManualsConnection | null>(
+    args: {
+      first?: Int | null;
+      last?: Int | null;
+      offset?: Int | null;
+      before?: Cursor | null;
+      after?: Cursor | null;
+      orderBy?: Array<MigrationManualsOrderBy> | null;
+      condition?: MigrationManualCondition | null;
+      filter?: MigrationManualFilter | null;
+    },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  migrationSeeds: <T = MigrationSeedsConnection | null>(
+    args: {
+      first?: Int | null;
+      last?: Int | null;
+      offset?: Int | null;
+      before?: Cursor | null;
+      after?: Cursor | null;
+      orderBy?: Array<MigrationSeedsOrderBy> | null;
+      condition?: MigrationSeedCondition | null;
+      filter?: MigrationSeedFilter | null;
     },
     info?: GraphQLResolveInfo | string,
     options?: Options,
@@ -108,7 +136,17 @@ export interface Query {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  migration: <T = Migration | null>(
+  migrationGenerated: <T = MigrationGenerated | null>(
+    args: { id: Int },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  migrationManual: <T = MigrationManual | null>(
+    args: { id: Int },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  migrationSeed: <T = MigrationSeed | null>(
     args: { id: Int },
     info?: GraphQLResolveInfo | string,
     options?: Options,
@@ -166,7 +204,17 @@ export interface Query {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  migrationByNodeId: <T = Migration | null>(
+  migrationGeneratedByNodeId: <T = MigrationGenerated | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  migrationManualByNodeId: <T = MigrationManual | null>(
+    args: { nodeId: ID_Output },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  migrationSeedByNodeId: <T = MigrationSeed | null>(
     args: { nodeId: ID_Output },
     info?: GraphQLResolveInfo | string,
     options?: Options,
@@ -199,8 +247,18 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  createMigration: <T = CreateMigrationPayload | null>(
-    args: { input: CreateMigrationInput },
+  createMigrationGenerated: <T = CreateMigrationGeneratedPayload | null>(
+    args: { input: CreateMigrationGeneratedInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  createMigrationManual: <T = CreateMigrationManualPayload | null>(
+    args: { input: CreateMigrationManualInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  createMigrationSeed: <T = CreateMigrationSeedPayload | null>(
+    args: { input: CreateMigrationSeedInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -234,13 +292,35 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  updateMigrationByNodeId: <T = UpdateMigrationPayload | null>(
-    args: { input: UpdateMigrationByNodeIdInput },
+  updateMigrationGeneratedByNodeId: <
+    T = UpdateMigrationGeneratedPayload | null
+  >(
+    args: { input: UpdateMigrationGeneratedByNodeIdInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  updateMigration: <T = UpdateMigrationPayload | null>(
-    args: { input: UpdateMigrationInput },
+  updateMigrationGenerated: <T = UpdateMigrationGeneratedPayload | null>(
+    args: { input: UpdateMigrationGeneratedInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateMigrationManualByNodeId: <T = UpdateMigrationManualPayload | null>(
+    args: { input: UpdateMigrationManualByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateMigrationManual: <T = UpdateMigrationManualPayload | null>(
+    args: { input: UpdateMigrationManualInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateMigrationSeedByNodeId: <T = UpdateMigrationSeedPayload | null>(
+    args: { input: UpdateMigrationSeedByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  updateMigrationSeed: <T = UpdateMigrationSeedPayload | null>(
+    args: { input: UpdateMigrationSeedInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -311,13 +391,35 @@ export interface Mutation {
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  deleteMigrationByNodeId: <T = DeleteMigrationPayload | null>(
-    args: { input: DeleteMigrationByNodeIdInput },
+  deleteMigrationGeneratedByNodeId: <
+    T = DeleteMigrationGeneratedPayload | null
+  >(
+    args: { input: DeleteMigrationGeneratedByNodeIdInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
-  deleteMigration: <T = DeleteMigrationPayload | null>(
-    args: { input: DeleteMigrationInput },
+  deleteMigrationGenerated: <T = DeleteMigrationGeneratedPayload | null>(
+    args: { input: DeleteMigrationGeneratedInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteMigrationManualByNodeId: <T = DeleteMigrationManualPayload | null>(
+    args: { input: DeleteMigrationManualByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteMigrationManual: <T = DeleteMigrationManualPayload | null>(
+    args: { input: DeleteMigrationManualInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteMigrationSeedByNodeId: <T = DeleteMigrationSeedPayload | null>(
+    args: { input: DeleteMigrationSeedByNodeIdInput },
+    info?: GraphQLResolveInfo | string,
+    options?: Options,
+  ) => Promise<T | null>;
+  deleteMigrationSeed: <T = DeleteMigrationSeedPayload | null>(
+    args: { input: DeleteMigrationSeedInput },
     info?: GraphQLResolveInfo | string,
     options?: Options,
   ) => Promise<T | null>;
@@ -467,10 +569,40 @@ export type AccountsOrderBy =
   | 'PRIMARY_KEY_DESC';
 
 /*
- * Methods to use when ordering `Migration`.
+ * Methods to use when ordering `MigrationGenerated`.
 
  */
-export type MigrationsOrderBy =
+export type MigrationGeneratedsOrderBy =
+  | 'NATURAL'
+  | 'ID_ASC'
+  | 'ID_DESC'
+  | 'TIMESTAMP_ASC'
+  | 'TIMESTAMP_DESC'
+  | 'NAME_ASC'
+  | 'NAME_DESC'
+  | 'PRIMARY_KEY_ASC'
+  | 'PRIMARY_KEY_DESC';
+
+/*
+ * Methods to use when ordering `MigrationManual`.
+
+ */
+export type MigrationManualsOrderBy =
+  | 'NATURAL'
+  | 'ID_ASC'
+  | 'ID_DESC'
+  | 'TIMESTAMP_ASC'
+  | 'TIMESTAMP_DESC'
+  | 'NAME_ASC'
+  | 'NAME_DESC'
+  | 'PRIMARY_KEY_ASC'
+  | 'PRIMARY_KEY_DESC';
+
+/*
+ * Methods to use when ordering `MigrationSeed`.
+
+ */
+export type MigrationSeedsOrderBy =
   | 'NATURAL'
   | 'ID_ASC'
   | 'ID_DESC'
@@ -686,12 +818,30 @@ export interface CreateAccountInput {
 }
 
 /*
- * All input for the create `Migration` mutation.
+ * All input for the create `MigrationGenerated` mutation.
 
  */
-export interface CreateMigrationInput {
+export interface CreateMigrationGeneratedInput {
   clientMutationId?: String | null;
-  migration: MigrationInput;
+  migrationGenerated: MigrationGeneratedInput;
+}
+
+/*
+ * All input for the create `MigrationManual` mutation.
+
+ */
+export interface CreateMigrationManualInput {
+  clientMutationId?: String | null;
+  migrationManual: MigrationManualInput;
+}
+
+/*
+ * All input for the create `MigrationSeed` mutation.
+
+ */
+export interface CreateMigrationSeedInput {
+  clientMutationId?: String | null;
+  migrationSeed: MigrationSeedInput;
 }
 
 /*
@@ -767,19 +917,55 @@ export interface DeleteAccountInput {
 }
 
 /*
- * All input for the `deleteMigrationByNodeId` mutation.
+ * All input for the `deleteMigrationGeneratedByNodeId` mutation.
 
  */
-export interface DeleteMigrationByNodeIdInput {
+export interface DeleteMigrationGeneratedByNodeIdInput {
   clientMutationId?: String | null;
   nodeId: ID_Output;
 }
 
 /*
- * All input for the `deleteMigration` mutation.
+ * All input for the `deleteMigrationGenerated` mutation.
 
  */
-export interface DeleteMigrationInput {
+export interface DeleteMigrationGeneratedInput {
+  clientMutationId?: String | null;
+  id: Int;
+}
+
+/*
+ * All input for the `deleteMigrationManualByNodeId` mutation.
+
+ */
+export interface DeleteMigrationManualByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+}
+
+/*
+ * All input for the `deleteMigrationManual` mutation.
+
+ */
+export interface DeleteMigrationManualInput {
+  clientMutationId?: String | null;
+  id: Int;
+}
+
+/*
+ * All input for the `deleteMigrationSeedByNodeId` mutation.
+
+ */
+export interface DeleteMigrationSeedByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+}
+
+/*
+ * All input for the `deleteMigrationSeed` mutation.
+
+ */
+export interface DeleteMigrationSeedInput {
   clientMutationId?: String | null;
   id: Int;
 }
@@ -904,43 +1090,129 @@ export interface IntFilter {
 }
 
 /*
- * A condition to be used against `Migration` object types. All fields are tested for equality and combined with a logical ‘and.’
+ * A condition to be used against `MigrationGenerated` object types. All fields are tested for equality and combined with a logical ‘and.’
 
  */
-export interface MigrationCondition {
+export interface MigrationGeneratedCondition {
   id?: Int | null;
   timestamp?: BigInt | null;
   name?: String | null;
 }
 
 /*
- * A filter to be used against `Migration` object types. All fields are combined with a logical ‘and.’
+ * A filter to be used against `MigrationGenerated` object types. All fields are combined with a logical ‘and.’
 
  */
-export interface MigrationFilter {
+export interface MigrationGeneratedFilter {
   id?: IntFilter | null;
   timestamp?: BigIntFilter | null;
   name?: StringFilter | null;
-  and?: MigrationFilter[] | MigrationFilter | null;
-  or?: MigrationFilter[] | MigrationFilter | null;
-  not?: MigrationFilter | null;
+  and?: MigrationGeneratedFilter[] | MigrationGeneratedFilter | null;
+  or?: MigrationGeneratedFilter[] | MigrationGeneratedFilter | null;
+  not?: MigrationGeneratedFilter | null;
 }
 
 /*
- * An input for mutations affecting `Migration`
+ * An input for mutations affecting `MigrationGenerated`
 
  */
-export interface MigrationInput {
+export interface MigrationGeneratedInput {
   id?: Int | null;
   timestamp: BigInt;
   name: String;
 }
 
 /*
- * Represents an update to a `Migration`. Fields that are set will be updated.
+ * Represents an update to a `MigrationGenerated`. Fields that are set will be updated.
 
  */
-export interface MigrationPatch {
+export interface MigrationGeneratedPatch {
+  id?: Int | null;
+  timestamp?: BigInt | null;
+  name?: String | null;
+}
+
+/*
+ * A condition to be used against `MigrationManual` object types. All fields are tested for equality and combined with a logical ‘and.’
+
+ */
+export interface MigrationManualCondition {
+  id?: Int | null;
+  timestamp?: BigInt | null;
+  name?: String | null;
+}
+
+/*
+ * A filter to be used against `MigrationManual` object types. All fields are combined with a logical ‘and.’
+
+ */
+export interface MigrationManualFilter {
+  id?: IntFilter | null;
+  timestamp?: BigIntFilter | null;
+  name?: StringFilter | null;
+  and?: MigrationManualFilter[] | MigrationManualFilter | null;
+  or?: MigrationManualFilter[] | MigrationManualFilter | null;
+  not?: MigrationManualFilter | null;
+}
+
+/*
+ * An input for mutations affecting `MigrationManual`
+
+ */
+export interface MigrationManualInput {
+  id?: Int | null;
+  timestamp: BigInt;
+  name: String;
+}
+
+/*
+ * Represents an update to a `MigrationManual`. Fields that are set will be updated.
+
+ */
+export interface MigrationManualPatch {
+  id?: Int | null;
+  timestamp?: BigInt | null;
+  name?: String | null;
+}
+
+/*
+ * A condition to be used against `MigrationSeed` object types. All fields are tested for equality and combined with a logical ‘and.’
+
+ */
+export interface MigrationSeedCondition {
+  id?: Int | null;
+  timestamp?: BigInt | null;
+  name?: String | null;
+}
+
+/*
+ * A filter to be used against `MigrationSeed` object types. All fields are combined with a logical ‘and.’
+
+ */
+export interface MigrationSeedFilter {
+  id?: IntFilter | null;
+  timestamp?: BigIntFilter | null;
+  name?: StringFilter | null;
+  and?: MigrationSeedFilter[] | MigrationSeedFilter | null;
+  or?: MigrationSeedFilter[] | MigrationSeedFilter | null;
+  not?: MigrationSeedFilter | null;
+}
+
+/*
+ * An input for mutations affecting `MigrationSeed`
+
+ */
+export interface MigrationSeedInput {
+  id?: Int | null;
+  timestamp: BigInt;
+  name: String;
+}
+
+/*
+ * Represents an update to a `MigrationSeed`. Fields that are set will be updated.
+
+ */
+export interface MigrationSeedPatch {
   id?: Int | null;
   timestamp?: BigInt | null;
   name?: String | null;
@@ -1093,22 +1365,62 @@ export interface UpdateAccountInput {
 }
 
 /*
- * All input for the `updateMigrationByNodeId` mutation.
+ * All input for the `updateMigrationGeneratedByNodeId` mutation.
 
  */
-export interface UpdateMigrationByNodeIdInput {
+export interface UpdateMigrationGeneratedByNodeIdInput {
   clientMutationId?: String | null;
   nodeId: ID_Output;
-  patch: MigrationPatch;
+  patch: MigrationGeneratedPatch;
 }
 
 /*
- * All input for the `updateMigration` mutation.
+ * All input for the `updateMigrationGenerated` mutation.
 
  */
-export interface UpdateMigrationInput {
+export interface UpdateMigrationGeneratedInput {
   clientMutationId?: String | null;
-  patch: MigrationPatch;
+  patch: MigrationGeneratedPatch;
+  id: Int;
+}
+
+/*
+ * All input for the `updateMigrationManualByNodeId` mutation.
+
+ */
+export interface UpdateMigrationManualByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: MigrationManualPatch;
+}
+
+/*
+ * All input for the `updateMigrationManual` mutation.
+
+ */
+export interface UpdateMigrationManualInput {
+  clientMutationId?: String | null;
+  patch: MigrationManualPatch;
+  id: Int;
+}
+
+/*
+ * All input for the `updateMigrationSeedByNodeId` mutation.
+
+ */
+export interface UpdateMigrationSeedByNodeIdInput {
+  clientMutationId?: String | null;
+  nodeId: ID_Output;
+  patch: MigrationSeedPatch;
+}
+
+/*
+ * All input for the `updateMigrationSeed` mutation.
+
+ */
+export interface UpdateMigrationSeedInput {
+  clientMutationId?: String | null;
+  patch: MigrationSeedPatch;
   id: Int;
 }
 
@@ -1417,14 +1729,36 @@ export interface CreateAccountPayload {
 }
 
 /*
- * The output of our create `Migration` mutation.
+ * The output of our create `MigrationGenerated` mutation.
 
  */
-export interface CreateMigrationPayload {
+export interface CreateMigrationGeneratedPayload {
   clientMutationId?: String | null;
-  migration?: Migration | null;
+  migrationGenerated?: MigrationGenerated | null;
   query?: Query | null;
-  migrationEdge?: MigrationsEdge | null;
+  migrationGeneratedEdge?: MigrationGeneratedsEdge | null;
+}
+
+/*
+ * The output of our create `MigrationManual` mutation.
+
+ */
+export interface CreateMigrationManualPayload {
+  clientMutationId?: String | null;
+  migrationManual?: MigrationManual | null;
+  query?: Query | null;
+  migrationManualEdge?: MigrationManualsEdge | null;
+}
+
+/*
+ * The output of our create `MigrationSeed` mutation.
+
+ */
+export interface CreateMigrationSeedPayload {
+  clientMutationId?: String | null;
+  migrationSeed?: MigrationSeed | null;
+  query?: Query | null;
+  migrationSeedEdge?: MigrationSeedsEdge | null;
 }
 
 /*
@@ -1484,15 +1818,39 @@ export interface DeleteAccountPayload {
 }
 
 /*
- * The output of our delete `Migration` mutation.
+ * The output of our delete `MigrationGenerated` mutation.
 
  */
-export interface DeleteMigrationPayload {
+export interface DeleteMigrationGeneratedPayload {
   clientMutationId?: String | null;
-  migration?: Migration | null;
-  deletedMigrationNodeId?: ID_Output | null;
+  migrationGenerated?: MigrationGenerated | null;
+  deletedMigrationGeneratedNodeId?: ID_Output | null;
   query?: Query | null;
-  migrationEdge?: MigrationsEdge | null;
+  migrationGeneratedEdge?: MigrationGeneratedsEdge | null;
+}
+
+/*
+ * The output of our delete `MigrationManual` mutation.
+
+ */
+export interface DeleteMigrationManualPayload {
+  clientMutationId?: String | null;
+  migrationManual?: MigrationManual | null;
+  deletedMigrationManualNodeId?: ID_Output | null;
+  query?: Query | null;
+  migrationManualEdge?: MigrationManualsEdge | null;
+}
+
+/*
+ * The output of our delete `MigrationSeed` mutation.
+
+ */
+export interface DeleteMigrationSeedPayload {
+  clientMutationId?: String | null;
+  migrationSeed?: MigrationSeed | null;
+  deletedMigrationSeedNodeId?: ID_Output | null;
+  query?: Query | null;
+  migrationSeedEdge?: MigrationSeedsEdge | null;
 }
 
 /*
@@ -1543,7 +1901,7 @@ export interface DeleteUserProfilePayload {
   userProfileEdge?: UserProfilesEdge | null;
 }
 
-export interface Migration extends Node {
+export interface MigrationGenerated extends Node {
   nodeId: ID_Output;
   id: Int;
   timestamp: BigInt;
@@ -1551,23 +1909,77 @@ export interface Migration extends Node {
 }
 
 /*
- * A connection to a list of `Migration` values.
+ * A connection to a list of `MigrationGenerated` values.
 
  */
-export interface MigrationsConnection {
-  nodes: Array<Migration>;
-  edges: Array<MigrationsEdge>;
+export interface MigrationGeneratedsConnection {
+  nodes: Array<MigrationGenerated>;
+  edges: Array<MigrationGeneratedsEdge>;
   pageInfo: PageInfo;
   totalCount: Int;
 }
 
 /*
- * A `Migration` edge in the connection.
+ * A `MigrationGenerated` edge in the connection.
 
  */
-export interface MigrationsEdge {
+export interface MigrationGeneratedsEdge {
   cursor?: Cursor | null;
-  node: Migration;
+  node: MigrationGenerated;
+}
+
+export interface MigrationManual extends Node {
+  nodeId: ID_Output;
+  id: Int;
+  timestamp: BigInt;
+  name: String;
+}
+
+/*
+ * A connection to a list of `MigrationManual` values.
+
+ */
+export interface MigrationManualsConnection {
+  nodes: Array<MigrationManual>;
+  edges: Array<MigrationManualsEdge>;
+  pageInfo: PageInfo;
+  totalCount: Int;
+}
+
+/*
+ * A `MigrationManual` edge in the connection.
+
+ */
+export interface MigrationManualsEdge {
+  cursor?: Cursor | null;
+  node: MigrationManual;
+}
+
+export interface MigrationSeed extends Node {
+  nodeId: ID_Output;
+  id: Int;
+  timestamp: BigInt;
+  name: String;
+}
+
+/*
+ * A connection to a list of `MigrationSeed` values.
+
+ */
+export interface MigrationSeedsConnection {
+  nodes: Array<MigrationSeed>;
+  edges: Array<MigrationSeedsEdge>;
+  pageInfo: PageInfo;
+  totalCount: Int;
+}
+
+/*
+ * A `MigrationSeed` edge in the connection.
+
+ */
+export interface MigrationSeedsEdge {
+  cursor?: Cursor | null;
+  node: MigrationSeed;
 }
 
 export interface NodeChangePayload {
@@ -1654,14 +2066,36 @@ export interface UpdateAccountPayload {
 }
 
 /*
- * The output of our update `Migration` mutation.
+ * The output of our update `MigrationGenerated` mutation.
 
  */
-export interface UpdateMigrationPayload {
+export interface UpdateMigrationGeneratedPayload {
   clientMutationId?: String | null;
-  migration?: Migration | null;
+  migrationGenerated?: MigrationGenerated | null;
   query?: Query | null;
-  migrationEdge?: MigrationsEdge | null;
+  migrationGeneratedEdge?: MigrationGeneratedsEdge | null;
+}
+
+/*
+ * The output of our update `MigrationManual` mutation.
+
+ */
+export interface UpdateMigrationManualPayload {
+  clientMutationId?: String | null;
+  migrationManual?: MigrationManual | null;
+  query?: Query | null;
+  migrationManualEdge?: MigrationManualsEdge | null;
+}
+
+/*
+ * The output of our update `MigrationSeed` mutation.
+
+ */
+export interface UpdateMigrationSeedPayload {
+  clientMutationId?: String | null;
+  migrationSeed?: MigrationSeed | null;
+  query?: Query | null;
+  migrationSeedEdge?: MigrationSeedsEdge | null;
 }
 
 /*

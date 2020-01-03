@@ -474,9 +474,9 @@ export const sdl = gql`
   }
 
   """
-  All input for the create \`Migration\` mutation.
+  All input for the create \`MigrationGenerated\` mutation.
   """
-  input CreateMigrationInput {
+  input CreateMigrationGeneratedInput {
     """
     An arbitrary string value with no semantic meaning. Will be included in the
     payload verbatim. May be used to track mutations by the client.
@@ -484,15 +484,15 @@ export const sdl = gql`
     clientMutationId: String
 
     """
-    The \`Migration\` to be created by this mutation.
+    The \`MigrationGenerated\` to be created by this mutation.
     """
-    migration: MigrationInput!
+    migrationGenerated: MigrationGeneratedInput!
   }
 
   """
-  The output of our create \`Migration\` mutation.
+  The output of our create \`MigrationGenerated\` mutation.
   """
-  type CreateMigrationPayload {
+  type CreateMigrationGeneratedPayload {
     """
     The exact same \`clientMutationId\` that was provided in the mutation input,
     unchanged and unused. May be used by a client to track mutations.
@@ -500,9 +500,9 @@ export const sdl = gql`
     clientMutationId: String
 
     """
-    The \`Migration\` that was created by this mutation.
+    The \`MigrationGenerated\` that was created by this mutation.
     """
-    migration: Migration
+    migrationGenerated: MigrationGenerated
 
     """
     Our root query field type. Allows us to run any query from our mutation payload.
@@ -510,14 +510,108 @@ export const sdl = gql`
     query: Query
 
     """
-    An edge for our \`Migration\`. May be used by Relay 1.
+    An edge for our \`MigrationGenerated\`. May be used by Relay 1.
     """
-    migrationEdge(
+    migrationGeneratedEdge(
       """
-      The method to use when ordering \`Migration\`.
+      The method to use when ordering \`MigrationGenerated\`.
       """
-      orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
-    ): MigrationsEdge
+      orderBy: [MigrationGeneratedsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationGeneratedsEdge
+  }
+
+  """
+  All input for the create \`MigrationManual\` mutation.
+  """
+  input CreateMigrationManualInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationManual\` to be created by this mutation.
+    """
+    migrationManual: MigrationManualInput!
+  }
+
+  """
+  The output of our create \`MigrationManual\` mutation.
+  """
+  type CreateMigrationManualPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationManual\` that was created by this mutation.
+    """
+    migrationManual: MigrationManual
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`MigrationManual\`. May be used by Relay 1.
+    """
+    migrationManualEdge(
+      """
+      The method to use when ordering \`MigrationManual\`.
+      """
+      orderBy: [MigrationManualsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationManualsEdge
+  }
+
+  """
+  All input for the create \`MigrationSeed\` mutation.
+  """
+  input CreateMigrationSeedInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationSeed\` to be created by this mutation.
+    """
+    migrationSeed: MigrationSeedInput!
+  }
+
+  """
+  The output of our create \`MigrationSeed\` mutation.
+  """
+  type CreateMigrationSeedPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationSeed\` that was created by this mutation.
+    """
+    migrationSeed: MigrationSeed
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`MigrationSeed\`. May be used by Relay 1.
+    """
+    migrationSeedEdge(
+      """
+      The method to use when ordering \`MigrationSeed\`.
+      """
+      orderBy: [MigrationSeedsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationSeedsEdge
   }
 
   """
@@ -850,9 +944,9 @@ export const sdl = gql`
   }
 
   """
-  All input for the \`deleteMigrationByNodeId\` mutation.
+  All input for the \`deleteMigrationGeneratedByNodeId\` mutation.
   """
-  input DeleteMigrationByNodeIdInput {
+  input DeleteMigrationGeneratedByNodeIdInput {
     """
     An arbitrary string value with no semantic meaning. Will be included in the
     payload verbatim. May be used to track mutations by the client.
@@ -860,15 +954,15 @@ export const sdl = gql`
     clientMutationId: String
 
     """
-    The globally unique \`ID\` which will identify a single \`Migration\` to be deleted.
+    The globally unique \`ID\` which will identify a single \`MigrationGenerated\` to be deleted.
     """
     nodeId: ID!
   }
 
   """
-  All input for the \`deleteMigration\` mutation.
+  All input for the \`deleteMigrationGenerated\` mutation.
   """
-  input DeleteMigrationInput {
+  input DeleteMigrationGeneratedInput {
     """
     An arbitrary string value with no semantic meaning. Will be included in the
     payload verbatim. May be used to track mutations by the client.
@@ -878,9 +972,9 @@ export const sdl = gql`
   }
 
   """
-  The output of our delete \`Migration\` mutation.
+  The output of our delete \`MigrationGenerated\` mutation.
   """
-  type DeleteMigrationPayload {
+  type DeleteMigrationGeneratedPayload {
     """
     The exact same \`clientMutationId\` that was provided in the mutation input,
     unchanged and unused. May be used by a client to track mutations.
@@ -888,10 +982,10 @@ export const sdl = gql`
     clientMutationId: String
 
     """
-    The \`Migration\` that was deleted by this mutation.
+    The \`MigrationGenerated\` that was deleted by this mutation.
     """
-    migration: Migration
-    deletedMigrationNodeId: ID
+    migrationGenerated: MigrationGenerated
+    deletedMigrationGeneratedNodeId: ID
 
     """
     Our root query field type. Allows us to run any query from our mutation payload.
@@ -899,14 +993,134 @@ export const sdl = gql`
     query: Query
 
     """
-    An edge for our \`Migration\`. May be used by Relay 1.
+    An edge for our \`MigrationGenerated\`. May be used by Relay 1.
     """
-    migrationEdge(
+    migrationGeneratedEdge(
       """
-      The method to use when ordering \`Migration\`.
+      The method to use when ordering \`MigrationGenerated\`.
       """
-      orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
-    ): MigrationsEdge
+      orderBy: [MigrationGeneratedsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationGeneratedsEdge
+  }
+
+  """
+  All input for the \`deleteMigrationManualByNodeId\` mutation.
+  """
+  input DeleteMigrationManualByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`MigrationManual\` to be deleted.
+    """
+    nodeId: ID!
+  }
+
+  """
+  All input for the \`deleteMigrationManual\` mutation.
+  """
+  input DeleteMigrationManualInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+    id: Int!
+  }
+
+  """
+  The output of our delete \`MigrationManual\` mutation.
+  """
+  type DeleteMigrationManualPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationManual\` that was deleted by this mutation.
+    """
+    migrationManual: MigrationManual
+    deletedMigrationManualNodeId: ID
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`MigrationManual\`. May be used by Relay 1.
+    """
+    migrationManualEdge(
+      """
+      The method to use when ordering \`MigrationManual\`.
+      """
+      orderBy: [MigrationManualsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationManualsEdge
+  }
+
+  """
+  All input for the \`deleteMigrationSeedByNodeId\` mutation.
+  """
+  input DeleteMigrationSeedByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`MigrationSeed\` to be deleted.
+    """
+    nodeId: ID!
+  }
+
+  """
+  All input for the \`deleteMigrationSeed\` mutation.
+  """
+  input DeleteMigrationSeedInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+    id: Int!
+  }
+
+  """
+  The output of our delete \`MigrationSeed\` mutation.
+  """
+  type DeleteMigrationSeedPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationSeed\` that was deleted by this mutation.
+    """
+    migrationSeed: MigrationSeed
+    deletedMigrationSeedNodeId: ID
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`MigrationSeed\`. May be used by Relay 1.
+    """
+    migrationSeedEdge(
+      """
+      The method to use when ordering \`MigrationSeed\`.
+      """
+      orderBy: [MigrationSeedsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationSeedsEdge
   }
 
   """
@@ -1252,7 +1466,7 @@ export const sdl = gql`
     greaterThanOrEqualTo: Int
   }
 
-  type Migration implements Node {
+  type MigrationGenerated implements Node {
     """
     A globally unique identifier. Can be used in various places throughout the system to identify this single value.
     """
@@ -1263,10 +1477,10 @@ export const sdl = gql`
   }
 
   """
-  A condition to be used against \`Migration\` object types. All fields are tested
-  for equality and combined with a logical ‘and.’
+  A condition to be used against \`MigrationGenerated\` object types. All fields are
+  tested for equality and combined with a logical ‘and.’
   """
-  input MigrationCondition {
+  input MigrationGeneratedCondition {
     """
     Checks for equality with the object’s \`id\` field.
     """
@@ -1284,9 +1498,9 @@ export const sdl = gql`
   }
 
   """
-  A filter to be used against \`Migration\` object types. All fields are combined with a logical ‘and.’
+  A filter to be used against \`MigrationGenerated\` object types. All fields are combined with a logical ‘and.’
   """
-  input MigrationFilter {
+  input MigrationGeneratedFilter {
     """
     Filter by the object’s \`id\` field.
     """
@@ -1305,50 +1519,50 @@ export const sdl = gql`
     """
     Checks for all expressions in this list.
     """
-    and: [MigrationFilter!]
+    and: [MigrationGeneratedFilter!]
 
     """
     Checks for any expressions in this list.
     """
-    or: [MigrationFilter!]
+    or: [MigrationGeneratedFilter!]
 
     """
     Negates the expression.
     """
-    not: MigrationFilter
+    not: MigrationGeneratedFilter
   }
 
   """
-  An input for mutations affecting \`Migration\`
+  An input for mutations affecting \`MigrationGenerated\`
   """
-  input MigrationInput {
+  input MigrationGeneratedInput {
     id: Int
     timestamp: BigInt!
     name: String!
   }
 
   """
-  Represents an update to a \`Migration\`. Fields that are set will be updated.
+  Represents an update to a \`MigrationGenerated\`. Fields that are set will be updated.
   """
-  input MigrationPatch {
+  input MigrationGeneratedPatch {
     id: Int
     timestamp: BigInt
     name: String
   }
 
   """
-  A connection to a list of \`Migration\` values.
+  A connection to a list of \`MigrationGenerated\` values.
   """
-  type MigrationsConnection {
+  type MigrationGeneratedsConnection {
     """
-    A list of \`Migration\` objects.
+    A list of \`MigrationGenerated\` objects.
     """
-    nodes: [Migration!]!
+    nodes: [MigrationGenerated!]!
 
     """
-    A list of edges which contains the \`Migration\` and cursor to aid in pagination.
+    A list of edges which contains the \`MigrationGenerated\` and cursor to aid in pagination.
     """
-    edges: [MigrationsEdge!]!
+    edges: [MigrationGeneratedsEdge!]!
 
     """
     Information to aid in pagination.
@@ -1356,30 +1570,308 @@ export const sdl = gql`
     pageInfo: PageInfo!
 
     """
-    The count of *all* \`Migration\` you could get from the connection.
+    The count of *all* \`MigrationGenerated\` you could get from the connection.
     """
     totalCount: Int!
   }
 
   """
-  A \`Migration\` edge in the connection.
+  A \`MigrationGenerated\` edge in the connection.
   """
-  type MigrationsEdge {
+  type MigrationGeneratedsEdge {
     """
     A cursor for use in pagination.
     """
     cursor: Cursor
 
     """
-    The \`Migration\` at the end of the edge.
+    The \`MigrationGenerated\` at the end of the edge.
     """
-    node: Migration!
+    node: MigrationGenerated!
   }
 
   """
-  Methods to use when ordering \`Migration\`.
+  Methods to use when ordering \`MigrationGenerated\`.
   """
-  enum MigrationsOrderBy {
+  enum MigrationGeneratedsOrderBy {
+    NATURAL
+    ID_ASC
+    ID_DESC
+    TIMESTAMP_ASC
+    TIMESTAMP_DESC
+    NAME_ASC
+    NAME_DESC
+    PRIMARY_KEY_ASC
+    PRIMARY_KEY_DESC
+  }
+
+  type MigrationManual implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
+    id: Int!
+    timestamp: BigInt!
+    name: String!
+  }
+
+  """
+  A condition to be used against \`MigrationManual\` object types. All fields are
+  tested for equality and combined with a logical ‘and.’
+  """
+  input MigrationManualCondition {
+    """
+    Checks for equality with the object’s \`id\` field.
+    """
+    id: Int
+
+    """
+    Checks for equality with the object’s \`timestamp\` field.
+    """
+    timestamp: BigInt
+
+    """
+    Checks for equality with the object’s \`name\` field.
+    """
+    name: String
+  }
+
+  """
+  A filter to be used against \`MigrationManual\` object types. All fields are combined with a logical ‘and.’
+  """
+  input MigrationManualFilter {
+    """
+    Filter by the object’s \`id\` field.
+    """
+    id: IntFilter
+
+    """
+    Filter by the object’s \`timestamp\` field.
+    """
+    timestamp: BigIntFilter
+
+    """
+    Filter by the object’s \`name\` field.
+    """
+    name: StringFilter
+
+    """
+    Checks for all expressions in this list.
+    """
+    and: [MigrationManualFilter!]
+
+    """
+    Checks for any expressions in this list.
+    """
+    or: [MigrationManualFilter!]
+
+    """
+    Negates the expression.
+    """
+    not: MigrationManualFilter
+  }
+
+  """
+  An input for mutations affecting \`MigrationManual\`
+  """
+  input MigrationManualInput {
+    id: Int
+    timestamp: BigInt!
+    name: String!
+  }
+
+  """
+  Represents an update to a \`MigrationManual\`. Fields that are set will be updated.
+  """
+  input MigrationManualPatch {
+    id: Int
+    timestamp: BigInt
+    name: String
+  }
+
+  """
+  A connection to a list of \`MigrationManual\` values.
+  """
+  type MigrationManualsConnection {
+    """
+    A list of \`MigrationManual\` objects.
+    """
+    nodes: [MigrationManual!]!
+
+    """
+    A list of edges which contains the \`MigrationManual\` and cursor to aid in pagination.
+    """
+    edges: [MigrationManualsEdge!]!
+
+    """
+    Information to aid in pagination.
+    """
+    pageInfo: PageInfo!
+
+    """
+    The count of *all* \`MigrationManual\` you could get from the connection.
+    """
+    totalCount: Int!
+  }
+
+  """
+  A \`MigrationManual\` edge in the connection.
+  """
+  type MigrationManualsEdge {
+    """
+    A cursor for use in pagination.
+    """
+    cursor: Cursor
+
+    """
+    The \`MigrationManual\` at the end of the edge.
+    """
+    node: MigrationManual!
+  }
+
+  """
+  Methods to use when ordering \`MigrationManual\`.
+  """
+  enum MigrationManualsOrderBy {
+    NATURAL
+    ID_ASC
+    ID_DESC
+    TIMESTAMP_ASC
+    TIMESTAMP_DESC
+    NAME_ASC
+    NAME_DESC
+    PRIMARY_KEY_ASC
+    PRIMARY_KEY_DESC
+  }
+
+  type MigrationSeed implements Node {
+    """
+    A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+    """
+    nodeId: ID!
+    id: Int!
+    timestamp: BigInt!
+    name: String!
+  }
+
+  """
+  A condition to be used against \`MigrationSeed\` object types. All fields are
+  tested for equality and combined with a logical ‘and.’
+  """
+  input MigrationSeedCondition {
+    """
+    Checks for equality with the object’s \`id\` field.
+    """
+    id: Int
+
+    """
+    Checks for equality with the object’s \`timestamp\` field.
+    """
+    timestamp: BigInt
+
+    """
+    Checks for equality with the object’s \`name\` field.
+    """
+    name: String
+  }
+
+  """
+  A filter to be used against \`MigrationSeed\` object types. All fields are combined with a logical ‘and.’
+  """
+  input MigrationSeedFilter {
+    """
+    Filter by the object’s \`id\` field.
+    """
+    id: IntFilter
+
+    """
+    Filter by the object’s \`timestamp\` field.
+    """
+    timestamp: BigIntFilter
+
+    """
+    Filter by the object’s \`name\` field.
+    """
+    name: StringFilter
+
+    """
+    Checks for all expressions in this list.
+    """
+    and: [MigrationSeedFilter!]
+
+    """
+    Checks for any expressions in this list.
+    """
+    or: [MigrationSeedFilter!]
+
+    """
+    Negates the expression.
+    """
+    not: MigrationSeedFilter
+  }
+
+  """
+  An input for mutations affecting \`MigrationSeed\`
+  """
+  input MigrationSeedInput {
+    id: Int
+    timestamp: BigInt!
+    name: String!
+  }
+
+  """
+  Represents an update to a \`MigrationSeed\`. Fields that are set will be updated.
+  """
+  input MigrationSeedPatch {
+    id: Int
+    timestamp: BigInt
+    name: String
+  }
+
+  """
+  A connection to a list of \`MigrationSeed\` values.
+  """
+  type MigrationSeedsConnection {
+    """
+    A list of \`MigrationSeed\` objects.
+    """
+    nodes: [MigrationSeed!]!
+
+    """
+    A list of edges which contains the \`MigrationSeed\` and cursor to aid in pagination.
+    """
+    edges: [MigrationSeedsEdge!]!
+
+    """
+    Information to aid in pagination.
+    """
+    pageInfo: PageInfo!
+
+    """
+    The count of *all* \`MigrationSeed\` you could get from the connection.
+    """
+    totalCount: Int!
+  }
+
+  """
+  A \`MigrationSeed\` edge in the connection.
+  """
+  type MigrationSeedsEdge {
+    """
+    A cursor for use in pagination.
+    """
+    cursor: Cursor
+
+    """
+    The \`MigrationSeed\` at the end of the edge.
+    """
+    node: MigrationSeed!
+  }
+
+  """
+  Methods to use when ordering \`MigrationSeed\`.
+  """
+  enum MigrationSeedsOrderBy {
     NATURAL
     ID_ASC
     ID_DESC
@@ -1406,14 +1898,34 @@ export const sdl = gql`
     ): CreateAccountPayload
 
     """
-    Creates a single \`Migration\`.
+    Creates a single \`MigrationGenerated\`.
     """
-    createMigration(
+    createMigrationGenerated(
       """
       The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
       """
-      input: CreateMigrationInput!
-    ): CreateMigrationPayload
+      input: CreateMigrationGeneratedInput!
+    ): CreateMigrationGeneratedPayload
+
+    """
+    Creates a single \`MigrationManual\`.
+    """
+    createMigrationManual(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: CreateMigrationManualInput!
+    ): CreateMigrationManualPayload
+
+    """
+    Creates a single \`MigrationSeed\`.
+    """
+    createMigrationSeed(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: CreateMigrationSeedInput!
+    ): CreateMigrationSeedPayload
 
     """
     Creates a single \`TestMultiplePrimary\`.
@@ -1476,24 +1988,64 @@ export const sdl = gql`
     ): UpdateAccountPayload
 
     """
-    Updates a single \`Migration\` using its globally unique id and a patch.
+    Updates a single \`MigrationGenerated\` using its globally unique id and a patch.
     """
-    updateMigrationByNodeId(
+    updateMigrationGeneratedByNodeId(
       """
       The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
       """
-      input: UpdateMigrationByNodeIdInput!
-    ): UpdateMigrationPayload
+      input: UpdateMigrationGeneratedByNodeIdInput!
+    ): UpdateMigrationGeneratedPayload
 
     """
-    Updates a single \`Migration\` using a unique key and a patch.
+    Updates a single \`MigrationGenerated\` using a unique key and a patch.
     """
-    updateMigration(
+    updateMigrationGenerated(
       """
       The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
       """
-      input: UpdateMigrationInput!
-    ): UpdateMigrationPayload
+      input: UpdateMigrationGeneratedInput!
+    ): UpdateMigrationGeneratedPayload
+
+    """
+    Updates a single \`MigrationManual\` using its globally unique id and a patch.
+    """
+    updateMigrationManualByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateMigrationManualByNodeIdInput!
+    ): UpdateMigrationManualPayload
+
+    """
+    Updates a single \`MigrationManual\` using a unique key and a patch.
+    """
+    updateMigrationManual(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateMigrationManualInput!
+    ): UpdateMigrationManualPayload
+
+    """
+    Updates a single \`MigrationSeed\` using its globally unique id and a patch.
+    """
+    updateMigrationSeedByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateMigrationSeedByNodeIdInput!
+    ): UpdateMigrationSeedPayload
+
+    """
+    Updates a single \`MigrationSeed\` using a unique key and a patch.
+    """
+    updateMigrationSeed(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: UpdateMigrationSeedInput!
+    ): UpdateMigrationSeedPayload
 
     """
     Updates a single \`TestMultiplePrimary\` using its globally unique id and a patch.
@@ -1626,24 +2178,64 @@ export const sdl = gql`
     ): DeleteAccountPayload
 
     """
-    Deletes a single \`Migration\` using its globally unique id.
+    Deletes a single \`MigrationGenerated\` using its globally unique id.
     """
-    deleteMigrationByNodeId(
+    deleteMigrationGeneratedByNodeId(
       """
       The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
       """
-      input: DeleteMigrationByNodeIdInput!
-    ): DeleteMigrationPayload
+      input: DeleteMigrationGeneratedByNodeIdInput!
+    ): DeleteMigrationGeneratedPayload
 
     """
-    Deletes a single \`Migration\` using a unique key.
+    Deletes a single \`MigrationGenerated\` using a unique key.
     """
-    deleteMigration(
+    deleteMigrationGenerated(
       """
       The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
       """
-      input: DeleteMigrationInput!
-    ): DeleteMigrationPayload
+      input: DeleteMigrationGeneratedInput!
+    ): DeleteMigrationGeneratedPayload
+
+    """
+    Deletes a single \`MigrationManual\` using its globally unique id.
+    """
+    deleteMigrationManualByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteMigrationManualByNodeIdInput!
+    ): DeleteMigrationManualPayload
+
+    """
+    Deletes a single \`MigrationManual\` using a unique key.
+    """
+    deleteMigrationManual(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteMigrationManualInput!
+    ): DeleteMigrationManualPayload
+
+    """
+    Deletes a single \`MigrationSeed\` using its globally unique id.
+    """
+    deleteMigrationSeedByNodeId(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteMigrationSeedByNodeIdInput!
+    ): DeleteMigrationSeedPayload
+
+    """
+    Deletes a single \`MigrationSeed\` using a unique key.
+    """
+    deleteMigrationSeed(
+      """
+      The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+      """
+      input: DeleteMigrationSeedInput!
+    ): DeleteMigrationSeedPayload
 
     """
     Deletes a single \`TestMultiplePrimary\` using its globally unique id.
@@ -1881,9 +2473,9 @@ export const sdl = gql`
     ): AccountsConnection
 
     """
-    Reads and enables pagination through a set of \`Migration\`.
+    Reads and enables pagination through a set of \`MigrationGenerated\`.
     """
-    migrations(
+    migrationGenerateds(
       """
       Only read the first \`n\` values of the set.
       """
@@ -1911,20 +2503,112 @@ export const sdl = gql`
       after: Cursor
 
       """
-      The method to use when ordering \`Migration\`.
+      The method to use when ordering \`MigrationGenerated\`.
       """
-      orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
+      orderBy: [MigrationGeneratedsOrderBy!] = [PRIMARY_KEY_ASC]
 
       """
       A condition to be used in determining which values should be returned by the collection.
       """
-      condition: MigrationCondition
+      condition: MigrationGeneratedCondition
 
       """
       A filter to be used in determining which values should be returned by the collection.
       """
-      filter: MigrationFilter
-    ): MigrationsConnection
+      filter: MigrationGeneratedFilter
+    ): MigrationGeneratedsConnection
+
+    """
+    Reads and enables pagination through a set of \`MigrationManual\`.
+    """
+    migrationManuals(
+      """
+      Only read the first \`n\` values of the set.
+      """
+      first: Int
+
+      """
+      Only read the last \`n\` values of the set.
+      """
+      last: Int
+
+      """
+      Skip the first \`n\` values from our \`after\` cursor, an alternative to cursor
+      based pagination. May not be used with \`last\`.
+      """
+      offset: Int
+
+      """
+      Read all values in the set before (above) this cursor.
+      """
+      before: Cursor
+
+      """
+      Read all values in the set after (below) this cursor.
+      """
+      after: Cursor
+
+      """
+      The method to use when ordering \`MigrationManual\`.
+      """
+      orderBy: [MigrationManualsOrderBy!] = [PRIMARY_KEY_ASC]
+
+      """
+      A condition to be used in determining which values should be returned by the collection.
+      """
+      condition: MigrationManualCondition
+
+      """
+      A filter to be used in determining which values should be returned by the collection.
+      """
+      filter: MigrationManualFilter
+    ): MigrationManualsConnection
+
+    """
+    Reads and enables pagination through a set of \`MigrationSeed\`.
+    """
+    migrationSeeds(
+      """
+      Only read the first \`n\` values of the set.
+      """
+      first: Int
+
+      """
+      Only read the last \`n\` values of the set.
+      """
+      last: Int
+
+      """
+      Skip the first \`n\` values from our \`after\` cursor, an alternative to cursor
+      based pagination. May not be used with \`last\`.
+      """
+      offset: Int
+
+      """
+      Read all values in the set before (above) this cursor.
+      """
+      before: Cursor
+
+      """
+      Read all values in the set after (below) this cursor.
+      """
+      after: Cursor
+
+      """
+      The method to use when ordering \`MigrationSeed\`.
+      """
+      orderBy: [MigrationSeedsOrderBy!] = [PRIMARY_KEY_ASC]
+
+      """
+      A condition to be used in determining which values should be returned by the collection.
+      """
+      condition: MigrationSeedCondition
+
+      """
+      A filter to be used in determining which values should be returned by the collection.
+      """
+      filter: MigrationSeedFilter
+    ): MigrationSeedsConnection
 
     """
     Reads and enables pagination through a set of \`TestMultiplePrimary\`.
@@ -2110,7 +2794,9 @@ export const sdl = gql`
       filter: UserProfileFilter
     ): UserProfilesConnection
     account(id: UUID!): Account
-    migration(id: Int!): Migration
+    migrationGenerated(id: Int!): MigrationGenerated
+    migrationManual(id: Int!): MigrationManual
+    migrationSeed(id: Int!): MigrationSeed
     testMultiplePrimary(oneId: UUID!, twoId: UUID!): TestMultiplePrimary
     testPrimary(primary: UUID!): TestPrimary
     user(id: UUID!): User
@@ -2168,14 +2854,34 @@ export const sdl = gql`
     ): Account
 
     """
-    Reads a single \`Migration\` using its globally unique \`ID\`.
+    Reads a single \`MigrationGenerated\` using its globally unique \`ID\`.
     """
-    migrationByNodeId(
+    migrationGeneratedByNodeId(
       """
-      The globally unique \`ID\` to be used in selecting a single \`Migration\`.
+      The globally unique \`ID\` to be used in selecting a single \`MigrationGenerated\`.
       """
       nodeId: ID!
-    ): Migration
+    ): MigrationGenerated
+
+    """
+    Reads a single \`MigrationManual\` using its globally unique \`ID\`.
+    """
+    migrationManualByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`MigrationManual\`.
+      """
+      nodeId: ID!
+    ): MigrationManual
+
+    """
+    Reads a single \`MigrationSeed\` using its globally unique \`ID\`.
+    """
+    migrationSeedByNodeId(
+      """
+      The globally unique \`ID\` to be used in selecting a single \`MigrationSeed\`.
+      """
+      nodeId: ID!
+    ): MigrationSeed
 
     """
     Reads a single \`TestMultiplePrimary\` using its globally unique \`ID\`.
@@ -2749,9 +3455,9 @@ export const sdl = gql`
   }
 
   """
-  All input for the \`updateMigrationByNodeId\` mutation.
+  All input for the \`updateMigrationGeneratedByNodeId\` mutation.
   """
-  input UpdateMigrationByNodeIdInput {
+  input UpdateMigrationGeneratedByNodeIdInput {
     """
     An arbitrary string value with no semantic meaning. Will be included in the
     payload verbatim. May be used to track mutations by the client.
@@ -2759,20 +3465,20 @@ export const sdl = gql`
     clientMutationId: String
 
     """
-    The globally unique \`ID\` which will identify a single \`Migration\` to be updated.
+    The globally unique \`ID\` which will identify a single \`MigrationGenerated\` to be updated.
     """
     nodeId: ID!
 
     """
-    An object where the defined keys will be set on the \`Migration\` being updated.
+    An object where the defined keys will be set on the \`MigrationGenerated\` being updated.
     """
-    patch: MigrationPatch!
+    patch: MigrationGeneratedPatch!
   }
 
   """
-  All input for the \`updateMigration\` mutation.
+  All input for the \`updateMigrationGenerated\` mutation.
   """
-  input UpdateMigrationInput {
+  input UpdateMigrationGeneratedInput {
     """
     An arbitrary string value with no semantic meaning. Will be included in the
     payload verbatim. May be used to track mutations by the client.
@@ -2780,16 +3486,16 @@ export const sdl = gql`
     clientMutationId: String
 
     """
-    An object where the defined keys will be set on the \`Migration\` being updated.
+    An object where the defined keys will be set on the \`MigrationGenerated\` being updated.
     """
-    patch: MigrationPatch!
+    patch: MigrationGeneratedPatch!
     id: Int!
   }
 
   """
-  The output of our update \`Migration\` mutation.
+  The output of our update \`MigrationGenerated\` mutation.
   """
-  type UpdateMigrationPayload {
+  type UpdateMigrationGeneratedPayload {
     """
     The exact same \`clientMutationId\` that was provided in the mutation input,
     unchanged and unused. May be used by a client to track mutations.
@@ -2797,9 +3503,9 @@ export const sdl = gql`
     clientMutationId: String
 
     """
-    The \`Migration\` that was updated by this mutation.
+    The \`MigrationGenerated\` that was updated by this mutation.
     """
-    migration: Migration
+    migrationGenerated: MigrationGenerated
 
     """
     Our root query field type. Allows us to run any query from our mutation payload.
@@ -2807,14 +3513,152 @@ export const sdl = gql`
     query: Query
 
     """
-    An edge for our \`Migration\`. May be used by Relay 1.
+    An edge for our \`MigrationGenerated\`. May be used by Relay 1.
     """
-    migrationEdge(
+    migrationGeneratedEdge(
       """
-      The method to use when ordering \`Migration\`.
+      The method to use when ordering \`MigrationGenerated\`.
       """
-      orderBy: [MigrationsOrderBy!] = [PRIMARY_KEY_ASC]
-    ): MigrationsEdge
+      orderBy: [MigrationGeneratedsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationGeneratedsEdge
+  }
+
+  """
+  All input for the \`updateMigrationManualByNodeId\` mutation.
+  """
+  input UpdateMigrationManualByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`MigrationManual\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`MigrationManual\` being updated.
+    """
+    patch: MigrationManualPatch!
+  }
+
+  """
+  All input for the \`updateMigrationManual\` mutation.
+  """
+  input UpdateMigrationManualInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    An object where the defined keys will be set on the \`MigrationManual\` being updated.
+    """
+    patch: MigrationManualPatch!
+    id: Int!
+  }
+
+  """
+  The output of our update \`MigrationManual\` mutation.
+  """
+  type UpdateMigrationManualPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationManual\` that was updated by this mutation.
+    """
+    migrationManual: MigrationManual
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`MigrationManual\`. May be used by Relay 1.
+    """
+    migrationManualEdge(
+      """
+      The method to use when ordering \`MigrationManual\`.
+      """
+      orderBy: [MigrationManualsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationManualsEdge
+  }
+
+  """
+  All input for the \`updateMigrationSeedByNodeId\` mutation.
+  """
+  input UpdateMigrationSeedByNodeIdInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    The globally unique \`ID\` which will identify a single \`MigrationSeed\` to be updated.
+    """
+    nodeId: ID!
+
+    """
+    An object where the defined keys will be set on the \`MigrationSeed\` being updated.
+    """
+    patch: MigrationSeedPatch!
+  }
+
+  """
+  All input for the \`updateMigrationSeed\` mutation.
+  """
+  input UpdateMigrationSeedInput {
+    """
+    An arbitrary string value with no semantic meaning. Will be included in the
+    payload verbatim. May be used to track mutations by the client.
+    """
+    clientMutationId: String
+
+    """
+    An object where the defined keys will be set on the \`MigrationSeed\` being updated.
+    """
+    patch: MigrationSeedPatch!
+    id: Int!
+  }
+
+  """
+  The output of our update \`MigrationSeed\` mutation.
+  """
+  type UpdateMigrationSeedPayload {
+    """
+    The exact same \`clientMutationId\` that was provided in the mutation input,
+    unchanged and unused. May be used by a client to track mutations.
+    """
+    clientMutationId: String
+
+    """
+    The \`MigrationSeed\` that was updated by this mutation.
+    """
+    migrationSeed: MigrationSeed
+
+    """
+    Our root query field type. Allows us to run any query from our mutation payload.
+    """
+    query: Query
+
+    """
+    An edge for our \`MigrationSeed\`. May be used by Relay 1.
+    """
+    migrationSeedEdge(
+      """
+      The method to use when ordering \`MigrationSeed\`.
+      """
+      orderBy: [MigrationSeedsOrderBy!] = [PRIMARY_KEY_ASC]
+    ): MigrationSeedsEdge
   }
 
   """

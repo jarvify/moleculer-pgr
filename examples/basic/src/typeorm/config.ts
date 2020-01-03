@@ -5,7 +5,7 @@ config();
 const DB = process.env.DB;
 
 let configFile: any = undefined;
-if (DB === 'first.broker:db') {
+if (DB === 'first.broker') {
   configFile = require('@first.broker/services/db/typeorm/config');
 }
 

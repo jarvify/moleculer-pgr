@@ -36,24 +36,22 @@ const postgraphileHttpLink = (uri: string) => {
   });
 };
 
-const postgraphileWsLink = (uri: string) => {
-  const client = new SubscriptionClient(
+export function createSubscriptionClient(uri: string) {
+  return new SubscriptionClient(
     uri,
     {
       reconnect: true,
     },
     WebSocket,
   );
-
-  return new WebSocketLink(client);
-};
+}
 
 export class WsClient extends Binding {
-  constructor(uri: string) {
+  constructor(subscriptionClient: SubscriptionClient) {
     super({
       schema: makeRemoteExecutableSchema({
         schema,
-        link: postgraphileWsLink(uri),
+        link: new WebSocketLink(subscriptionClient),
       }),
     });
   }

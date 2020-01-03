@@ -55,7 +55,6 @@ class TestService
       userProfileId: userProfile.id,
     });
     // not null !
-    return;
 
     const unknownId = '1c96407c-8be8-4c0e-bbf2-724761a7ac5a';
 

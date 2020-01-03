@@ -4,8 +4,8 @@ config();
 const DB = process.env.DB;
 const NAME = process.env.NAME || 'default';
 
-if (DB === 'first.broker:db' && NAME === 'default') {
+if (DB === 'first.broker') {
   require('@first.broker/services/db/generate');
-} else if (NAME === 'default') {
+} else {
   throw Error(`DB: ${DB}, Name: ${NAME} not found!`);
 }

@@ -39,24 +39,64 @@ export type PgrActions = [
     NodeArray<binding.Account>
   >,
   moleculerTs.Action<
-    'migrations',
-    Parameters<binding.Query['migrations']>[0],
-    binding.MigrationsConnection
+    'migrationGenerateds',
+    Parameters<binding.Query['migrationGenerateds']>[0],
+    binding.MigrationGeneratedsConnection
   >,
   moleculerTs.Action<
-    'countMigrations',
-    Parameters<binding.Query['migrations']>[0],
+    'countMigrationGenerateds',
+    Parameters<binding.Query['migrationGenerateds']>[0],
     number
   >,
   moleculerTs.Action<
-    'firstMigrations',
-    Parameters<binding.Query['migrations']>[0],
-    NodeOptional<binding.Migration>
+    'firstMigrationGenerateds',
+    Parameters<binding.Query['migrationGenerateds']>[0],
+    NodeOptional<binding.MigrationGenerated>
   >,
   moleculerTs.Action<
-    'findMigrations',
-    Parameters<binding.Query['migrations']>[0],
-    NodeArray<binding.Migration>
+    'findMigrationGenerateds',
+    Parameters<binding.Query['migrationGenerateds']>[0],
+    NodeArray<binding.MigrationGenerated>
+  >,
+  moleculerTs.Action<
+    'migrationManuals',
+    Parameters<binding.Query['migrationManuals']>[0],
+    binding.MigrationManualsConnection
+  >,
+  moleculerTs.Action<
+    'countMigrationManuals',
+    Parameters<binding.Query['migrationManuals']>[0],
+    number
+  >,
+  moleculerTs.Action<
+    'firstMigrationManuals',
+    Parameters<binding.Query['migrationManuals']>[0],
+    NodeOptional<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'findMigrationManuals',
+    Parameters<binding.Query['migrationManuals']>[0],
+    NodeArray<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'migrationSeeds',
+    Parameters<binding.Query['migrationSeeds']>[0],
+    binding.MigrationSeedsConnection
+  >,
+  moleculerTs.Action<
+    'countMigrationSeeds',
+    Parameters<binding.Query['migrationSeeds']>[0],
+    number
+  >,
+  moleculerTs.Action<
+    'firstMigrationSeeds',
+    Parameters<binding.Query['migrationSeeds']>[0],
+    NodeOptional<binding.MigrationSeed>
+  >,
+  moleculerTs.Action<
+    'findMigrationSeeds',
+    Parameters<binding.Query['migrationSeeds']>[0],
+    NodeArray<binding.MigrationSeed>
   >,
   moleculerTs.Action<
     'testMultiplePrimaries',
@@ -159,9 +199,19 @@ export type PgrActions = [
     NodeOptional<binding.User>
   >,
   moleculerTs.Action<
-    'migration',
-    Parameters<binding.Query['migration']>[0],
-    NodeOptional<binding.Migration>
+    'migrationGenerated',
+    Parameters<binding.Query['migrationGenerated']>[0],
+    NodeOptional<binding.MigrationGenerated>
+  >,
+  moleculerTs.Action<
+    'migrationManual',
+    Parameters<binding.Query['migrationManual']>[0],
+    NodeOptional<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'migrationSeed',
+    Parameters<binding.Query['migrationSeed']>[0],
+    NodeOptional<binding.MigrationSeed>
   >,
   moleculerTs.Action<
     'testMultiplePrimary',
@@ -259,9 +309,19 @@ export type PgrActions = [
     NodeOptional<binding.User>
   >,
   moleculerTs.Action<
-    'migrationByNodeId',
-    Parameters<binding.Query['migrationByNodeId']>[0],
-    NodeOptional<binding.Migration>
+    'migrationGeneratedByNodeId',
+    Parameters<binding.Query['migrationGeneratedByNodeId']>[0],
+    NodeOptional<binding.MigrationGenerated>
+  >,
+  moleculerTs.Action<
+    'migrationManualByNodeId',
+    Parameters<binding.Query['migrationManualByNodeId']>[0],
+    NodeOptional<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'migrationSeedByNodeId',
+    Parameters<binding.Query['migrationSeedByNodeId']>[0],
+    NodeOptional<binding.MigrationSeed>
   >,
   moleculerTs.Action<
     'testMultiplePrimaryByNodeId',
@@ -299,9 +359,25 @@ export type PgrActions = [
     Node<binding.Account>
   >,
   moleculerTs.Action<
-    'createMigration',
-    Parameters<binding.Mutation['createMigration']>[0]['input']['migration'],
-    Node<binding.Migration>
+    'createMigrationGenerated',
+    Parameters<
+      binding.Mutation['createMigrationGenerated']
+    >[0]['input']['migrationGenerated'],
+    Node<binding.MigrationGenerated>
+  >,
+  moleculerTs.Action<
+    'createMigrationManual',
+    Parameters<
+      binding.Mutation['createMigrationManual']
+    >[0]['input']['migrationManual'],
+    Node<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'createMigrationSeed',
+    Parameters<
+      binding.Mutation['createMigrationSeed']
+    >[0]['input']['migrationSeed'],
+    Node<binding.MigrationSeed>
   >,
   moleculerTs.Action<
     'createTestMultiplePrimary',
@@ -353,27 +429,75 @@ export type PgrActions = [
     Node<binding.Account>
   >,
   moleculerTs.Action<
-    'updateMigrationByNodeId',
-    Parameters<binding.Mutation['updateMigrationByNodeId']>[0]['input'],
-    NodeOptional<binding.Migration>
+    'updateMigrationGeneratedByNodeId',
+    Parameters<
+      binding.Mutation['updateMigrationGeneratedByNodeId']
+    >[0]['input'],
+    NodeOptional<binding.MigrationGenerated>
   >,
   moleculerTs.Action<
-    'updateMigration',
-    Parameters<binding.Mutation['updateMigration']>[0]['input'],
-    NodeOptional<binding.Migration>
+    'updateMigrationGenerated',
+    Parameters<binding.Mutation['updateMigrationGenerated']>[0]['input'],
+    NodeOptional<binding.MigrationGenerated>
   >,
   moleculerTs.Action<
-    'upsertMigration',
+    'upsertMigrationGenerated',
     {
-      query: Parameters<binding.Query['migrations']>[0];
+      query: Parameters<binding.Query['migrationGenerateds']>[0];
       create: Parameters<
-        binding.Mutation['createMigration']
-      >[0]['input']['migration'];
+        binding.Mutation['createMigrationGenerated']
+      >[0]['input']['migrationGenerated'];
       update: Parameters<
-        binding.Mutation['updateMigration']
+        binding.Mutation['updateMigrationGenerated']
       >[0]['input']['patch'];
     },
-    Node<binding.Migration>
+    Node<binding.MigrationGenerated>
+  >,
+  moleculerTs.Action<
+    'updateMigrationManualByNodeId',
+    Parameters<binding.Mutation['updateMigrationManualByNodeId']>[0]['input'],
+    NodeOptional<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'updateMigrationManual',
+    Parameters<binding.Mutation['updateMigrationManual']>[0]['input'],
+    NodeOptional<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'upsertMigrationManual',
+    {
+      query: Parameters<binding.Query['migrationManuals']>[0];
+      create: Parameters<
+        binding.Mutation['createMigrationManual']
+      >[0]['input']['migrationManual'];
+      update: Parameters<
+        binding.Mutation['updateMigrationManual']
+      >[0]['input']['patch'];
+    },
+    Node<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'updateMigrationSeedByNodeId',
+    Parameters<binding.Mutation['updateMigrationSeedByNodeId']>[0]['input'],
+    NodeOptional<binding.MigrationSeed>
+  >,
+  moleculerTs.Action<
+    'updateMigrationSeed',
+    Parameters<binding.Mutation['updateMigrationSeed']>[0]['input'],
+    NodeOptional<binding.MigrationSeed>
+  >,
+  moleculerTs.Action<
+    'upsertMigrationSeed',
+    {
+      query: Parameters<binding.Query['migrationSeeds']>[0];
+      create: Parameters<
+        binding.Mutation['createMigrationSeed']
+      >[0]['input']['migrationSeed'];
+      update: Parameters<
+        binding.Mutation['updateMigrationSeed']
+      >[0]['input']['patch'];
+    },
+    Node<binding.MigrationSeed>
   >,
   moleculerTs.Action<
     'updateTestMultiplePrimaryByNodeId',
@@ -493,14 +617,36 @@ export type PgrActions = [
     NodeOptional<binding.Account>
   >,
   moleculerTs.Action<
-    'deleteMigrationByNodeId',
-    Parameters<binding.Mutation['deleteMigrationByNodeId']>[0]['input'],
-    NodeOptional<binding.Migration>
+    'deleteMigrationGeneratedByNodeId',
+    Parameters<
+      binding.Mutation['deleteMigrationGeneratedByNodeId']
+    >[0]['input'],
+    NodeOptional<binding.MigrationGenerated>
   >,
   moleculerTs.Action<
-    'deleteMigration',
-    Parameters<binding.Mutation['deleteMigration']>[0]['input'],
-    NodeOptional<binding.Migration>
+    'deleteMigrationGenerated',
+    Parameters<binding.Mutation['deleteMigrationGenerated']>[0]['input'],
+    NodeOptional<binding.MigrationGenerated>
+  >,
+  moleculerTs.Action<
+    'deleteMigrationManualByNodeId',
+    Parameters<binding.Mutation['deleteMigrationManualByNodeId']>[0]['input'],
+    NodeOptional<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'deleteMigrationManual',
+    Parameters<binding.Mutation['deleteMigrationManual']>[0]['input'],
+    NodeOptional<binding.MigrationManual>
+  >,
+  moleculerTs.Action<
+    'deleteMigrationSeedByNodeId',
+    Parameters<binding.Mutation['deleteMigrationSeedByNodeId']>[0]['input'],
+    NodeOptional<binding.MigrationSeed>
+  >,
+  moleculerTs.Action<
+    'deleteMigrationSeed',
+    Parameters<binding.Mutation['deleteMigrationSeed']>[0]['input'],
+    NodeOptional<binding.MigrationSeed>
   >,
   moleculerTs.Action<
     'deleteTestMultiplePrimaryByNodeId',
@@ -622,7 +768,7 @@ const gqlQueryString = {
   nodeId 
 }
  } }`,
-  migrations: `{
+  migrationGenerateds: `{
   nodes 
   {
     id 
@@ -651,7 +797,67 @@ const gqlQueryString = {
   }
 }
 `,
-  countMigrations: `{ totalCount }`,
+  countMigrationGenerateds: `{ totalCount }`,
+  migrationManuals: `{
+  nodes 
+  {
+    id 
+    timestamp 
+    name 
+    nodeId 
+  }
+  edges 
+  {
+    cursor 
+    node 
+    {
+      id 
+      timestamp 
+      name 
+      nodeId 
+    }
+  }
+  totalCount 
+  pageInfo 
+  {
+    hasNextPage 
+    hasPreviousPage 
+    startCursor 
+    endCursor 
+  }
+}
+`,
+  countMigrationManuals: `{ totalCount }`,
+  migrationSeeds: `{
+  nodes 
+  {
+    id 
+    timestamp 
+    name 
+    nodeId 
+  }
+  edges 
+  {
+    cursor 
+    node 
+    {
+      id 
+      timestamp 
+      name 
+      nodeId 
+    }
+  }
+  totalCount 
+  pageInfo 
+  {
+    hasNextPage 
+    hasPreviousPage 
+    startCursor 
+    endCursor 
+  }
+}
+`,
+  countMigrationSeeds: `{ totalCount }`,
   testMultiplePrimaries: `{
   nodes 
   {
@@ -834,7 +1040,21 @@ const gqlQueryString = {
   nodeId 
 }
 }`,
-  migration: `{
+  migrationGenerated: `{
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+`,
+  migrationManual: `{
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+`,
+  migrationSeed: `{
   id 
   timestamp 
   name 
@@ -1036,7 +1256,21 @@ const gqlQueryString = {
   nodeId 
 }
 }`,
-  migrationByNodeId: `{
+  migrationGeneratedByNodeId: `{
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+`,
+  migrationManualByNodeId: `{
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+`,
+  migrationSeedByNodeId: `{
   id 
   timestamp 
   name 
@@ -1114,8 +1348,26 @@ account {
 }
 
 }`,
-  createMigration: `{ 
-migration {
+  createMigrationGenerated: `{ 
+migrationGenerated {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  createMigrationManual: `{ 
+migrationManual {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  createMigrationSeed: `{ 
+migrationSeed {
   id 
   timestamp 
   name 
@@ -1195,8 +1447,8 @@ account {
 }
 
 }`,
-  updateMigrationByNodeId: `{ 
-migration {
+  updateMigrationGeneratedByNodeId: `{ 
+migrationGenerated {
   id 
   timestamp 
   name 
@@ -1204,8 +1456,44 @@ migration {
 }
 
 }`,
-  updateMigration: `{ 
-migration {
+  updateMigrationGenerated: `{ 
+migrationGenerated {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  updateMigrationManualByNodeId: `{ 
+migrationManual {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  updateMigrationManual: `{ 
+migrationManual {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  updateMigrationSeedByNodeId: `{ 
+migrationSeed {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  updateMigrationSeed: `{ 
+migrationSeed {
   id 
   timestamp 
   name 
@@ -1374,8 +1662,8 @@ account {
 }
 
 }`,
-  deleteMigrationByNodeId: `{ 
-migration {
+  deleteMigrationGeneratedByNodeId: `{ 
+migrationGenerated {
   id 
   timestamp 
   name 
@@ -1383,8 +1671,44 @@ migration {
 }
 
 }`,
-  deleteMigration: `{ 
-migration {
+  deleteMigrationGenerated: `{ 
+migrationGenerated {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  deleteMigrationManualByNodeId: `{ 
+migrationManual {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  deleteMigrationManual: `{ 
+migrationManual {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  deleteMigrationSeedByNodeId: `{ 
+migrationSeed {
+  id 
+  timestamp 
+  name 
+  nodeId 
+}
+
+}`,
+  deleteMigrationSeed: `{ 
+migrationSeed {
   id 
   timestamp 
   name 
@@ -1616,23 +1940,23 @@ export const PgrMixin = {
       const result = await ctx.call(`${this.name}.accounts`, params);
       return result.nodes;
     },
-    async migrations(this: any, ctx: any) {
+    async migrationGenerateds(this: any, ctx: any) {
       const params = ctx.params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['migrations'];
+      const query = gqlQueryString['migrationGenerateds'];
       const data = params;
-      const result = await client.query.migrations(data, query);
+      const result = await client.query.migrationGenerateds(data, query);
       return result;
     },
-    async countMigrations(this: any, ctx: any) {
+    async countMigrationGenerateds(this: any, ctx: any) {
       const params = ctx.params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['countMigrations'];
+      const query = gqlQueryString['countMigrationGenerateds'];
       const data = params;
-      const result = await client.query.migrations(data, query);
+      const result = await client.query.migrationGenerateds(data, query);
       return result['totalCount'];
     },
-    async firstMigrations(this: any, ctx: any) {
+    async firstMigrationGenerateds(this: any, ctx: any) {
       let { first, last, ...params } = ctx.params;
       if (first) {
         first = 1;
@@ -1646,7 +1970,7 @@ export const PgrMixin = {
         first = 1;
       }
 
-      const result = await ctx.call(`${this.name}.findMigrations`, {
+      const result = await ctx.call(`${this.name}.findMigrationGenerateds`, {
         first,
         last,
         ...params,
@@ -1656,9 +1980,99 @@ export const PgrMixin = {
       }
       return result[0];
     },
-    async findMigrations(this: any, ctx: any) {
+    async findMigrationGenerateds(this: any, ctx: any) {
       const params = ctx.params;
-      const result = await ctx.call(`${this.name}.migrations`, params);
+      const result = await ctx.call(`${this.name}.migrationGenerateds`, params);
+      return result.nodes;
+    },
+    async migrationManuals(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['migrationManuals'];
+      const data = params;
+      const result = await client.query.migrationManuals(data, query);
+      return result;
+    },
+    async countMigrationManuals(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['countMigrationManuals'];
+      const data = params;
+      const result = await client.query.migrationManuals(data, query);
+      return result['totalCount'];
+    },
+    async firstMigrationManuals(this: any, ctx: any) {
+      let { first, last, ...params } = ctx.params;
+      if (first) {
+        first = 1;
+      }
+
+      if (last) {
+        last = 1;
+      }
+
+      if (!first && !last) {
+        first = 1;
+      }
+
+      const result = await ctx.call(`${this.name}.findMigrationManuals`, {
+        first,
+        last,
+        ...params,
+      });
+      if (result.length === 0) {
+        return null;
+      }
+      return result[0];
+    },
+    async findMigrationManuals(this: any, ctx: any) {
+      const params = ctx.params;
+      const result = await ctx.call(`${this.name}.migrationManuals`, params);
+      return result.nodes;
+    },
+    async migrationSeeds(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['migrationSeeds'];
+      const data = params;
+      const result = await client.query.migrationSeeds(data, query);
+      return result;
+    },
+    async countMigrationSeeds(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['countMigrationSeeds'];
+      const data = params;
+      const result = await client.query.migrationSeeds(data, query);
+      return result['totalCount'];
+    },
+    async firstMigrationSeeds(this: any, ctx: any) {
+      let { first, last, ...params } = ctx.params;
+      if (first) {
+        first = 1;
+      }
+
+      if (last) {
+        last = 1;
+      }
+
+      if (!first && !last) {
+        first = 1;
+      }
+
+      const result = await ctx.call(`${this.name}.findMigrationSeeds`, {
+        first,
+        last,
+        ...params,
+      });
+      if (result.length === 0) {
+        return null;
+      }
+      return result[0];
+    },
+    async findMigrationSeeds(this: any, ctx: any) {
+      const params = ctx.params;
+      const result = await ctx.call(`${this.name}.migrationSeeds`, params);
       return result.nodes;
     },
     async testMultiplePrimaries(this: any, ctx: any) {
@@ -1911,12 +2325,28 @@ export const PgrMixin = {
       }
       return result['user'];
     },
-    async migration(this: any, ctx: any) {
+    async migrationGenerated(this: any, ctx: any) {
       const params = ctx.params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['migration'];
+      const query = gqlQueryString['migrationGenerated'];
       const data = params;
-      const result = await client.query.migration(data, query);
+      const result = await client.query.migrationGenerated(data, query);
+      return result;
+    },
+    async migrationManual(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['migrationManual'];
+      const data = params;
+      const result = await client.query.migrationManual(data, query);
+      return result;
+    },
+    async migrationSeed(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['migrationSeed'];
+      const data = params;
+      const result = await client.query.migrationSeed(data, query);
       return result;
     },
     async testMultiplePrimary(this: any, ctx: any) {
@@ -2118,12 +2548,28 @@ export const PgrMixin = {
       }
       return result['user'];
     },
-    async migrationByNodeId(this: any, ctx: any) {
+    async migrationGeneratedByNodeId(this: any, ctx: any) {
       const params = ctx.params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['migrationByNodeId'];
+      const query = gqlQueryString['migrationGeneratedByNodeId'];
       const data = params;
-      const result = await client.query.migrationByNodeId(data, query);
+      const result = await client.query.migrationGeneratedByNodeId(data, query);
+      return result;
+    },
+    async migrationManualByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['migrationManualByNodeId'];
+      const data = params;
+      const result = await client.query.migrationManualByNodeId(data, query);
+      return result;
+    },
+    async migrationSeedByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['migrationSeedByNodeId'];
+      const data = params;
+      const result = await client.query.migrationSeedByNodeId(data, query);
       return result;
     },
     async testMultiplePrimaryByNodeId(this: any, ctx: any) {
@@ -2193,15 +2639,38 @@ export const PgrMixin = {
       const result = await client.mutation.createAccount(data, query);
       return result!['account'];
     },
-    async createMigration(this: any, ctx: any) {
+    async createMigrationGenerated(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['createMigration'];
-      const data = { input: { migration: params } };
+      const query = gqlQueryString['createMigrationGenerated'];
+      const data = { input: { migrationGenerated: params } };
 
-      const result = await client.mutation.createMigration(data, query);
-      return result!['migration'];
+      const result = await client.mutation.createMigrationGenerated(
+        data,
+        query,
+      );
+      return result!['migrationGenerated'];
+    },
+    async createMigrationManual(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['createMigrationManual'];
+      const data = { input: { migrationManual: params } };
+
+      const result = await client.mutation.createMigrationManual(data, query);
+      return result!['migrationManual'];
+    },
+    async createMigrationSeed(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['createMigrationSeed'];
+      const data = { input: { migrationSeed: params } };
+
+      const result = await client.mutation.createMigrationSeed(data, query);
+      return result!['migrationSeed'];
     },
     async createTestMultiplePrimary(this: any, ctx: any) {
       const params = ctx.params;
@@ -2316,20 +2785,20 @@ export const PgrMixin = {
 
       return node;
     },
-    async updateMigrationByNodeId(this: any, ctx: any) {
+    async updateMigrationGeneratedByNodeId(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['updateMigrationByNodeId'];
+      const query = gqlQueryString['updateMigrationGeneratedByNodeId'];
       const data = {
         input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
       };
       try {
-        const result = await client.mutation.updateMigrationByNodeId(
+        const result = await client.mutation.updateMigrationGeneratedByNodeId(
           data,
           query,
         );
-        return result!['migration'];
+        return result!['migrationGenerated'];
       } catch (err) {
         if (
           err.message &&
@@ -2342,17 +2811,20 @@ export const PgrMixin = {
         throw err;
       }
     },
-    async updateMigration(this: any, ctx: any) {
+    async updateMigrationGenerated(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['updateMigration'];
+      const query = gqlQueryString['updateMigrationGenerated'];
       const data = {
         input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
       };
       try {
-        const result = await client.mutation.updateMigration(data, query);
-        return result!['migration'];
+        const result = await client.mutation.updateMigrationGenerated(
+          data,
+          query,
+        );
+        return result!['migrationGenerated'];
       } catch (err) {
         if (
           err.message &&
@@ -2365,25 +2837,180 @@ export const PgrMixin = {
         throw err;
       }
     },
-    async upsertMigration(this: any, ctx: any) {
+    async upsertMigrationGenerated(this: any, ctx: any) {
       const params = ctx.params;
-      let node = await ctx.call(`${this.name}.firstMigrations`, {
+      let node = await ctx.call(`${this.name}.firstMigrationGenerateds`, {
         ...params.query,
       });
 
       if (!node) {
-        node = await ctx.call(`${this.name}.createMigration`, {
+        node = await ctx.call(`${this.name}.createMigrationGenerated`, {
           ...params.create,
         });
       } else {
         const primaryQuery = getPartialObject(node, ['id']);
-        node = await ctx.call(`${this.name}.updateMigration`, {
+        node = await ctx.call(`${this.name}.updateMigrationGenerated`, {
           ...primaryQuery,
           patch: params.update,
         });
 
         if (!node) {
-          return await ctx.callSvc(`${this.name}.upsertMigration`, ctx.params);
+          return await ctx.callSvc(
+            `${this.name}.upsertMigrationGenerated`,
+            ctx.params,
+          );
+        }
+      }
+
+      return node;
+    },
+    async updateMigrationManualByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateMigrationManualByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateMigrationManualByNodeId(
+          data,
+          query,
+        );
+        return result!['migrationManual'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async updateMigrationManual(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateMigrationManual'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateMigrationManual(data, query);
+        return result!['migrationManual'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async upsertMigrationManual(this: any, ctx: any) {
+      const params = ctx.params;
+      let node = await ctx.call(`${this.name}.firstMigrationManuals`, {
+        ...params.query,
+      });
+
+      if (!node) {
+        node = await ctx.call(`${this.name}.createMigrationManual`, {
+          ...params.create,
+        });
+      } else {
+        const primaryQuery = getPartialObject(node, ['id']);
+        node = await ctx.call(`${this.name}.updateMigrationManual`, {
+          ...primaryQuery,
+          patch: params.update,
+        });
+
+        if (!node) {
+          return await ctx.callSvc(
+            `${this.name}.upsertMigrationManual`,
+            ctx.params,
+          );
+        }
+      }
+
+      return node;
+    },
+    async updateMigrationSeedByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateMigrationSeedByNodeId'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateMigrationSeedByNodeId(
+          data,
+          query,
+        );
+        return result!['migrationSeed'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async updateMigrationSeed(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['updateMigrationSeed'];
+      const data = {
+        input: { ...uniqueFields, patch: { ...uniqueFields, ...patch } },
+      };
+      try {
+        const result = await client.mutation.updateMigrationSeed(data, query);
+        return result!['migrationSeed'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were updated in collection '.*' because no values you can update were found matching these criteria../,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async upsertMigrationSeed(this: any, ctx: any) {
+      const params = ctx.params;
+      let node = await ctx.call(`${this.name}.firstMigrationSeeds`, {
+        ...params.query,
+      });
+
+      if (!node) {
+        node = await ctx.call(`${this.name}.createMigrationSeed`, {
+          ...params.create,
+        });
+      } else {
+        const primaryQuery = getPartialObject(node, ['id']);
+        node = await ctx.call(`${this.name}.updateMigrationSeed`, {
+          ...primaryQuery,
+          patch: params.update,
+        });
+
+        if (!node) {
+          return await ctx.callSvc(
+            `${this.name}.upsertMigrationSeed`,
+            ctx.params,
+          );
         }
       }
 
@@ -2803,18 +3430,18 @@ export const PgrMixin = {
         throw err;
       }
     },
-    async deleteMigrationByNodeId(this: any, ctx: any) {
+    async deleteMigrationGeneratedByNodeId(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['deleteMigrationByNodeId'];
+      const query = gqlQueryString['deleteMigrationGeneratedByNodeId'];
       const data = { input: params };
       try {
-        const result = await client.mutation.deleteMigrationByNodeId(
+        const result = await client.mutation.deleteMigrationGeneratedByNodeId(
           data,
           query,
         );
-        return result!['migration'];
+        return result!['migrationGenerated'];
       } catch (err) {
         if (
           err.message &&
@@ -2827,15 +3454,108 @@ export const PgrMixin = {
         throw err;
       }
     },
-    async deleteMigration(this: any, ctx: any) {
+    async deleteMigrationGenerated(this: any, ctx: any) {
       const params = ctx.params;
       const { patch, ...uniqueFields } = params;
       const client = this.settings.pgr.client as any;
-      const query = gqlQueryString['deleteMigration'];
+      const query = gqlQueryString['deleteMigrationGenerated'];
       const data = { input: params };
       try {
-        const result = await client.mutation.deleteMigration(data, query);
-        return result!['migration'];
+        const result = await client.mutation.deleteMigrationGenerated(
+          data,
+          query,
+        );
+        return result!['migrationGenerated'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async deleteMigrationManualByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteMigrationManualByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteMigrationManualByNodeId(
+          data,
+          query,
+        );
+        return result!['migrationManual'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async deleteMigrationManual(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteMigrationManual'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteMigrationManual(data, query);
+        return result!['migrationManual'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async deleteMigrationSeedByNodeId(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteMigrationSeedByNodeId'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteMigrationSeedByNodeId(
+          data,
+          query,
+        );
+        return result!['migrationSeed'];
+      } catch (err) {
+        if (
+          err.message &&
+          err.message.match(
+            /No values were deleted in collection '.*' because no values you can delete were found matching these criteria./,
+          )
+        ) {
+          return null;
+        }
+        throw err;
+      }
+    },
+    async deleteMigrationSeed(this: any, ctx: any) {
+      const params = ctx.params;
+      const { patch, ...uniqueFields } = params;
+      const client = this.settings.pgr.client as any;
+      const query = gqlQueryString['deleteMigrationSeed'];
+      const data = { input: params };
+      try {
+        const result = await client.mutation.deleteMigrationSeed(data, query);
+        return result!['migrationSeed'];
       } catch (err) {
         if (
           err.message &&

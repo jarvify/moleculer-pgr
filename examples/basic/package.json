@@ -46,7 +46,7 @@
     "sequelize": "^5.21.2",
     "sequelize-typescript": "^1.0.0",
     "subscriptions-transport-ws": "^0.9.16",
-    "typeorm": "^0.2.20",
+    "typeorm": "^0.2.22",
     "ws": "^7.2.1"
   },
   "devDependencies": {

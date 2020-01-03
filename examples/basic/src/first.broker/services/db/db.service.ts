@@ -9,7 +9,8 @@ import { Pool } from 'pg';
 import { createPostgraphile } from './postgraphile';
 import { PgrMixin } from './mixin';
 import { NodeChangePayload } from './mixin/binding';
-import { HttpClient, WsClient } from './client';
+import { HttpClient, WsClient, createSubscriptionClient } from './client';
+import { reject } from 'bluebird';
 
 interface DbService {
   name: typeof DbServiceTypes.name;
@@ -33,7 +34,9 @@ class DbService
 
   @Method
   async nodeChangeListen(iterator: NodeChangeIterator) {
+    console.log('nodeChangeListen init');
     for await (const value of iterator) {
+      console.log('nodeChangeListen');
       if (value && value.nodeChange) {
         this.nodeChange(value.nodeChange);
       }
@@ -75,7 +78,17 @@ class DbService
       this.server.once('error', reject);
     });
 
-    const client = new WsClient(`ws://127.0.0.1:${this.settings.port}/graphql`);
+    const subscriptionClient = createSubscriptionClient(
+      `ws://127.0.0.1:${this.settings.port}/graphql`,
+    );
+
+    // wait till we have subscription
+    await new Promise((resolve, reject) => {
+      subscriptionClient.onConnected(resolve);
+      subscriptionClient.onReconnected(resolve);
+    });
+
+    const client = new WsClient(subscriptionClient);
     const nodeChangeIterator = (await client.subscription.nodeChange()) as any;
     this.nodeChangeListen(nodeChangeIterator);
   }
