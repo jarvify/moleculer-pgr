@@ -46,6 +46,8 @@ class TestService
       id: 'b9bd501c-9e54-45f4-8518-bd4793b72207',
     });
 
+    console.log(delUser);
+
     const user = await this.broker.call('db.createUser', {
       id: 'b9bd501c-9e54-45f4-8518-bd4793b72207',
       email: 'user@user.com',
@@ -53,7 +55,6 @@ class TestService
       userProfileId: userProfile.id,
     });
     // not null !
-    user.id;
 
     const unknownId = '1c96407c-8be8-4c0e-bbf2-724761a7ac5a';
 
