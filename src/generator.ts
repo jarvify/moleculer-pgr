@@ -554,10 +554,14 @@ function getRelationsFields(type: any): string[] {
     // isPgForwardRelationField
     // isPgBackwardRelationField
     // isPgBackwardSingleRelationField
-    // @TODO ManyToMany
+    // isPgManyToManyRelationField
+
     Object.keys(type.fields).map(fieldName => {
       const scope = type.fields[fieldName].scope;
 
+      if (scope.isPgManyToManyRelationField) {
+        relationsFields.push(fieldName);
+      }
       if (scope.isPgForwardRelationField) {
         relationsFields.push(fieldName);
       }

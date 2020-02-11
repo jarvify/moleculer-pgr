@@ -33,7 +33,7 @@
   "peerDependencies": {
     "prettier": "1.x",
     "graphql": "14.x",
-    "moleculer-ts": "^1.x.x"
+    "moleculer-ts": "^2.x.x"
   },
   "devDependencies": {
     "@types/node": "^12.12.14",
@@ -41,6 +41,6 @@
     "graphql": "^14.5.8",
     "postgraphile": "^4.5.0",
     "prettier": "^1.19.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.6.4"
   }
 }
