@@ -37,7 +37,7 @@
     "graphql-binding": "^2.5.2",
     "moleculer": "^0.13.11",
     "moleculer-decorators": "^1.1.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "patch-package": "^6.2.0",
     "postgraphile": "^4.5.5",
     "postgraphile-plugin-connection-filter": "^1.1.3",
